@@ -49,3 +49,13 @@ header{
   margin-top: -75px;
   margin-left: 1170px;
 }
+
+#sidebar {
+    background-color: #322f35;
+    width: 300px;
+    height: 650px;
+    margin-top: -50;
+    margin-left: -50;
+    display: none;
+    position: relative;
+}
