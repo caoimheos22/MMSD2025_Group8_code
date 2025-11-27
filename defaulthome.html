@@ -15,8 +15,15 @@
 
     <header>
         <button value="burger_menu" id="burger_menu" onclick="toggle_sidebar()"></button>
-        <button value="profile_button" id="profile_button" onclick="open_profile()"></button>
+        <button value="profile_button_header" id="profile_button_header" onclick="open_profile()"></button>
     </header>
+
+    <div id="sidebar">
+        <button id="live_location" value="get_live_location" onclick="get_location()"></button>
+        <button id="profile_sidebar" value="get_profile" onclick="open_profile()"></button>
+        <button id="settings_sidebar" value="get_settings" onclick="open_settings()"></button>
+        <button id="logout_sidebar" value="logout" onclick="logout()"></button>
+    </div>
  
 </html>
  
