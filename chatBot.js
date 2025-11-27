@@ -1,3 +1,5 @@
+/*Group 8: Kyra O'Connor, Calum Cleary, Caoimhe O'Sullivan, Matthew Brink*/
+
 document.addEventListener("DOMContentLoaded", function() {
     const chatbotContainer = document.getElementById("chatbotcontainer");
     const closeBtn = document.getElementById("closebtn");
