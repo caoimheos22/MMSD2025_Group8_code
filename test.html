@@ -1,0 +1,30 @@
+<button id="live_location">Use Live Location</button>
+<pre id="live_location_result"></pre>
+
+<script>
+    const result = document.querySelector("#live_location_result");
+
+document.querySelector("#live_location").addEventListener(
+    "click",
+    get_live_location
+);
+
+function get_live_location() {
+    if (!navigator.geolocation) {
+          result.textContent = "Geolocation is not supported.";
+        return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+        (position) => {
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+
+            result.textContent = `Latitude: ${lat}\nLongitude: ${lon}`;
+        },
+        (err) => {
+            result.textContent = `Error: ${err.message}`;
+        }
+    );
+}
+</script>

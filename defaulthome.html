@@ -7,8 +7,9 @@
     <title>WeatherWise Cork</title>
     
     <link rel="stylesheet" href="styles.css" type="text/css" media="screen"/>
-    <link rel="javascript" href="functionality.js" type="script" media="screen"/>
+    <link rel="javascript" href="homepagefunctions.js" type="script" media="screen"/>
     <link rel="chatbotfunctions" href="chatBot.js" type="script" media="screen"/>
+    <link rel="chatbotfunctions" href="loginfunctions.js" type="script" media="screen"/>
 
 </head>
 <body>
@@ -19,10 +20,15 @@
     </header>
 
     <div id="sidebar">
-        <p><button id="live_location" value="get_live_location" onclick="get_location()">Use Live Location</button></p>
-        <p><button id="profile_sidebar" value="get_profile" onclick="open_profile()">Profile</button></p>
-        <p><button id="settings_sidebar" value="get_settings" onclick="open_settings()">Settings</button></p>
-        <p><button id="logout_sidebar" value="logout" onclick="logout()">Log Out</button></p>
+        <p><button id="live_location">Use Live Location</button>
+            <pre id="live_location_result"></pre>
+        </p>
+        <p><button id="profile_sidebar" value="get_profile" onclick="open_profile()">Profile</button>
+        </p>
+        <p><button id="settings_sidebar" value="get_settings" onclick="open_settings()">Settings</button>
+        </p>
+        <p><button id="logout_sidebar" value="logout" onclick="logout()">Log Out</button>
+        </p>
     </div>
  
 </html>
