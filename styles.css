@@ -56,22 +56,22 @@ header{
     height: 650px;
     margin-top: -25px;
     margin-left: 500px;
-    display: block;
+    display: none;
     position: relative;
 }
 
 #WeatherWise_logo_button {
     position: relative;
-    background-image: url(graphics/logoexample4.png);
+    background-image: url(graphics/logoexample5.png);
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
     background-color: transparent;
     display: block;
     border: none;
-    width: 70px;
+    width: 200px;
     height: 70px;
     z-index: 500;
-  margin-top: -75px;
-  margin-left: 1170px;
+  margin-top: -70px;
+  margin-left: 520px;
 }
