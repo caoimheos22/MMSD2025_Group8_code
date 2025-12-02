@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WeatherWise</title>
+  <style>
+
+    body { 
+      font-family: Arial, sans-serif; 
+      margin: 0; 
+      background: #f5f5f5; 
+    }
+
+    header { 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      padding: 15px; 
+      background: #ffffff; 
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
+    }
+
+    header img { 
+      width: 30px; 
+      height: 30px; 
+    }
+
+    .warning-bar { 
+      background: #ffe066; 
+      padding: 10px; 
+      font-weight: bold; 
+      text-align: center; 
+    }
+
+    .container { 
+      width: 95%; 
+      margin: auto; 
+      padding-bottom: 50px; 
+    }
+
+    h2 { 
+      margin-top: 30px; 
+    }
+
+    .today-block { 
+      display: flex; 
+      flex-direction: column; 
+      gap: 10px; 
+      padding: 20px; 
+      background: #fff; 
+      border-radius: 8px;
+    }
+
+    .today-main { 
+      display: flex; 
+      gap: 20px; 
+    }
+
+    .weather-card { 
+      flex: 1; 
+      background: #e9e9e9; 
+      padding: 15px; 
+      border-radius: 8px; 
+    }
+
+    .forecast-card { 
+      flex: 1; 
+      background: #e9e9e9; 
+      padding: 15px; 
+      border-radius: 8px; 
+    }
+
+    .hourly-scroll { 
+        display: flex; 
+        overflow-x: auto; 
+        gap: 10px; 
+        padding: 15px; 
+        background: #fff; 
+        border-radius: 8px; 
+      }
+
+    .hour-box { min-width: 70px; 
+      text-align: center; 
+      background: #e9e9e9; 
+      padding: 10px; 
+      border-radius: 6px; 
+    }
+
+    .radar-card { 
+      background: #fff; 
+      padding: 20px; 
+      border-radius: 8px; 
+    }
+
+    .radar-placeholder { 
+      width: 100%; 
+      height: 250px; 
+      background: #ddd; 
+      border-radius: 8px; 
+    }
+
+    .button-row { 
+      display: flex; 
+      gap: 10px; 
+      margin-top: 20px; 
+    }
+
+    .btn { 
+      flex: 1; 
+      padding: 12px; 
+      background: #333; 
+      color: #fff; 
+      border-radius: 6px; 
+      text-align: center; 
+      cursor: pointer; 
+    }
+
+    .widget-grid { 
+      display: grid; 
+      grid-template-columns: 1fr 1fr; 
+      gap: 20px; 
+      margin-top: 25px; 
+    }
+
+    .widget { 
+      background: #ddd; 
+      padding: 30px; 
+      border-radius: 8px; 
+      text-align: center; 
+    }
+
+    footer { 
+      margin-top: 30px; 
+      padding: 20px; 
+      text-align: center; 
+      background: #333; 
+      color: white; 
+    }
+
+  </style>
+</head>
+<body>
+
+<header>
+  <img src="" alt="Menu">
+  <img src="Images/weatherwise_logo.png" alt="Menu">
+  <img src="Images/profile_icon.png" alt="Profile">
+</header>
+
+<div class="warning-bar">Rain Warning: Status Yellow</div>
+
+<div class="container">
+
+  <h2>Today</h2>
+  <div class="today-block">
+    <p>📍 Cork City, Cork</p>
+    <div class="today-main">
+      <div class="weather-card">
+        <h3>13°</h3>
+        <p>Cloudy</p>
+        <p>Feels like 12°</p>
+      </div>
+      <div class="forecast-card">
+        <h3>Tomorrow</h3>
+        <p>13° • Cloudy</p>
+      </div>
+    </div>
+  </div>
+
+  <h2>Hourly Forecast (Next 24 Hours)</h2>
+  <div class="hourly-scroll">
+    <div class="hour-box">08:00<br>12°<br>Cloudy</div>
+    <div class="hour-box">09:00<br>12°<br>Cloudy</div>
+    <div class="hour-box">10:00<br>12°<br>Cloudy</div>
+    <div class="hour-box">11:00<br>12°<br>Cloudy</div>
+  </div>
+
+  <h2>Radar Map</h2>
+  <div class="radar-card">
+    <div class="radar-placeholder"></div>
+    <div class="button-row">
+      <div class="btn">Rain</div>
+      <div class="btn">Wind</div>
+      <div class="btn">Temperature</div>
+      <div class="btn">Pressure</div>
+    </div>
+  </div>
+
+  <div class="widget-grid">
+    <div class="widget">Farming</div>
+    <div class="widget">Marine</div>
+    <div class="widget">Health</div>
+    <div class="widget">Outdoor Planner</div>
+  </div>
+
+</div>
+
+<footer>
+
+</footer>
+
+</body>
+
+</html>
