@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Create Account</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="loginandoutstyles.css" />
+</head>
+
+<body class="login-page">
+
+  <header class="top-header">
+    <button class="header-icon" aria-label="Open menu">☰</button>
+
+    <div class="header-logo">
+      <img src="logoexample5.png" alt="MMSD logo" />
+    </div>
+
+    <button class="header-icon" aria-label="Account">👤</button>
+  </header>
+
+  <main class="layout-shell">
+    <div class="layout-grid">
+
+      <aside class="side-panel">
+        <div class="side-panel-logo">
+          <img src="logoexample4.png" alt="MMSD logo large" />
+        </div>
+      </aside>
+
+      <section class="form-area">
+        <div class="form-wrapper">
+
+          <h1 class="page-title">Create Account</h1>
+
+          <form class="form-block">
+
+            <div class="form-row split">
+              <div class="form-field">
+                <label for="first-name">First name</label>
+                <input id="first-name" type="text" required />
+              </div>
+
+              <div class="form-field">
+                <label for="last-name">Last name</label>
+                <input id="last-name" type="text" required />
+              </div>
+            </div>
+
+            <div class="form-field">
+              <label for="create-email">Email</label>
+              <input id="create-email" type="email" required />
+            </div>
+
+            <div class="form-field">
+              <label for="create-password">Password</label>
+              <input id="create-password" type="password" required />
+            </div>
+
+            <div class="form-field">
+              <label for="confirm-password">Confirm password</label>
+              <input id="confirm-password" type="password" required />
+            </div>
+
+            <button type="submit" class="btn btn-primary">Create Account</button>
+
+          </form>
+
+          <div class="divider">
+            <span>or</span>
+          </div>
+
+          <p class="secondary-text">
+            Already have an account?
+            <a href="login.html">Login</a>
+          </p>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+</body>
+</html>
