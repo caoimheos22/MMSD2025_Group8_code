@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Homepage</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body class="homepage">
+
+  <!-- header -->
+  <header class="top-header">
+    <button class="header-icon" aria-label="Open menu">☰</button>
+
+    <div class="header-logo">
+      <img src="logoexample5.png" alt="MMSD logo" />
+    </div>
+
+    <button class="header-icon" aria-label="Account">👤</button>
+  </header>
+
+  <!-- warning (dont know if we are leaving this in ?) -->
+  <div class="warning-bar">
+    <div class="warning-bar-left">
+      <span class="warning-icon">⚠️</span>
+      <span class="warning-text">Rain Warning: Status Yellow</span>
+      <span class="warning-chevron">›</span>
+    </div>
+    <button class="warning-settings" aria-label="Warning settings">⚙️</button>
+  </div>
+
+  <main class="home-shell">
+
+    <!-- today and tomorrow -->
+    <section class="top-section">
+
+      <div class="top-left">
+        <div class="today-header">
+          <div>
+            <div class="today-label">Today</div>
+            <div class="today-date" id="today-date">Loading...</div>
+          </div>
+          <div class="today-location-row">
+            <span class="location-icon">📍</span>
+            <span class="location-name">Cork City, Cork</span>
+          </div>
+        </div>
+
+        <!-- Search not set up tho -->
+        <div class="search-row">
+          <input
+            class="location-search"
+            type="text"
+            placeholder="Search location..."
+          />
+          <button class="search-clear" aria-label="Clear search">×</button>
+        </div>
+        
+
+        <div class="card card-weather">
+          <div class="card-weather-main">
+            <div class="temp-block">
+              <div class="temp-main" id="current-temp">--°</div>
+              <div class="temp-feels" id="current-feels">Feels like --°</div>
+            </div>
+
+            <div class="icon-block">
+              <div class="icon-item">
+                <div class="icon-symbol" id="current-icon">☁️</div>
+                <div class="icon-label" id="current-condition">Loading...</div>
+              </div>
+
+              <div class="icon-item">
+                <div class="icon-symbol">🌒</div>
+                <div class="icon-label">Moon Phase</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-weather-details">
+            <div class="detail-column">
+              <div class="detail-row">
+                <span class="detail-icon">💧</span>
+                <span id="current-rain">Rain -- mm</span>
+              </div>
+              <div class="detail-row">
+                <span class="detail-icon">💨</span>
+                <span id="current-wind">Wind -- km/h</span>
+              </div>
+              <div class="detail-row">
+                <span class="detail-icon">🌬️</span>
+                <span id="current-gust">Gust -- km/h</span>
+              </div>
+            </div>
+
+            <div class="detail-column">
+              <div class="detail-row">
+                <span class="detail-icon">🌅</span>
+                <span id="sunrise">Sunrise --:--</span>
+              </div>
+              <div class="detail-row">
+                <span class="detail-icon">🌇</span>
+                <span id="sunset">Sunset --:--</span>
+              </div>
+              <div class="detail-row">
+                <span class="detail-icon">☀️</span>
+                <span id="uv-index">UV --</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="top-right">
+
+        <div class="card kinsale-graphic">
+          <img src="old head of kinsale.png" alt="Old Head of Kinsale" />
+        </div>
+
+        <div class="card card-tomorrow">
+          <div class="tomorrow-header">
+            <div class="tomorrow-title">Tomorrow</div>
+            <div class="tomorrow-date" id="tomorrow-date">Loading...</div>
+          </div>
+
+          <div class="tomorrow-main">
+            <div class="tomorrow-temp-block">
+              <div class="temp-main" id="tomorrow-temp">--°</div>
+              <div class="temp-minmax" id="tomorrow-minmax">--°</div>
+            </div>
+
+            <div class="tomorrow-conditions" id="tomorrow-conditions">
+              <div>Loading...</div>
+            </div>
+          </div>
+
+          <div class="tomorrow-badge">
+            <span>🏰</span>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- 7 days and widgets -->
+    <section class="forecast-row">
+
+      <div class="card card-7day">
+        <div class="card-heading">7-Day Forecast</div>
+        <div class="forecast-strip">
+
+          <!-- Example day not linked to api -->
+          <div class="forecast-day hover-card">
+            <div class="forecast-day-label">Mon</div>
+            <div class="forecast-icon">☁️</div>
+            <div class="forecast-temp">12°</div>
+            <div class="forecast-rain">💧 20</div>
+            <div class="forecast-wind">🌬️ 16km</div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="card card-farming hover-card">
+        <div class="farming-icon">🌱</div>
+        <div class="farming-label">Farming</div>
+      </div>
+
+    </section>
+
+    <!-- widgets -->
+    <section class="bottom-widgets">
+      <div class="card bottom-card hover-card">
+        <div class="bottom-icon">⚓</div>
+        <div class="bottom-label">Marine</div>
+      </div>
+
+      <div class="card bottom-card hover-card">
+        <div class="bottom-icon">➕</div>
+        <div class="bottom-label">Health</div>
+      </div>
+
+      <div class="card bottom-card hover-card">
+        <div class="bottom-icon">📅</div>
+        <div class="bottom-label">Outdoor Planner</div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Sscript for api from garys website, i dont know if i downloaded it with everything we need or if you can edit it -->
+  <script>
+    
+    function processWeather(data) {
+      console.log("Weather received:", data);
+
+      
+      var max = data.daily.temperature_2m_max;
+      var min = data.daily.temperature_2m_min;
+      var codes = data.daily.weather_code;
+      var times = data.daily.time;
+
+      
+      var todayMax = Math.round(max[0]);
+      var todayMin = Math.round(min[0]);
+      var todayCode = codes[0];
+
+      document.getElementById("current-temp").textContent = todayMax + "°";
+      document.getElementById("current-feels").textContent =
+        "Feels like " + todayMin + "°";
+
+      document.getElementById("today-date").textContent = times[0];
+
+      
+      var conditionMap = {
+        0: "Clear Sky",
+        1: "Mainly Clear",
+        2: "Partly Cloudy",
+        3: "Cloudy",
+        51: "Drizzle",
+        61: "Rain",
+        71: "Snow",
+        95: "Thunderstorm"
+      };
+
+      var iconMap = {
+        0: "☀️",
+        1: "🌤️",
+        2: "⛅",
+        3: "☁️",
+        51: "🌦️",
+        61: "🌧️",
+        71: "❄️",
+        95: "⛈️"
+      };
+
+      document.getElementById("current-condition").textContent =
+        conditionMap[todayCode] || "Weather";
+      document.getElementById("current-icon").textContent =
+        iconMap[todayCode] || "⛅";
+
+   
+      var tomorrowMax = Math.round(max[1]);
+      var tomorrowMin = Math.round(min[1]);
+      var tomorrowCode = codes[1];
+
+      document.getElementById("tomorrow-temp").textContent =
+        tomorrowMax + "°";
+      document.getElementById("tomorrow-minmax").textContent =
+        tomorrowMin + "°";
+
+      document.getElementById("tomorrow-date").textContent = times[1];
+
+      document.getElementById("tomorrow-conditions").innerHTML =
+        (conditionMap[tomorrowCode] || "Weather") +
+        "<br>💧 Rain<br>💨 Wind";
+    }
+    
+   // coordinates for cork city 
+    function fetchWeather() {
+      
+    
+
+      var lat = 51.8985;
+      var lon = -8.4756;
+
+      
+      var query =
+        "latitude=" + lat +
+        "&longitude=" + lon +
+        "&daily=weather_code,temperature_2m_max,temperature_2m_min" +
+        "&timezone=auto";
+
+      
+      var url = "https://webdevcit.com/notes/getweather.php?" + query;
+
+      
+      var script = document.createElement("script");
+      script.src = url;
+      document.body.appendChild(script);
+    }
+
+    // run when the page refresh
+    fetchWeather();
+  </script>
+
+</body>
+</html>
