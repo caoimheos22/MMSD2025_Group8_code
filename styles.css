@@ -58,7 +58,7 @@ header{
     margin-left: 50px;
     display: block;
     position: relative;
-    z-index: 100;
+    z-index: 10;
 }
 
 /*
