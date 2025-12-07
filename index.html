@@ -5,6 +5,7 @@
   <title>Homepage</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="styles.css" />
+  <link rel="javascript" href="homepagefunctions.js" type="script" media="screen"/>
 </head>
 
 <body class="homepage">
@@ -28,6 +29,12 @@
       <span class="warning-chevron">›</span>
     </div>
     <button class="warning-settings" aria-label="Warning settings">⚙️</button>
+  </div>
+
+  <!--side bar-->
+  <div class="sidebar">
+    <input type="button" value="get_current_coords" id="current_coords_but">
+    <div id="current_coords"></div>
   </div>
 
   <main class="home-shell">
