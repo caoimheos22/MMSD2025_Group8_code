@@ -31,10 +31,38 @@
     <button class="warning-settings" aria-label="Warning settings">⚙️</button>
   </div>
 
+
+<script>
+
+    function getLocation() 
+    {
+    navigator.geolocation.getCurrentPosition( showCoords );
+    }
+
+
+    function showCoords (position) {
+
+            
+            var devLatitude = position.coords.latitude;
+            var devLongitude = position.coords.longitude;
+            
+            document.getElementById("current_coords").innerHTML = "lat: " + devLatitude + " long: " + devLongitude;
+    }  
+
+
+    window.addEventListener("load", init);
+
+    function init()
+    {	
+    document.getElementById("get_coords_but").addEventListener("click", getLocation)		
+    }
+
+</script>
+
   <!--side bar-->
   <div class="sidebar">
-    <input type="button" value="get_current_coords" id="current_coords_but">
-    <div id="current_coords"></div>
+    <input type = "button" value = "Find my location" id = "get_coords_but" >
+    <div id = "current_coords"></div>
   </div>
 
   <main class="home-shell">
