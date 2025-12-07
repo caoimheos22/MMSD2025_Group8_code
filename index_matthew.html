@@ -1,0 +1,1457 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>WeatherWise</title>
+<style>
+  :root {
+    --bg: #f5f5f5;
+    --card: #ffffff;
+    --muted: #777;
+    --accent: #ed202b;
+    --danger: #e53935;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: var(--bg);
+    color: #222;
+  }
+
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 26px;
+    background: var(--card);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+
+  .logo {
+    font-weight: bold;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .headerControls {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .hamburger {
+    width: 40px;
+    height: 40px;
+    background: var(--accent);
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    cursor: pointer;
+    user-select: none;
+    font-size: 22px;
+  }
+
+  .dropdown {
+    position: absolute;
+    top: 56px;
+    left: 26px;
+    background: var(--card);
+    padding: 6px;
+    border-radius: 8px;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+    min-width: 170px;
+    display: none;
+    z-index: 1100;
+  }
+
+  .dropdown.open { display: block; }
+
+  .dropdown button {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 8px 10px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    border-radius: 6px;
+    color: #222;
+    font-size: 15px;
+  }
+
+  .dropdown button:hover {
+    background: #f2f2f2;
+  }
+
+  .wrap {
+    max-width: 1200px;
+    margin: 18px auto 80px;
+    padding: 0 26px;
+  }
+
+  .btn {
+    padding: 8px 14px;
+    border-radius: 8px;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+  }
+
+  .btn.secondary {
+    background: #444;
+  }
+
+  .today-block {
+    display: flex;
+    gap: 18px;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+  }
+
+  .card {
+    background: var(--card);
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 6px 18px rgba(16,24,40,0.04);
+    flex: 1;
+    min-width: 260px;
+  }
+
+  .weather-card {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 320px;
+    max-width: 520px;
+  }
+
+  .forecast-card {
+    min-width: 220px;
+    max-width: 320px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  #locationSelect {
+    margin-top: 10px;
+    padding: 6px 8px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+    width: 100%;
+    max-width: 260px;
+  }
+
+  .home-widgets-title {
+    margin-top: 10px;
+    margin-bottom: 6px;
+    font-weight: bold;
+  }
+
+  .home-widgets {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+    margin-bottom: 18px;
+  }
+
+  .home-widget-title {
+    font-weight: bold;
+    margin-bottom: 4px;
+  }
+
+  .home-widget-body {
+    font-size: 14px;
+    color: var(--muted);
+  }
+
+  .hourly-scroll {
+    display: flex;
+    overflow-x: auto;
+    gap: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 18px;
+  }
+
+  .hour-box {
+    min-width: 80px;
+    background: #f7f7f7;
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 13px;
+    }
+
+  .radar-card { 
+    margin-top: 
+    8px; 
+    }
+
+  .radar-placeholder {
+    width: 100%;
+    height: 230px;
+    background: #e9e9e9;
+    border-radius: 8px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--muted);
+    font-size:18px;
+  }
+
+  .button-row {
+    display:flex;
+    gap:8px;
+    margin-top: 12px;
+    flex-wrap: wrap;
+  }
+
+  /* widget popup */
+  .popup {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1500;
+  }
+
+  .popup-content {
+    width: 92%;
+    max-width: 760px;
+    background: #fff;
+    padding: 18px;
+    border-radius: 12px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+    max-height: 84vh;
+    overflow: auto;
+  }
+
+  .popup-header {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:8px;
+  }
+
+  .close-btn {
+    background:#f0f0f0;
+    border:none;
+    padding:8px 10px;
+    border-radius:8px;
+    cursor:pointer;
+  }
+
+  .info-grid {
+    display:grid;
+    grid-template-columns: repeat(3,1fr);
+    gap:10px;
+    margin-top: 10px;
+  }
+
+  .info-slot {
+    background:#fafafa;
+    padding:10px;
+    border-radius:8px;
+    font-size:14px;
+    min-height: 54px;
+  }
+
+  /* profile modal */
+  .profile-modal {
+    position: fixed;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.55);
+    z-index: 1600;
+  }
+
+  .profile-box {
+    background:#fff;
+    border-radius:12px;
+    padding:18px;
+    width: 94%;
+    max-width: 900px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 12px 34px rgba(0,0,0,0.25);
+    position: relative;
+  }
+
+  .profile-close {
+    position:absolute;
+    right:12px;
+    top:10px;
+    border:none;
+    background:#f0f0f0;
+    border-radius:50%;
+    width:28px;
+    height:28px;
+    cursor:pointer;
+  }
+
+  #profileAvatar {
+    width:72px;
+    height:72px;
+    border-radius:50%;
+    background:#ececec;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:32px;
+    border:2px solid #ddd;
+  }
+
+  .avatarOptionsRow {
+    display:flex;
+    gap:6px;
+    margin-top:6px;
+  }
+
+  .avatarOption {
+    cursor:pointer;
+    font-size:22px;
+  }
+
+  .profile-grid {
+    display:grid;
+    grid-template-columns: minmax(0,1.1fr) minmax(0,1.2fr);
+    gap:18px;
+    margin-top: 12px;
+  }
+
+  .profile-section-title {
+    font-weight:bold;
+    margin-bottom:6px;
+  }
+
+  .profileFields label {
+    display:block;
+    margin-top:6px;
+    font-size:13px;
+  }
+
+  .profileFields input, .profileFields select {
+    width: 100%;
+    padding:6px 8px;
+    border-radius:6px;
+    border:1px solid #ddd;
+    font-size:13px;
+  }
+
+  .locationToggle {
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:6px 8px;
+    border-radius:8px;
+    border:1px solid #eee;
+    margin-bottom:6px;
+    font-size:14px;
+  }
+
+  .locationToggle input {
+    transform: scale(1.1);
+  }
+
+  #profileWidgetDrop {
+    min-height: 140px;
+    border:2px dashed #ccc;
+    border-radius:10px;
+    padding:10px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    align-items:flex-start;
+    background:#fafafa;
+  }
+
+  #profileWidgetDrop.empty::after {
+    content:"Drag widgets here to show on your home page";
+    color:var(--muted);
+    font-size:13px;
+  }
+
+  #profileAvailableWidgets {
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-top:8px;
+  }
+
+  .availableWidget {
+    width:160px;
+    min-height:110px;
+    background:#fff;
+    border-radius:10px;
+    padding:8px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.04);
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+    justify-content:space-between;
+    font-size:13px;
+    cursor:grab;
+  }
+
+  .availableWidget .widgetIcon {
+    font-size:26px;
+    margin-bottom:4px;
+  }
+
+  .topWidget {
+    background:#fff;
+    border-radius:10px;
+    padding:8px 10px 8px 30px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.04);
+    position:relative;
+    min-width:140px;
+    font-size:13px;
+    cursor:grab;
+  }
+
+  .topWidgetTitle {
+    font-weight:bold;
+    margin-bottom:2px;
+  }
+
+  .removeBtn {
+    position:absolute;
+    left:5px;
+    top:5px;
+    width:18px;
+    height:18px;
+    border-radius:50%;
+    border:none;
+    background:var(--danger);
+    color:#fff;
+    font-size:11px;
+    cursor:pointer;
+  }
+
+  /* Bot + logout (unchanged, just simple) */
+  #botPanel {
+    position:fixed;
+    right:-400px;
+    top:80px;
+    height:260px;
+    width:320px;
+    background:#fff;
+    box-shadow:-8px 0 24px rgba(0,0,0,0.12);
+    transition:right .25s;
+    z-index:1500;
+    padding:14px;
+  }
+
+  #botClose {
+    float:right;
+    background:#eee;
+    border:none;
+    padding:6px;
+    border-radius:6px;
+    cursor:pointer;
+  }
+
+  #logoutModal {
+    position:fixed;
+    inset:0;
+    display:none;
+    background:rgba(0,0,0,0.45);
+    align-items:center;
+    justify-content:center;
+    z-index:1700;
+  }
+
+  #logoutModal .box {
+    background:#fff;
+    padding:18px;
+    border-radius:10px;
+    width:300px;
+    text-align:center;
+    position:relative;
+  }
+
+  #logoutModal .x {
+    position:absolute;
+    right:10px;
+    top:10px;
+    cursor:pointer;
+    font-size:18px;
+  }
+
+  @media (max-width:900px) {
+    .profile-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div style="display:flex;gap:10px;align-items:center;">
+    <div class="hamburger" id="hamburgerBtn" title="Menu">☰</div>
+    <div class="logo">WeatherWise</div>
+  </div>
+  <div class="headerControls">
+    <button id="editProfileBtn" class="btn">Edit Profile</button>
+  </div>
+
+  <div class="dropdown" id="hamburgerDropdown" aria-hidden="true">
+    <button id="liveLocationBtn">📍 Use live location</button>
+    <button id="botFromMenu">🤖 Weather Wise Bot</button>
+    <button id="logoutBtn" style="color:var(--danger);">🔓 Log Out</button>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- Today / Hero -->
+  <div class="today-block">
+    <div class="card weather-card" id="todayCard">
+      <div style="display:flex;justify-content:space-between;align-items:center;width:100%;">
+        <div>
+          <div id="locationText" style="font-size:14px;color:var(--muted);">📍 Loading location…</div>
+          <div id="todayTemp" style="font-size:30px;font-weight:700;">—°C</div>
+          <div id="todayDesc" style="color:var(--muted);font-size:14px;">Waiting for data…</div>
+        </div>
+        <div style="text-align:right;">
+          <div id="todayIcon" style="font-size:46px;">⛅</div>
+        </div>
+      </div>
+      <div style="margin-top:8px;font-size:13px;">
+        <strong>Updated:</strong> <span id="todayUpdated">—</span>
+      </div>
+
+      <div style="margin-top:10px;">
+        <label for="locationSelect" style="font-size:13px;color:var(--muted);">Change location:</label>
+        <select id="locationSelect"></select>
+      </div>
+    </div>
+
+    <div class="card forecast-card" id="tomorrowCard">
+      <div style="font-weight:700;">Tomorrow</div>
+      <div id="tomorrowText" style="margin-top:8px;color:var(--muted);font-size:14px;">—</div>
+      <div style="margin-top:10px;">
+        <small style="color:var(--muted);">Wind • Humidity • Rain</small>
+      </div>
+    </div>
+  </div>
+
+  <!-- Widgets on home -->
+  <div class="home-widgets-title">Your widgets</div>
+  <div id="homeWidgets" class="home-widgets"></div>
+
+  <!-- Hourly -->
+  <h3 style="margin-bottom:8px;">Hourly forecast (next 24h)</h3>
+  <div id="hourlyList" class="hourly-scroll card"></div>
+
+  <!-- Radar placeholder -->
+  <h3 style="margin-top:18px;">Radar map</h3>
+  <div class="radar-card card">
+    <div class="radar-placeholder" id="radarPlaceholder">
+      🗺️ Radar placeholder — you can drop in an image or iframe here
+    </div>
+    <div class="button-row">
+      <button class="btn">Rain</button>
+      <button class="btn">Wind</button>
+      <button class="btn">Temperature</button>
+      <button class="btn">Pressure</button>
+    </div>
+  </div>
+</div>
+
+<!-- Widget info popup -->
+<div class="popup" id="widgetPopup" aria-hidden="true">
+  <div class="popup-content">
+    <div class="popup-header">
+      <h2 id="popupTitle">Widget</h2>
+      <button class="close-btn" id="popupClose">Close ✖</button>
+    </div>
+    <p id="popupIntro" style="color:#666;margin-top:6px;font-size:14px;"></p>
+    <div class="info-grid">
+      <div class="info-slot" id="slot1">—</div>
+      <div class="info-slot" id="slot2">—</div>
+      <div class="info-slot" id="slot3">—</div>
+      <div class="info-slot" id="slot4">—</div>
+      <div class="info-slot" id="slot5">—</div>
+      <div class="info-slot" id="slot6">—</div>
+    </div>
+  </div>
+</div>
+
+<!-- Profile modal -->
+<div class="profile-modal" id="profileModal">
+  <div class="profile-box">
+    <button class="profile-close" id="profileClose">✖</button>
+    <h2>Edit profile & layout</h2>
+
+    <div style="display:flex;align-items:center;gap:12px;margin-top:6px;">
+      <div id="profileAvatar">🙂</div>
+      <div>
+        <div class="avatarOptionsRow">
+          <div class="avatarOption" data-emoji="🙂">🙂</div>
+          <div class="avatarOption" data-emoji="😎">😎</div>
+          <div class="avatarOption" data-emoji="🤖">🤖</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="profile-grid">
+      <!-- Left: basic + locations -->
+      <div>
+        <div class="profile-section-title" style="margin-top:10px;">Locations</div>
+        <p style="font-size:13px;color:var(--muted);margin-top:0;">
+          Tick the places you want in the location dropdown.
+        </p>
+        <div id="locationToggles"></div>
+
+        <div class="profile-section-title" style="margin-top:16px;">Account (dummy)</div>
+        <div class="profileFields">
+          <label>First name</label>
+          <input id="firstName" type="text" placeholder="First name">
+          <label>Last name</label>
+          <input id="lastName" type="text" placeholder="Last name">
+          <label>Email</label>
+          <input id="email" type="email" placeholder="email@example.com">
+        </div>
+      </div>
+
+      <!-- Right: widget layout -->
+      <div>
+        <div class="profile-section-title" style="margin-top:10px;">Widget layout</div>
+        <p style="font-size:13px;color:var(--muted);margin-top:0;">
+          Drag widgets into the box. Only these appear on the home screen.
+        </p>
+        <div id="profileWidgetDrop" class="empty"></div>
+
+        <div style="margin-top:10px;font-size:13px;color:var(--muted);">
+          Available widgets:
+        </div>
+        <div id="profileAvailableWidgets">
+          <div class="availableWidget" draggable="true" data-id="marine">
+            <div class="widgetIcon">⛵</div>
+            <div><strong>Marine</strong><br><span>Sea state, swell, wind.</span></div>
+          </div>
+          <div class="availableWidget" draggable="true" data-id="farming">
+            <div class="widgetIcon">🌾</div>
+            <div><strong>Farming</strong><br><span>Soil moisture, rain, temp.</span></div>
+          </div>
+          <div class="availableWidget" draggable="true" data-id="uv">
+            <div class="widgetIcon">☀️</div>
+            <div><strong>UV</strong><br><span>UV index and advice.</span></div>
+          </div>
+          <div class="availableWidget" draggable="true" data-id="flood">
+            <div class="widgetIcon">⚠️</div>
+            <div><strong>Flood</strong><br><span>Rain risk and alerts.</span></div>
+          </div>
+          <div class="availableWidget" draggable="true" data-id="wind">
+            <div class="widgetIcon">💨</div>
+            <div><strong>Wind</strong><br><span>Speed and gusts.</span></div>
+          </div>
+          <div class="availableWidget" draggable="true" data-id="pollen">
+            <div class="widgetIcon">🌸</div>
+            <div><strong>Pollen</strong><br><span>Grass / tree / weed.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:14px;display:flex;justify-content:flex-end;gap:8px;">
+      <button class="btn secondary" id="profileCancel">Cancel</button>
+      <button class="btn" id="saveProfileBtn">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- WeatherWise Bot placeholder -->
+<div id="botPanel">
+  <button id="botClose">Close</button>
+  <h3>Weather Wise Bot</h3>
+  <p style="color:#666;font-size:14px;">
+    Placeholder: your bot UI can go here.
+  </p>
+</div>
+
+<!-- Logout confirmation -->
+<div id="logoutModal">
+  <div class="box">
+    <div class="x" id="logoutX">✖</div>
+    <h3>Log out?</h3>
+    <div style="margin-top:14px;display:flex;gap:10px;justify-content:center;">
+      <button id="logoutYes" class="btn" style="background:var(--danger);">Yes</button>
+      <button id="logoutNo" class="btn secondary">No</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ---- basic config ----
+  const LOCATION_MAP = {
+    cork:   { name: 'Cork City',       lat: 51.898, lon: -8.475 },
+    ovens:  { name: 'Ovens',           lat: 51.889, lon: -8.700 },
+    dona:   { name: 'Doneraile',       lat: 52.222, lon: -8.587 },
+    ball:   { name: 'Ballincollig',    lat: 51.886, lon: -8.599 },
+    bish:   { name: 'Bishopstown',     lat: 51.879, lon: -8.529 }
+  };
+
+  const WIDGET_LABELS = {
+    marine: 'Marine',
+    farming: 'Farming',
+    uv: 'UV Index',
+    flood: 'Flood',
+    wind: 'Wind',
+    pollen: 'Pollen'
+  };
+
+  let activeLocationKeys = [];
+  let widgetOrder = [];
+  let currentLocObj = null;   // {name, lat, lon}
+  let currentWeather = null;  // {forecast, marine, air}
+
+  // ---- DOM refs ----
+  const hamburgerBtn = document.getElementById('hamburgerBtn');
+  const dropdown = document.getElementById('hamburgerDropdown');
+  const liveLocationBtn = document.getElementById('liveLocationBtn');
+  const botFromMenu = document.getElementById('botFromMenu');
+  const logoutBtn = document.getElementById('logoutBtn');
+
+  const botPanel = document.getElementById('botPanel');
+  const botClose = document.getElementById('botClose');
+
+  const logoutModal = document.getElementById('logoutModal');
+  const logoutX = document.getElementById('logoutX');
+  const logoutYes = document.getElementById('logoutYes');
+  const logoutNo = document.getElementById('logoutNo');
+
+  const editProfileBtn = document.getElementById('editProfileBtn');
+  const profileModal = document.getElementById('profileModal');
+  const profileClose = document.getElementById('profileClose');
+  const profileCancel = document.getElementById('profileCancel');
+  const saveProfileBtn = document.getElementById('saveProfileBtn');
+  const avatarOptions = document.querySelectorAll('.avatarOption');
+  const profileAvatar = document.getElementById('profileAvatar');
+
+  const locationToggles = document.getElementById('locationToggles');
+  const locationSelect = document.getElementById('locationSelect');
+
+  const profileWidgetDrop = document.getElementById('profileWidgetDrop');
+  const profileAvailableWidgets = document.getElementById('profileAvailableWidgets');
+
+  const homeWidgets = document.getElementById('homeWidgets');
+
+  const todayTemp = document.getElementById('todayTemp');
+  const todayDesc = document.getElementById('todayDesc');
+  const todayIcon = document.getElementById('todayIcon');
+  const todayUpdated = document.getElementById('todayUpdated');
+  const locationText = document.getElementById('locationText');
+  const tomorrowText = document.getElementById('tomorrowText');
+  const hourlyList = document.getElementById('hourlyList');
+
+  const widgetPopup = document.getElementById('widgetPopup');
+  const popupClose = document.getElementById('popupClose');
+  const popupTitle = document.getElementById('popupTitle');
+  const popupIntro = document.getElementById('popupIntro');
+  const popupSlots = [
+    document.getElementById('slot1'),
+    document.getElementById('slot2'),
+    document.getElementById('slot3'),
+    document.getElementById('slot4'),
+    document.getElementById('slot5'),
+    document.getElementById('slot6')
+  ];
+
+  // ---- hamburger ----
+  hamburgerBtn.addEventListener('click', () => {
+    dropdown.classList.toggle('open');
+    dropdown.setAttribute('aria-hidden', dropdown.classList.contains('open') ? 'false' : 'true');
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!dropdown.contains(e.target) && !hamburgerBtn.contains(e.target)) {
+      dropdown.classList.remove('open');
+    }
+  });
+
+  // ---- live location (no coords shown) ----
+  liveLocationBtn.addEventListener('click', () => {
+    dropdown.classList.remove('open');
+    if (!navigator.geolocation) {
+      alert('Geolocation not supported.');
+      return;
+    }
+    navigator.geolocation.getCurrentPosition(async (pos) => {
+      const loc = {
+        name: 'Live location',
+        lat: pos.coords.latitude,
+        lon: pos.coords.longitude
+      };
+      currentLocObj = loc;
+      locationText.textContent = '📍 Live location';
+      locationSelect.value = ''; // no change in dropdown
+      await loadWeatherForLocation(loc);
+    }, () => {
+      alert('Could not get location permission.');
+    }, { enableHighAccuracy: true, timeout: 10000 });
+  });
+
+  // ---- bot panel ----
+  botFromMenu.addEventListener('click', () => {
+    dropdown.classList.remove('open');
+    botPanel.style.right = '20px';
+  });
+  botClose.addEventListener('click', () => {
+    botPanel.style.right = '-400px';
+  });
+
+  // ---- logout modal ----
+  logoutBtn.addEventListener('click', () => {
+    dropdown.classList.remove('open');
+    logoutModal.style.display = 'flex';
+  });
+  logoutX.addEventListener('click', () => logoutModal.style.display = 'none');
+  logoutNo.addEventListener('click', () => logoutModal.style.display = 'none');
+  logoutYes.addEventListener('click', () => {
+    logoutModal.style.display = 'none';
+    alert('Logged out (placeholder).');
+  });
+
+  // ---- profile modal ----
+  function openProfileModal() {
+    profileModal.style.display = 'flex';
+  }
+  function closeProfileModal() {
+    profileModal.style.display = 'none';
+  }
+
+  editProfileBtn.addEventListener('click', () => openProfileModal());
+  profileClose.addEventListener('click', () => closeProfileModal());
+  profileCancel.addEventListener('click', () => closeProfileModal());
+
+  profileModal.addEventListener('click', (e) => {
+    if (e.target === profileModal) {
+      closeProfileModal();
+    }
+  });
+
+  avatarOptions.forEach(opt => {
+    opt.addEventListener('click', () => {
+      profileAvatar.textContent = opt.dataset.emoji;
+    });
+  });
+
+  // ---- widgets drag & drop (only inside profile) ----
+  let dragged = null;
+
+  function updateDropEmptyState() {
+    const has = profileWidgetDrop.querySelectorAll('.topWidget').length > 0;
+    if (has) profileWidgetDrop.classList.remove('empty');
+    else profileWidgetDrop.classList.add('empty');
+  }
+
+  function makeTopWidget(id, label) {
+    const w = document.createElement('div');
+    w.className = 'topWidget';
+    w.dataset.id = id;
+
+    const remove = document.createElement('button');
+    remove.className = 'removeBtn';
+    remove.textContent = '×';
+    remove.addEventListener('click', (e) => {
+      e.stopPropagation();
+      // move back to available area
+      const avail = document.createElement('div');
+      avail.className = 'availableWidget';
+      avail.draggable = true;
+      avail.dataset.id = id;
+      avail.innerHTML =
+        '<div class="widgetIcon">' +
+        (id === 'marine' ? '⛵' :
+         id === 'farming' ? '🌾' :
+         id === 'uv' ? '☀️' :
+         id === 'flood' ? '⚠️' :
+         id === 'wind' ? '💨' : '🌸') +
+        '</div>' +
+        '<div><strong>' + (WIDGET_LABELS[id] || id) +
+        '</strong><br><span></span></div>';
+      profileAvailableWidgets.appendChild(avail);
+      enableDragAvailable(avail);
+      w.remove();
+      updateDropEmptyState();
+    });
+
+    const titleDiv = document.createElement('div');
+    titleDiv.className = 'topWidgetTitle';
+    titleDiv.textContent = label;
+
+    w.appendChild(remove);
+    w.appendChild(titleDiv);
+    enableDragTop(w);
+    return w;
+  }
+
+  function enableDragAvailable(el) {
+    el.addEventListener('dragstart', (e) => {
+      dragged = el;
+      e.dataTransfer.effectAllowed = 'move';
+      setTimeout(() => el.style.opacity = '0.5', 0);
+    });
+    el.addEventListener('dragend', () => {
+      dragged = null;
+      el.style.opacity = '1';
+    });
+  }
+
+  function enableDragTop(el) {
+    el.setAttribute('draggable', 'true');
+    el.addEventListener('dragstart', (e) => {
+      dragged = el;
+      e.dataTransfer.effectAllowed = 'move';
+      setTimeout(() => el.style.opacity = '0.5', 0);
+    });
+    el.addEventListener('dragend', () => {
+      dragged = null;
+      el.style.opacity = '1';
+    });
+  }
+
+  [profileWidgetDrop, profileAvailableWidgets].forEach(area => {
+    area.addEventListener('dragover', (e) => e.preventDefault());
+  });
+
+  profileWidgetDrop.addEventListener('drop', (e) => {
+    e.preventDefault();
+    if (!dragged) return;
+    if (dragged.classList.contains('availableWidget')) {
+      const id = dragged.dataset.id;
+      const label = WIDGET_LABELS[id] || id;
+      const topW = makeTopWidget(id, label);
+      profileWidgetDrop.appendChild(topW);
+      dragged.remove();
+      updateDropEmptyState();
+    } else if (dragged.classList.contains('topWidget')) {
+      profileWidgetDrop.appendChild(dragged);
+    }
+  });
+
+  profileAvailableWidgets.addEventListener('drop', (e) => {
+    e.preventDefault();
+    if (!dragged) return;
+    if (dragged.classList.contains('topWidget')) {
+      // convert back to available
+      const id = dragged.dataset.id;
+      const avail = document.createElement('div');
+      avail.className = 'availableWidget';
+      avail.draggable = true;
+      avail.dataset.id = id;
+      avail.innerHTML =
+        '<div class="widgetIcon">' +
+        (id === 'marine' ? '⛵' :
+         id === 'farming' ? '🌾' :
+         id === 'uv' ? '☀️' :
+         id === 'flood' ? '⚠️' :
+         id === 'wind' ? '💨' : '🌸') +
+        '</div>' +
+        '<div><strong>' + (WIDGET_LABELS[id] || id) +
+        '</strong><br><span></span></div>';
+      profileAvailableWidgets.appendChild(avail);
+      enableDragAvailable(avail);
+      dragged.remove();
+      updateDropEmptyState();
+    }
+  });
+
+  document.querySelectorAll('.availableWidget').forEach(enableDragAvailable);
+
+  // ---- settings storage ----
+  function loadSettings() {
+    try {
+      const locStr = localStorage.getItem('ww_locations');
+      const widStr = localStorage.getItem('ww_widget_order');
+      if (locStr) {
+        activeLocationKeys = JSON.parse(locStr);
+      } else {
+        activeLocationKeys = ['cork', 'ball'];
+      }
+      if (widStr) {
+        widgetOrder = JSON.parse(widStr);
+      } else {
+        widgetOrder = ['marine', 'farming', 'uv'];
+      }
+    } catch (e) {
+      activeLocationKeys = ['cork', 'ball'];
+      widgetOrder = ['marine', 'farming', 'uv'];
+    }
+  }
+
+  function saveSettings() {
+    localStorage.setItem('ww_locations', JSON.stringify(activeLocationKeys));
+    localStorage.setItem('ww_widget_order', JSON.stringify(widgetOrder));
+  }
+
+  function buildLocationToggles() {
+    locationToggles.innerHTML = '';
+    Object.keys(LOCATION_MAP).forEach(key => {
+      const loc = LOCATION_MAP[key];
+      const row = document.createElement('div');
+      row.className = 'locationToggle';
+      row.innerHTML =
+        '<span>' + loc.name + '</span>' +
+        '<input type="checkbox" value="' + key + '">';
+      const cb = row.querySelector('input');
+      cb.checked = activeLocationKeys.includes(key);
+      locationToggles.appendChild(row);
+    });
+  }
+
+  function buildLocationSelect() {
+    locationSelect.innerHTML = '';
+    const keys = activeLocationKeys.length ? activeLocationKeys : Object.keys(LOCATION_MAP);
+    keys.forEach(key => {
+      const loc = LOCATION_MAP[key];
+      const opt = document.createElement('option');
+      opt.value = key;
+      opt.textContent = loc.name;
+      locationSelect.appendChild(opt);
+    });
+  }
+
+  locationSelect.addEventListener('change', async () => {
+    const key = locationSelect.value;
+    if (!key || !LOCATION_MAP[key]) return;
+    currentLocObj = LOCATION_MAP[key];
+    locationText.textContent = '📍 ' + currentLocObj.name;
+    await loadWeatherForLocation(currentLocObj);
+  });
+
+  // build widget layout in profile from widgetOrder
+  function buildProfileWidgetsFromOrder() {
+    // reset both areas to initial (use existing availableWidget nodes)
+    // first clear drop
+    profileWidgetDrop.innerHTML = '';
+    updateDropEmptyState();
+
+    // make sure all widgets exist in available area
+    // (we already have them in HTML; we'll move ones that are selected)
+    widgetOrder.forEach(id => {
+      const src = profileAvailableWidgets.querySelector('.availableWidget[data-id="' + id + '"]');
+      if (src) {
+        const label = WIDGET_LABELS[id] || id;
+        const topW = makeTopWidget(id, label);
+        profileWidgetDrop.appendChild(topW);
+        src.remove();
+      }
+    });
+    updateDropEmptyState();
+  }
+
+  // ---- save profile ----
+  saveProfileBtn.addEventListener('click', () => {
+    // collect locations
+    activeLocationKeys = [];
+    locationToggles.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+      if (cb.checked) activeLocationKeys.push(cb.value);
+    });
+    if (!activeLocationKeys.length) {
+      // force at least Cork
+      activeLocationKeys = ['cork'];
+    }
+
+    // collect widget order
+    widgetOrder = [];
+    profileWidgetDrop.querySelectorAll('.topWidget').forEach(el => {
+      widgetOrder.push(el.dataset.id);
+    });
+
+    saveSettings();
+    buildLocationSelect();
+    renderHomeWidgets();
+
+    // reload for selected location (if dropdown changed, use first)
+    const firstKey = locationSelect.value || activeLocationKeys[0];
+    if (LOCATION_MAP[firstKey]) {
+      currentLocObj = LOCATION_MAP[firstKey];
+      locationText.textContent = '📍 ' + currentLocObj.name;
+      loadWeatherForLocation(currentLocObj);
+    }
+
+    closeProfileModal();
+  });
+
+  // ---- widget popup ----
+  function openWidgetPopup(id) {
+    if (!currentWeather || !currentLocObj) return;
+    const label = WIDGET_LABELS[id] || id;
+    popupTitle.textContent = label;
+    popupIntro.textContent = currentLocObj.name;
+
+    const slots = buildWidgetSlots(id, currentWeather);
+    for (let i = 0; i < 6; i++) {
+      popupSlots[i].textContent = slots[i] || '—';
+    }
+
+    widgetPopup.style.display = 'flex';
+    widgetPopup.setAttribute('aria-hidden', 'false');
+  }
+
+  popupClose.addEventListener('click', () => {
+    widgetPopup.style.display = 'none';
+    widgetPopup.setAttribute('aria-hidden', 'true');
+  });
+
+  widgetPopup.addEventListener('click', (e) => {
+    if (e.target === widgetPopup) {
+      widgetPopup.style.display = 'none';
+      widgetPopup.setAttribute('aria-hidden', 'true');
+    }
+  });
+
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      widgetPopup.style.display = 'none';
+      profileModal.style.display = 'none';
+    }
+  });
+
+  // ---- home widgets rendering ----
+  function renderHomeWidgets() {
+    homeWidgets.innerHTML = '';
+    if (!widgetOrder.length) {
+      const p = document.createElement('p');
+      p.textContent = 'No widgets selected. Open Edit Profile to add some.';
+      p.style.color = '#666';
+      p.style.fontSize = '14px';
+      homeWidgets.appendChild(p);
+      return;
+    }
+    widgetOrder.forEach(id => {
+      const div = document.createElement('div');
+      div.className = 'card';
+      div.dataset.id = id;
+      const title = document.createElement('div');
+      title.className = 'home-widget-title';
+      title.textContent = WIDGET_LABELS[id] || id;
+      const body = document.createElement('div');
+      body.className = 'home-widget-body';
+      body.textContent = 'Tap to see details.';
+      div.appendChild(title);
+      div.appendChild(body);
+      div.addEventListener('click', () => openWidgetPopup(id));
+      homeWidgets.appendChild(div);
+    });
+    updateHomeWidgetBodies();
+  }
+
+  function updateHomeWidgetBodies() {
+    if (!currentWeather) return;
+    homeWidgets.querySelectorAll('.card').forEach(card => {
+      const id = card.dataset.id;
+      const body = card.querySelector('.home-widget-body');
+      const slots = buildWidgetSlots(id, currentWeather);
+      body.textContent = slots[0] || 'No data yet';
+    });
+  }
+
+  // ---- weather API calls (3 Open-Meteo endpoints) ----
+  async function loadWeatherForLocation(loc) {
+    currentLocObj = loc;
+    locationText.textContent = '📍 ' + loc.name;
+
+    const fParams = new URLSearchParams({
+      latitude: loc.lat,
+      longitude: loc.lon,
+      current: 'temperature_2m,apparent_temperature,weather_code,wind_speed_10m,relative_humidity_2m',
+      hourly: 'temperature_2m,weather_code,precipitation_probability,wind_speed_10m,relative_humidity_2m,uv_index,soil_moisture_0_to_1cm,precipitation',
+      daily: 'temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_probability_max,wind_speed_10m_max',
+      timezone: 'auto'
+    });
+
+    const mParams = new URLSearchParams({
+      latitude: loc.lat,
+      longitude: loc.lon,
+      hourly: 'wave_height,wind_wave_height,wind_wave_direction',
+      timezone: 'auto'
+    });
+
+    const aParams = new URLSearchParams({
+      latitude: loc.lat,
+      longitude: loc.lon,
+      hourly: 'european_aqi,pm10,pm2_5,grass_pollen,tree_pollen,weed_pollen',
+      timezone: 'auto'
+    });
+
+    const [forecastRes, marineRes, airRes] = await Promise.all([
+      fetch('https://api.open-meteo.com/v1/forecast?' + fParams.toString()),
+      fetch('https://marine-api.open-meteo.com/v1/marine?' + mParams.toString()),
+      fetch('https://air-quality-api.open-meteo.com/v1/air-quality?' + aParams.toString())
+    ]);
+
+    const forecast = await forecastRes.json();
+    const marine = await marineRes.json();
+    const air = await airRes.json();
+
+    currentWeather = { forecast, marine, air };
+
+    updateTodayCard();
+    updateHourly();
+    updateHomeWidgetBodies();
+  }
+
+  function updateTodayCard() {
+    if (!currentWeather) return;
+    const f = currentWeather.forecast;
+
+    if (f.current) {
+      const t = Math.round(f.current.temperature_2m);
+      const feels = Math.round(f.current.apparent_temperature);
+      todayTemp.textContent = t + '°C';
+      const desc = describeWeatherCode(f.current.weather_code);
+      todayDesc.textContent = desc + ' • feels like ' + feels + '°C';
+      todayIcon.textContent = emojiFromWeatherCode(f.current.weather_code);
+      todayUpdated.textContent = new Date().toLocaleString();
+    }
+
+    if (f.daily && f.daily.time && f.daily.time.length > 1) {
+      const maxT = Math.round(f.daily.temperature_2m_max[1]);
+      const minT = Math.round(f.daily.temperature_2m_min[1]);
+      const rainSum = f.daily.precipitation_sum[1];
+      const prob = f.daily.precipitation_probability_max[1];
+      const windMax = Math.round(f.daily.wind_speed_10m_max[1]);
+      tomorrowText.textContent =
+        maxT + ' / ' + minT + '°C • rain ' + prob + '% (' +
+        rainSum.toFixed ? rainSum.toFixed(1) : rainSum + ' mm) • wind ' + windMax + ' km/h';
+    }
+  }
+
+  function updateHourly() {
+    hourlyList.innerHTML = '';
+    if (!currentWeather) return;
+    const h = currentWeather.forecast.hourly;
+    if (!h || !h.time) return;
+
+    const len = Math.min(24, h.time.length);
+    for (let i = 0; i < len; i++) {
+      const box = document.createElement('div');
+      box.className = 'hour-box';
+      const timeStr = new Date(h.time[i]).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      const temp = Math.round(h.temperature_2m[i]);
+      const desc = describeWeatherCode(h.weather_code ? h.weather_code[i] : null);
+      box.innerHTML = timeStr + '<br><strong>' + temp + '°C</strong><br><small>' + desc + '</small>';
+      hourlyList.appendChild(box);
+    }
+  }
+
+  // ---- widget data builder ----
+  function buildWidgetSlots(id, data) {
+    const f = data.forecast;
+    const m = data.marine;
+    const a = data.air;
+    const slots = ['','','','','',''];
+
+    if (id === 'marine') {
+      const h = m && m.hourly;
+      if (h && h.time && h.wave_height) {
+        const wh = h.wave_height[0];
+        const wwh = h.wind_wave_height ? h.wind_wave_height[0] : null;
+        const dir = h.wind_wave_direction ? h.wind_wave_direction[0] : null;
+        slots[0] = 'Wave height: ' + (wh != null ? wh.toFixed(1) + ' m' : '—');
+        slots[1] = 'Wind wave: ' + (wwh != null ? wwh.toFixed(1) + ' m' : '—');
+        slots[2] = 'Wave dir: ' + (dir != null ? Math.round(dir) + '°' : '—');
+        slots[3] = 'Sea state: ' + (wh != null ? (wh < 0.6 ? 'Calm' : wh < 1.5 ? 'Moderate' : 'Rough') : '—');
+        slots[4] = 'Best time: next few hours';
+        slots[5] = 'Source: Open-Meteo Marine';
+      }
+    }
+    else if (id === 'farming') {
+      const h = f && f.hourly;
+      const d = f && f.daily;
+      if (h && h.soil_moisture_0_to_1cm && h.precipitation && h.temperature_2m) {
+        const soil = h.soil_moisture_0_to_1cm[0];
+        const rainNow = h.precipitation[0];
+        const tempNow = h.temperature_2m[0];
+        slots[0] = 'Soil moisture top layer: ' + soil.toFixed(2);
+        slots[1] = 'Rain (now): ' + rainNow.toFixed(1) + ' mm/h';
+        slots[2] = 'Temp now: ' + Math.round(tempNow) + '°C';
+      }
+      if (d && d.precipitation_sum && d.precipitation_probability_max) {
+        slots[3] = 'Rain today: ' + d.precipitation_sum[0] + ' mm';
+        slots[4] = 'Rain chance: ' + d.precipitation_probability_max[0] + '%';
+      }
+      slots[5] = 'Tip: plan field work around rain windows.';
+    }
+    else if (id === 'uv') {
+      const h = f && f.hourly;
+      if (h && h.uv_index) {
+        const u0 = h.uv_index[0];
+        let peakVal = u0;
+        let peakTime = h.time[0];
+        const len = Math.min(24, h.uv_index.length);
+        for (let i = 0; i < len; i++) {
+          if (h.uv_index[i] > peakVal) {
+            peakVal = h.uv_index[i];
+            peakTime = h.time[i];
+          }
+        }
+        slots[0] = 'Current UV: ' + u0.toFixed(1);
+        slots[1] = 'Peak next 24h: ' + peakVal.toFixed(1) + ' at ' +
+          new Date(peakTime).toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' });
+        slots[2] = 'Level: ' + uvLevel(u0);
+        slots[3] = 'Advice: ' + uvAdvice(u0);
+        slots[4] = 'Children: extra care at midday.';
+        slots[5] = 'Source: Open-Meteo UV';
+      }
+    }
+    else if (id === 'flood') {
+      const d = f && f.daily;
+      if (d && d.precipitation_sum) {
+        const today = d.precipitation_sum[0];
+        const tomorrow = d.precipitation_sum[1];
+        const probToday = d.precipitation_probability_max[0];
+        const risk = today + tomorrow > 20 ? 'High' :
+                     today + tomorrow > 10 ? 'Moderate' : 'Low';
+        slots[0] = 'Rain today: ' + today + ' mm';
+        slots[1] = 'Rain tomorrow: ' + tomorrow + ' mm';
+        slots[2] = 'Today rain chance: ' + probToday + '%';
+        slots[3] = 'Flood risk (next 48h): ' + risk;
+        slots[4] = 'Action: monitor low-lying areas.';
+        slots[5] = 'Source: Open-Meteo forecast';
+      }
+    }
+    else if (id === 'wind') {
+      const c = f && f.current;
+      const h = f && f.hourly;
+      if (c) {
+        slots[0] = 'Wind now: ' + Math.round(c.wind_speed_10m) + ' km/h';
+      }
+      if (h && h.wind_speed_10m) {
+        let max = h.wind_speed_10m[0];
+        let maxTime = h.time[0];
+        const len = Math.min(24, h.wind_speed_10m.length);
+        for (let i = 0; i < len; i++) {
+          if (h.wind_speed_10m[i] > max) {
+            max = h.wind_speed_10m[i];
+            maxTime = h.time[i];
+          }
+        }
+        slots[1] = 'Gusty period: ' + Math.round(max) + ' km/h at ' +
+          new Date(maxTime).toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' });
+      }
+      if (f && f.daily && f.daily.wind_speed_10m_max) {
+        slots[2] = 'Max wind today: ' + Math.round(f.daily.wind_speed_10m_max[0]) + ' km/h';
+      }
+      slots[3] = 'Outdoor items: secure if gusty.';
+      slots[4] = 'Travel: extra care on high-sided vehicles.';
+      slots[5] = 'Source: Open-Meteo forecast';
+    }
+    else if (id === 'pollen') {
+      const h = a && a.hourly;
+      if (h && h.grass_pollen && h.tree_pollen && h.weed_pollen) {
+        const g = h.grass_pollen[0];
+        const t = h.tree_pollen[0];
+        const wv = h.weed_pollen[0];
+        slots[0] = 'Grass pollen: ' + pollenLevel(g);
+        slots[1] = 'Tree pollen: ' + pollenLevel(t);
+        slots[2] = 'Weed pollen: ' + pollenLevel(wv);
+        slots[3] = 'Combined load: ' + pollenCombo(g, t, wv);
+        slots[4] = 'Advice: consider antihistamines if sensitive.';
+        slots[5] = 'Source: Open-Meteo air-quality';
+      }
+    }
+
+    return slots;
+  }
+
+  function describeWeatherCode(code) {
+    if (code == null) return '—';
+    if (code === 0) return 'Clear';
+    if (code === 1 || code === 2) return 'Partly cloudy';
+    if (code === 3) return 'Cloudy';
+    if (code === 45 || code === 48) return 'Fog';
+    if (code >= 51 && code <= 67) return 'Drizzle / rain';
+    if (code >= 71 && code <= 77) return 'Snow';
+    if (code >= 80 && code <= 82) return 'Showers';
+    if (code >= 95) return 'Thunderstorm';
+    return 'Weather code ' + code;
+  }
+
+  function emojiFromWeatherCode(code) {
+    if (code == null) return '🌤️';
+    if (code === 0) return '☀️';
+    if (code === 1 || code === 2) return '⛅';
+    if (code === 3) return '☁️';
+    if (code >= 51 && code <= 67) return '🌧️';
+    if (code >= 71 && code <= 77) return '❄️';
+    if (code >= 80 && code <= 82) return '🌦️';
+    if (code >= 95) return '⛈️';
+    return '🌤️';
+  }
+
+  function uvLevel(val) {
+    if (val < 3) return 'Low';
+    if (val < 6) return 'Moderate';
+    if (val < 8) return 'High';
+    if (val < 11) return 'Very high';
+    return 'Extreme';
+  }
+
+  function uvAdvice(val) {
+    if (val < 3) return 'Minimal protection needed.';
+    if (val < 6) return 'Use sunscreen, hat, sunglasses.';
+    if (val < 8) return 'Seek shade at midday.';
+    if (val < 11) return 'Avoid midday sun, high protection.';
+    return 'Stay indoors if possible.';
+  }
+
+  function pollenLevel(v) {
+    if (v == null) return '—';
+    if (v < 20) return 'Low';
+    if (v < 60) return 'Moderate';
+    if (v < 120) return 'High';
+    return 'Very high';
+  }
+
+  function pollenCombo(g, t, w) {
+    const vals = [g || 0, t || 0, w || 0];
+    const max = Math.max.apply(null, vals);
+    return pollenLevel(max);
+  }
+
+  // ---- init ----
+  (function init() {
+    loadSettings();
+    buildLocationToggles();
+    buildLocationSelect();
+    buildProfileWidgetsFromOrder();
+    renderHomeWidgets();
+
+    // default location
+    const firstKey = activeLocationKeys[0] || 'cork';
+    if (LOCATION_MAP[firstKey]) {
+      currentLocObj = LOCATION_MAP[firstKey];
+      locationSelect.value = firstKey;
+      locationText.textContent = '📍 ' + currentLocObj.name;
+      loadWeatherForLocation(currentLocObj);
+    }
+  })();
+</script>
+</body>
+</html>
