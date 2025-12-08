@@ -10,7 +10,6 @@
 
 <body class="homepage">
 
-<!--CHATBOT-->
 <div id="weatherwisebot">
     <div id="weatherwiseicon">
         <img src ="Images/Alt lOGO.png" id="AILOGO" />
@@ -82,13 +81,9 @@
   </div>
 
   <script>
-
-      document.getElementById("burger").addEventListener("click", showSidebar());
-
-      function showSidebar(){
-        document.getElementById("sidebar").style.display = "block";
-      };
-    
+    function showSidebar(){
+      document.getElementById("sidebar").addEventListener("click",)
+    }
   </script>
 
 
@@ -200,7 +195,7 @@
 
     </section>
 
-    <!-- 7 DAY FORECAST -->
+
     <section class="forecast-row">
       <div class="card card-7day">
         <div class="card-heading">7-Day Forecast</div>
@@ -208,7 +203,6 @@
       </div>
     </section>
 
-    <!-- WIDGETS -->
     <section class="bottom-widgets">
       <div class="card bottom-card hover-card" data-widget="marine">
         <div class="bottom-icon">⚓</div> Marine
@@ -230,10 +224,19 @@
         <div class="bottom-label">Pollen</div>
       </div>
     </section>
+    <!-- popup before widgets for all -->
+<div id="widget-popup" class="popup hidden">
+  <div class="popup-inner" id="widget-popup-inner">
+    <h2 id="widget-popup-title">Widget</h2>
+    <div id="widget-popup-content">Loading...</div>
+
+    <button id="close-widget-popup" class="close-btn">Close</button>
+  </div>
+</div>
+
 
   </main>
 
-  <!-- POPUP FOR PROFILE + WIDGET SETTINGS -->
   <div id="profile-popup" class="popup hidden">
     <div class="popup-inner">
       <h2>Edit Profile</h2>
@@ -255,6 +258,109 @@
  
   <!-- Sscript for api from garys website, i dont know if i downloaded it with everything we need or if you can edit it -->
   <script>
+    // ---------- WIDGET POPUPS ----------
+    var widgetPopup = document.getElementById("widget-popup");
+var popupTitle = document.getElementById("widget-popup-title");
+var popupContent = document.getElementById("widget-popup-content");
+var closeWidgetPopup = document.getElementById("close-widget-popup");
+
+var widgets = document.querySelectorAll("[data-widget]");
+
+for (var i = 0; i < widgets.length; i++) {
+  widgets[i].addEventListener("click", function () {
+
+var widgetName = this.getAttribute("data-widget");
+popupTitle.textContent = widgetName.toUpperCase();
+
+if (!weatherData) {
+  popupContent.innerHTML = "Getting today’s data...";
+  widgetPopup.classList.remove("hidden");
+  return;
+}
+
+var d = weatherData.daily;
+
+var rain = Math.round(d.precipitation_sum[0]) || "--";
+var wind = Math.round(d.wind_speed_10m_max[0]) || "--";
+var gust = Math.round(d.wind_gusts_10m_max[0]) || "--";
+var max  = Math.round(d.temperature_2m_max[0]) || "--";
+var min  = Math.round(d.temperature_2m_min[0]) || "--";
+
+
+if (widgetName === "marine") {
+  popupContent.innerHTML = `
+    <div>🌊 <b>Marine report</b></div>
+    <br>
+    Wind: ${wind} km/h <br>
+    Gusts: ${gust} km/h <br>
+    Rain: ${rain} mm <br>
+    Air temp: ${max}° / ${min}°
+  `;
+}
+
+// Health
+if (widgetName === "health") {
+  popupContent.innerHTML = `
+    <div>➕ <b>Health info</b></div>
+ 
+ 
+    Temp today: ${max}° <br>
+    Wind: ${wind} km/h <br>
+    Rain: ${rain} mm <br><br>
+    
+  `;
+}
+
+
+
+if (widgetName === "outdoor") {
+  popupContent.innerHTML = `
+    <div>📅 <b>Outdoor planner</b></div>
+    <br>
+
+
+    Max temp: ${max}° <br>
+    Rain today: ${rain} mm <br>
+    Wind: ${wind} km/h <br><br>
+    A drier, warmer part of the day is usually best for being outside.
+  `;
+}
+
+if (widgetName === "farming") {
+  popupContent.innerHTML = `
+    <div>🌱 <b>Farming forecast</b></div>
+    <br>
+    Rain today: ${rain} mm <br>
+    Wind: ${wind} km/h <br>
+    Temp: ${max}° <br><br>
+    Use this to get a quick sense of field and general farming conditions.
+  `;
+}
+
+if (widgetName === "pollen") {
+  popupContent.innerHTML = `
+    <div>🌼 <b>Pollen overview</b></div>
+    <br>
+    Rain today: ${rain} mm <br><br>
+    More rain usually means -> less pollen in the air 
+    On drier days, pollen is more active.
+  `;
+}
+
+widgetPopup.classList.remove("hidden");
+});
+
+}
+
+closeWidgetPopup.onclick = function () {
+  widgetPopup.classList.add("hidden");
+};
+
+
+closeWidgetPopup.onclick = function () {
+  widgetPopup.classList.add("hidden");
+};
+
    function saveWidgetSettings() {
       var toggles = document.querySelectorAll("[data-widget-toggle]");
       var settings = {};
@@ -288,10 +394,6 @@
 
     loadWidgetSettings();
 
-    /* ------------------------------
-       PROFILE POPUP
-    ------------------------------ */
-
     var popup = document.getElementById("profile-popup");
     var openBtn = document.getElementById("open-profile");
     var closeBtn = document.getElementById("close-popup");
@@ -303,13 +405,13 @@
       saveWidgetSettings();
       popup.classList.add("hidden");
     };
+    var weatherData = null;
 
-    /* ------------------------------
-       WEATHER API
-    ------------------------------ */
+
 
     function processWeather(data) {
       console.log("Weather received:", data);
+      weatherData = data;  // save for popups
 
       var max = data.daily.temperature_2m_max;
       var min = data.daily.temperature_2m_min;
@@ -362,7 +464,7 @@
         "💧 " + Math.round(rain[1]) + " mm<br>" +
         "💨 " + Math.round(wind[1]) + " km/h";
 
-      /* 7-DAY FORECAST */
+    
       var strip = document.getElementById("forecast-strip");
       strip.innerHTML = "";
 
