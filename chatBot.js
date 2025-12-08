@@ -120,7 +120,7 @@ function sendMessage() {
             appendMessage("bot", "Great Question! Firstly I refrain from use of any toxic, harmful, biased or inappropriate content. Secondly I cannot use information that is blatently false or misleading. I am built to align with your expectations and will never drift away from my main purpose.");
         }
 
-        else if(msg ===("how's the weather today")) {
+        else if(msg ===("how's the weather today?")) {
             appendMessage("bot", "The weather looks cloudy with a small chance of rain throughout the day. Make sure to wear a jacket! <br><img src='Images/weatherwidget.png' style='width:300px; height:200px;'>", true);
         }
 
