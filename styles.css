@@ -765,8 +765,14 @@ font-size: 2em;
     height: auto;
   }
 
+  .header-logo img {
+    width: 400px;
+    height: 70px; 
+    display: flex;
+  }
+
   #sidebar {
-    
+    width: 500px;
   }
 
   .header-icon {
