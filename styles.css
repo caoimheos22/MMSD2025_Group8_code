@@ -745,6 +745,11 @@ font-size: 2em;
   }
 }
 
+#img {
+  width: 60px;
+  height: auto;
+}
+
 
   .forecast-strip {
     grid-template-columns: repeat(4, 1fr);
