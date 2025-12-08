@@ -274,15 +274,17 @@ body.homepage {
   background-color: #f5f5f5;
   width: 450px;
   height: 750px;
-  margin-top: -20px;
-  margin-left: 0px;
-  display: none;
-  position:absolute;
+  top: 0;
+  left: -450px;              
+  position: fixed;           
   z-index: 10;
   border-color: #000000;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+  transition: left 0.3s ease;
 }
-
+#sidebar.active {
+  left: 0;                   
+}
 
 #get_coords_but{
 background-color: #ffffff;
@@ -334,15 +336,7 @@ font-size: 2em;
     background-color: transparent;
     
 }
-#sidebar {
-  position: fixed;
-  left: -450px;
-  transition: left 0.3s ease;
-}
 
-#sidebar.active {
-  left: 0;
-}
 .header-logo img {
   height: 90px;
   display: block;
