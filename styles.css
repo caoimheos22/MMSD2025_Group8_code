@@ -10,7 +10,7 @@
   z-index: 99999;
   position: fixed;
   bottom: 20px;
-  right: 20px;
+  right: 15px;
   width: 70px;
   height: 70px;
   background-color: #B00000;
@@ -309,14 +309,19 @@ font-size: 2em;
 }
 
 .header-icon {
-  width: 45px;
-  height: 45px;
+  background-image: url(Symbols/profile_icon.png);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: 70px;
+  height: 70px;
   border-radius: 18px;
   border: none;
-  background: transparent;
+  background-color: transparent;
   color: #ffffff;
   font-size: 22px;
   cursor: pointer;
+
 }
 .burger{
   background-image: url(Symbols/burger-menu-white.png);
