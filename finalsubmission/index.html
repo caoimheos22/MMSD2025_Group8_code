@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>WeatherWise – Login / Sign Up</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body class="login-page">
+
+  <!-- =============== HEADER =============== -->
+  <header class="top-header">
+    <div class="header-logo">
+      <img src="logoexample5.png" alt="WeatherWise logo" />
+    </div>
+  </header>
+
+  <!-- =============== MAIN CONTENT =============== -->
+  <main class="layout-grid">
+    <!-- SIDE RED PANEL -->
+    <aside class="side-panel">
+      <div class="side-panel-logo">
+        <img src="logoexample4.png" alt="WeatherWise large logo" />
+      </div>
+    </aside>
+
+    <!-- LOGIN / SIGNUP SECTION -->
+    <section class="form-area">
+      <div class="form-wrapper">
+        <h1 class="page-title">Sign In or Create Account</h1>
+
+        <div class="switch-row">
+          <button id="showLoginBtn" class="active" type="button">Login</button>
+          <button id="showSignupBtn" type="button">Create Account</button>
+        </div>
+
+        <!-- LOGIN FORM -->
+        <form id="loginForm" class="form-block">
+          <div class="form-field">
+            <label for="login-email">Email</label>
+            <input id="login-email" type="email" required />
+          </div>
+          <div class="form-field">
+            <label for="login-password">Password</label>
+            <input id="login-password" type="password" required />
+          </div>
+          <button type="submit" class="btn">Login</button>
+          <div class="divider" style="text-align:center;margin:14px 0;"><span>or</span></div>
+          <button type="button" id="guestBtn" class="btn btn-ghost">Continue as Guest</button>
+        </form>
+
+        <!-- SIGNUP FORM -->
+        <form id="signupForm" class="form-block" style="display:none;">
+          <div class="form-field">
+            <label for="signup-username">Username</label>
+            <input id="signup-username" type="text" required />
+          </div>
+          <div class="form-field">
+            <label for="signup-email">Email</label>
+            <input id="signup-email" type="email" required />
+          </div>
+          <div class="form-field">
+            <label for="signup-password">Password</label>
+            <input id="signup-password" type="password" required />
+          </div>
+          <div class="form-field">
+            <label for="signup-confirm">Confirm Password</label>
+            <input id="signup-confirm" type="password" required />
+          </div>
+          <button type="submit" class="btn">Create Account</button>
+          <div class="divider" style="text-align:center;margin:14px 0;"><span>Already have an account?</span></div>
+          <button type="button" id="backToLoginBtn" class="btn btn-ghost">Back to Login</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- =============== SCRIPT =============== -->
+  <script>
+  // ======== LocalStorage helpers ========
+  function getUsers(){let txt=localStorage.getItem('wwUsers');return txt?JSON.parse(txt):[];}
+  function saveUsers(u){localStorage.setItem('wwUsers',JSON.stringify(u));}
+  function setCurrentUser(u){localStorage.setItem('wwCurrentUser',JSON.stringify(u));localStorage.setItem('wwIsGuest','false');}
+  function setGuestMode(){localStorage.setItem('wwIsGuest','true');localStorage.removeItem('wwCurrentUser');}
+  function goToDashboard(){window.location.href='dashboard.html';}
+
+  // ======== Toggle forms ========
+  var loginForm=document.getElementById('loginForm');
+  var signupForm=document.getElementById('signupForm');
+  var showLoginBtn=document.getElementById('showLoginBtn');
+  var showSignupBtn=document.getElementById('showSignupBtn');
+  var backToLoginBtn=document.getElementById('backToLoginBtn');
+  var guestBtn=document.getElementById('guestBtn');
+
+  showLoginBtn.onclick=function(){
+    loginForm.style.display='block';
+    signupForm.style.display='none';
+    this.classList.add('active');
+    showSignupBtn.classList.remove('active');
+  };
+  showSignupBtn.onclick=function(){
+    loginForm.style.display='none';
+    signupForm.style.display='block';
+    this.classList.add('active');
+    showLoginBtn.classList.remove('active');
+  };
+  backToLoginBtn.onclick=function(){showLoginBtn.onclick();};
+
+  // ======== Login ========
+  loginForm.onsubmit=function(e){
+    e.preventDefault();
+    var email=document.getElementById('login-email').value.trim();
+    var password=document.getElementById('login-password').value;
+    var users=getUsers();
+    var user=users.find(u=>u.email===email&&u.password===password);
+    if(!user){alert('Incorrect email or password');return;}
+    setCurrentUser(user);goToDashboard();
+  };
+
+  // ======== Sign up ========
+  signupForm.onsubmit=function(e){
+    e.preventDefault();
+    var username=document.getElementById('signup-username').value.trim();
+    var email=document.getElementById('signup-email').value.trim();
+    var password=document.getElementById('signup-password').value;
+    var confirm=document.getElementById('signup-confirm').value;
+    if(password!==confirm){alert('Passwords do not match');return;}
+    var users=getUsers();
+    if(users.some(u=>u.email===email)){alert('Email already exists');return;}
+    var newUser={
+      username,email,password,
+      avatar:'🙂',
+      widgets:['marine','farming','uv','flood','wind','pollen'],
+      locations:[
+        {id:'cork',name:'Cork City',lat:51.8985,lon:-8.4756},
+        {id:'ovens',name:'Ovens',lat:51.8750,lon:-8.6560},
+        {id:'doneraile',name:'Doneraile',lat:52.2167,lon:-8.5833},
+        {id:'kinsale',name:'Kinsale',lat:51.7079,lon:-8.5303},
+        {id:'bishopstown',name:'Bishopstown',lat:51.8770,lon:-8.5361}
+      ],
+      homeLocationId:'cork'
+    };
+    users.push(newUser);saveUsers(users);
+    setCurrentUser(newUser);goToDashboard();
+  };
+
+  guestBtn.onclick=function(){setGuestMode();goToDashboard();};
+  </script>
+</body>
+</html>
