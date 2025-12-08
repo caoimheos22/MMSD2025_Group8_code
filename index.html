@@ -81,19 +81,18 @@
 
   </div>
 
-
   <!-- header -->
   <header class="top-header">
-    <button class="hamburger-icon" value="Open menu"></button>
+    <button class="header-icon" aria-label="Open menu">☰</button>
 
     <div class="header-logo">
       <img src="logoexample5.png" alt="MMSD logo" />
     </div>
 
-    <button class="header-icon" value="Account">👤</button>
+    <button class="header-icon" id="open-profile" aria-label="Account">👤</button>
   </header>
 
-  <!-- warning (dont know if we are leaving this in ?) -->
+  <!-- warning -->
   <div class="warning-bar">
     <div class="warning-bar-left">
       <span class="warning-icon">⚠️</span>
@@ -103,11 +102,9 @@
     <button class="warning-settings" aria-label="Warning settings">⚙️</button>
   </div>
 
+  <main class="home-shell">
 
-
- <main class="home-shell">
-
-    <!-- today and tomorrow -->
+    <!-- TODAY + TOMORROW -->
     <section class="top-section">
 
       <div class="top-left">
@@ -122,16 +119,10 @@
           </div>
         </div>
 
-        <!-- Search not set up tho -->
         <div class="search-row">
-          <input
-            class="location-search"
-            type="text"
-            placeholder="Search location..."
-          />
+          <input class="location-search" type="text" placeholder="Search location..." />
           <button class="search-clear" aria-label="Clear search">×</button>
         </div>
-        
 
         <div class="card card-weather">
           <div class="card-weather-main">
@@ -155,40 +146,21 @@
 
           <div class="card-weather-details">
             <div class="detail-column">
-              <div class="detail-row">
-                <span class="detail-icon">💧</span>
-                <span id="current-rain">Rain -- mm</span>
-              </div>
-              <div class="detail-row">
-                <span class="detail-icon">💨</span>
-                <span id="current-wind">Wind -- km/h</span>
-              </div>
-              <div class="detail-row">
-                <span class="detail-icon">🌬️</span>
-                <span id="current-gust">Gust -- km/h</span>
-              </div>
+              <div class="detail-row"><span class="detail-icon">💧</span> <span id="current-rain">Rain -- mm</span></div>
+              <div class="detail-row"><span class="detail-icon">💨</span> <span id="current-wind">Wind -- km/h</span></div>
+              <div class="detail-row"><span class="detail-icon">🌬️</span> <span id="current-gust">Gust -- km/h</span></div>
             </div>
 
             <div class="detail-column">
-              <div class="detail-row">
-                <span class="detail-icon">🌅</span>
-                <span id="sunrise">Sunrise --:--</span>
-              </div>
-              <div class="detail-row">
-                <span class="detail-icon">🌇</span>
-                <span id="sunset">Sunset --:--</span>
-              </div>
-              <div class="detail-row">
-                <span class="detail-icon">☀️</span>
-                <span id="uv-index">UV --</span>
-              </div>
+              <div class="detail-row"><span class="detail-icon">🌅</span> <span id="sunrise">Sunrise --:--</span></div>
+              <div class="detail-row"><span class="detail-icon">🌇</span> <span id="sunset">Sunset --:--</span></div>
+              <div class="detail-row"><span class="detail-icon">☀️</span> <span id="uv-index">UV --</span></div>
             </div>
           </div>
         </div>
       </div>
 
       <div class="top-right">
-
         <div class="card kinsale-graphic">
           <img src="old head of kinsale.png" alt="Old Head of Kinsale" />
         </div>
@@ -210,54 +182,123 @@
             </div>
           </div>
 
+          <div class="tomorrow-badge"><span>🏰</span></div>
+        </div>
+      </div>
 
     </section>
 
-    <!-- 7 days and widgets -->
+    <!-- 7 DAY FORECAST -->
     <section class="forecast-row">
-
       <div class="card card-7day">
         <div class="card-heading">7-Day Forecast</div>
-        <div class="forecast-strip" id="forecast-strip">
-          <!-- 7-day forecast will be filled by JS -->
-        </div>
+        <div class="forecast-strip" id="forecast-strip"></div>
+      </div>
+    </section>
+
+    <!-- WIDGETS -->
+    <section class="bottom-widgets">
+      <div class="card bottom-card hover-card" data-widget="marine">
+        <div class="bottom-icon">⚓</div> Marine
       </div>
 
-        </div>
+      <div class="card bottom-card hover-card" data-widget="health">
+        <div class="bottom-icon">➕</div> Health
       </div>
 
-      <div class="card card-farming hover-card">
+      <div class="card bottom-card hover-card" data-widget="outdoor">
+        <div class="bottom-icon">📅</div> Outdoor Planner
+      </div>
+      <div class="card card-farming hover-card" data-widget="farming">
         <div class="farming-icon">🌱</div>
         <div class="farming-label">Farming</div>
       </div>
-
-    </section>
-
-    <!-- widgets -->
-    <section class="bottom-widgets">
-      <div class="card bottom-card hover-card">
-        <div class="bottom-icon">⚓</div>
-        <div class="bottom-label">Marine</div>
-      </div>
-
-      <div class="card bottom-card hover-card">
-        <div class="bottom-icon">➕</div>
-        <div class="bottom-label">Health</div>
-      </div>
-
-      <div class="card bottom-card hover-card">
-        <div class="bottom-icon">📅</div>
-        <div class="bottom-label">Outdoor Planner</div>
+      <div class="card bottom-card hover-card" data-widget="pollen">
+        <div class="bottom-icon">🌼</div>
+        <div class="bottom-label">Pollen</div>
       </div>
     </section>
 
   </main>
 
+  <!-- POPUP FOR PROFILE + WIDGET SETTINGS -->
+  <div id="profile-popup" class="popup hidden">
+    <div class="popup-inner">
+      <h2>Edit Profile</h2>
+
+      <label>Name</label>
+      <input type="text" id="profile-name" placeholder="Your name..." />
+
+      <h3>Choose Widgets</h3>
+      <label><input type="checkbox" data-widget-toggle="marine"> Marine</label><br>
+      <label><input type="checkbox" data-widget-toggle="health"> Health</label><br>
+      <label><input type="checkbox" data-widget-toggle="outdoor"> Outdoor Planner</label><br><label><input type="checkbox" data-widget-toggle="farming"> Farming</label><br>
+      <label><input type="checkbox" data-widget-toggle="pollen"> Pollen</label><br><br>
+
+      <button id="save-settings">Save</button>
+      <button id="close-popup" class="close-btn">Close</button>
+    </div>
+  </div>
+
+ 
   <!-- Sscript for api from garys website, i dont know if i downloaded it with everything we need or if you can edit it -->
   <script>
+   function saveWidgetSettings() {
+      var toggles = document.querySelectorAll("[data-widget-toggle]");
+      var settings = {};
+
+      for (var i = 0; i < toggles.length; i++) {
+        var widget = toggles[i].getAttribute("data-widget-toggle");
+        settings[widget] = toggles[i].checked;
+      }
+
+      localStorage.setItem("widgetSettings", JSON.stringify(settings));
+      loadWidgetSettings();
+    }
+
+    function loadWidgetSettings() {
+      var settings = JSON.parse(localStorage.getItem("widgetSettings"));
+      if (!settings) return;
+
+      var widgets = document.querySelectorAll("[data-widget]");
+
+      for (var i = 0; i < widgets.length; i++) {
+        var name = widgets[i].getAttribute("data-widget");
+        widgets[i].style.display = settings[name] === false ? "none" : "block";
+      }
+
+      var toggles = document.querySelectorAll("[data-widget-toggle]");
+      for (var j = 0; j < toggles.length; j++) {
+        var name = toggles[j].getAttribute("data-widget-toggle");
+        toggles[j].checked = settings[name] !== false;
+      }
+    }
+
+    loadWidgetSettings();
+
+    /* ------------------------------
+       PROFILE POPUP
+    ------------------------------ */
+
+    var popup = document.getElementById("profile-popup");
+    var openBtn = document.getElementById("open-profile");
+    var closeBtn = document.getElementById("close-popup");
+    var saveBtn = document.getElementById("save-settings");
+
+    openBtn.onclick = function () { popup.classList.remove("hidden"); };
+    closeBtn.onclick = function () { popup.classList.add("hidden"); };
+    saveBtn.onclick = function () {
+      saveWidgetSettings();
+      popup.classList.add("hidden");
+    };
+
+    /* ------------------------------
+       WEATHER API
+    ------------------------------ */
+
     function processWeather(data) {
       console.log("Weather received:", data);
-  
+
       var max = data.daily.temperature_2m_max;
       var min = data.daily.temperature_2m_min;
       var codes = data.daily.weather_code;
@@ -266,17 +307,7 @@
       var rain = data.daily.precipitation_sum;
       var wind = data.daily.wind_speed_10m_max;
       var gust = data.daily.wind_gusts_10m_max;
-  
-      // ---------- TODAY ----------
-      var todayMax = Math.round(max[0]);
-      var todayMin = Math.round(min[0]);
-      var todayCode = codes[0];
-  
-      document.getElementById("current-temp").textContent = todayMax + "°";
-      document.getElementById("current-feels").textContent =
-        "Feels like " + todayMin + "°";
-      document.getElementById("today-date").textContent = times[0];
-  
+
       var conditionMap = {
         0: "Clear Sky",
         1: "Mainly Clear",
@@ -287,7 +318,7 @@
         71: "Snow",
         95: "Thunderstorm"
       };
-  
+
       var iconMap = {
         0: "☀️",
         1: "🌤️",
@@ -298,94 +329,69 @@
         71: "❄️",
         95: "⛈️"
       };
-  
-      document.getElementById("current-condition").textContent =
-        conditionMap[todayCode] || "Weather";
-      document.getElementById("current-icon").textContent =
-        iconMap[todayCode] || "⛅";
-  
-      // today rain / wind / gust
-      document.getElementById("current-rain").textContent =
-        "Rain " + Math.round(rain[0]) + " mm";
-      document.getElementById("current-wind").textContent =
-        "Wind " + Math.round(wind[0]) + " km/h";
-      document.getElementById("current-gust").textContent =
-        "Gust " + Math.round(gust[0]) + " km/h";
-  
-      // ---------- TOMORROW ----------
-      var tomorrowMax = Math.round(max[1]);
-      var tomorrowMin = Math.round(min[1]);
-      var tomorrowCode = codes[1];
-  
-      document.getElementById("tomorrow-temp").textContent =
-        tomorrowMax + "°";
-      document.getElementById("tomorrow-minmax").textContent =
-        tomorrowMin + "°";
+
+      /* TODAY */
+      document.getElementById("current-temp").textContent = Math.round(max[0]) + "°";
+      document.getElementById("current-feels").textContent = "Feels like " + Math.round(min[0]) + "°";
+      document.getElementById("today-date").textContent = times[0];
+      document.getElementById("current-condition").textContent = conditionMap[codes[0]];
+      document.getElementById("current-icon").textContent = iconMap[codes[0]];
+      document.getElementById("current-rain").textContent = "Rain " + Math.round(rain[0]) + " mm";
+      document.getElementById("current-wind").textContent = "Wind " + Math.round(wind[0]) + " km/h";
+      document.getElementById("current-gust").textContent = "Gust " + Math.round(gust[0]) + " km/h";
+
+      /* TOMORROW */
+      document.getElementById("tomorrow-temp").textContent = Math.round(max[1]) + "°";
+      document.getElementById("tomorrow-minmax").textContent = Math.round(min[1]) + "°";
       document.getElementById("tomorrow-date").textContent = times[1];
-  
+
       document.getElementById("tomorrow-conditions").innerHTML =
-        (conditionMap[tomorrowCode] || "Weather") + "<br>" +
+        conditionMap[codes[1]] + "<br>" +
         "💧 " + Math.round(rain[1]) + " mm<br>" +
         "💨 " + Math.round(wind[1]) + " km/h";
-  
-      // ---------- 7-DAY FORECAST ----------
+
+      /* 7-DAY FORECAST */
       var strip = document.getElementById("forecast-strip");
-      if (!strip) {
-        return;
-      }
-  
-      // clear once, BEFORE the loop
       strip.innerHTML = "";
-  
-      for (var i = 0; i < 7 && i < times.length; i++) {
+
+      for (var i = 0; i < 7; i++) {
         var dateObj = new Date(times[i]);
-        var dayName = dateObj.toLocaleDateString("en-GB", {
-          weekday: "short"
-        });
-  
-        var dayMax = Math.round(max[i]);
-        var code = codes[i];
-        var icon = iconMap[code] || "🌡️";
-  
-        var dayRain = Math.round(rain[i]);
-        var dayWind = Math.round(wind[i]);
-        var dayGust = Math.round(gust[i]);
-  
-        var dayDiv = document.createElement("div");
-        dayDiv.className = "forecast-day hover-card";
-  
-        dayDiv.innerHTML =
-          '<div class="forecast-day-label">' + dayName + '</div>' +
-          '<div class="forecast-icon">' + icon + '</div>' +
-          '<div class="forecast-temp">' + dayMax + '°</div>' +
-          '<div class="forecast-rain">💧 ' + dayRain + ' mm</div>' +
-          '<div class="forecast-wind">🌬️ ' + dayWind + ' km/h</div>' +
-          '<div class="forecast-gust">💨 ' + dayGust + ' km/h</div>';
-  
-        strip.appendChild(dayDiv);
+        var dayName = dateObj.toLocaleDateString("en-GB", { weekday: "short" });
+
+        var div = document.createElement("div");
+        div.className = "forecast-day hover-card";
+
+        div.innerHTML =
+          "<div class='forecast-day-label'>" + dayName + "</div>" +
+          "<div class='forecast-icon'>" + iconMap[codes[i]] + "</div>" +
+          "<div class='forecast-temp'>" + Math.round(max[i]) + "°</div>" +
+          "<div class='forecast-rain'>💧 " + Math.round(rain[i]) + " mm</div>" +
+          "<div class='forecast-wind'>🌬️ " + Math.round(wind[i]) + " km/h</div>" +
+          "<div class='forecast-gust'>💨 " + Math.round(gust[i]) + " km/h</div>";
+
+        strip.appendChild(div);
       }
     }
-  
-    // coordinates for cork city 
-   
-function fetchWeather() {
-  var lat = 51.8985;
-  var lon = -8.4756;
 
-  var query =
-    "latitude=" + lat +
-    "&longitude=" + lon +
-    "&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,wind_speed_10m_max,wind_gusts_10m_max" +
-    "&timezone=auto" +
-    "&wind_speed_unit=kmh&precipitation_unit=mm";
+    function fetchWeather() {
+      var lat = 51.8985;
+      var lon = -8.4756;
 
-  var url = "https://webdevcit.com/notes/getweather.php?" + query;
+      var query =
+        "latitude=" + lat +
+        "&longitude=" + lon +
+        "&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,wind_speed_10m_max,wind_gusts_10m_max" +
+        "&timezone=auto&wind_speed_unit=kmh&precipitation_unit=mm";
 
-  var script = document.createElement("script");
-  script.src = url;          // ← THIS WAS BROKEN
-  document.body.appendChild(script);
-}
-fetchWeather();
+      var url = "https://webdevcit.com/notes/getweather.php?" + query;
+
+      var script = document.createElement("script");
+      script.src = url;
+      document.body.appendChild(script);
+    }
+
+    fetchWeather();
+
   </script>
 
 </body>
