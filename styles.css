@@ -227,70 +227,7 @@
   background-color: #b71c1c;
 }
 
-@media (max-width:768px) {
-  #weatherwisecontainer {
-    width: 100vw;
-    height: 100vh;
-    right: 0;
-    bottom: 0;
-    border-radius: 0;
 
-  }
-
-  #weatherwiseheader {
-    font-size: 16px;
-    padding: 12px;
-
-  }
-
-  #weatherwisebody {
-    padding: 8px;
-  }
-
-  .message {
-    max-width: 95%;
-    gap: 10px;
-
-  }
-
-  .avatar {
-    width: 40px;
-    height: 40px;
-
-  }
-
-  #prompts {
-    justify-content: center;
-    padding: 6px;
-  }
-
-  .promptbtn {
-    font-size: 12px;
-    padding: 6px 8px;
-  }
-
-  #weatherwiseinput {
-    font-size: 14px;
-    padding: 8px;
-  }
-
-  #sendbtn {
-    padding: 8px 12px;
-    font-size: 13px;
-
-  }
-
-  #weatherwiseicon {
-    width: 55px;
-    height: 55px;
-    bottom: 15px;
-    right: 15px;
-  }
-
-  #AILOGO {
-    width: 60px;
-    height: auto;
-  }
 }
 body.homepage {
   margin: 0;
@@ -303,7 +240,7 @@ body.homepage {
 #sidebar {
   background-color: #f5f5f5;
   width: 450px;
-  height: 750px;
+  height: 650px;
   top: 0;
   left: -450px;              
   position: fixed;           
@@ -410,7 +347,7 @@ font-size: 2em;
 
 
 .home-shell {
-  max-width: 1200px;
+  max-width: 700px;
   margin: 30px auto 60px;
   padding: 0 24px 24px;
 }
@@ -765,7 +702,85 @@ font-size: 2em;
 
 /* responsive to phones */
 
-@media (max-width: 1000px) {
+@media (max-width:700px) {
+  #weatherwisecontainer {
+    width: 100vw;
+    height: 75vh;
+    right: 0;
+    bottom: 0;
+    border-radius: 0;
+
+  }
+
+  #weatherwiseheader {
+    font-size: 16px;
+    padding: 12px;
+
+  }
+
+  #weatherwisebody {
+    padding: 8px;
+  }
+
+  .message {
+    max-width: 95%;
+    gap: 10px;
+
+  }
+
+  .avatar {
+    width: 40px;
+    height: 40px;
+
+  }
+
+  #prompts {
+    justify-content: center;
+    padding: 6px;
+  }
+
+  .promptbtn {
+    font-size: 12px;
+    padding: 6px 8px;
+  }
+
+  #weatherwiseinput {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  #sendbtn {
+    padding: 8px 12px;
+    font-size: 13px;
+
+  }
+
+  #weatherwiseicon {
+    width: 55px;
+    height: 55px;
+    bottom: 15px;
+    right: 15px;
+  }
+
+  #AILOGO {
+    width: 60px;
+    height: auto;
+  }
+
+  #sidebar {
+    
+  }
+
+  .header-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .burger{
+    width: 40px;
+    height: 40px;
+  }
+
   .hero-section {
     grid-template-columns: 1fr;
   }
@@ -773,12 +788,10 @@ font-size: 2em;
     grid-template-columns: 1fr;
   }
 }
-
-@media (max-width: 700px) {
   .forecast-strip {
     grid-template-columns: repeat(4, 1fr);
   }
   .bottom-widgets {
     grid-template-columns: 1fr;
   }
-}
+
