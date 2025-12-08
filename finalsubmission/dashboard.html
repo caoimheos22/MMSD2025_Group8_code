@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>WeatherWise – Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="style.css"/>
+  <script src="chatbot.js"></script>
+</head>
+<body>
+
+<!--CHATBOT-->
+<div id="weatherwisebot">
+    <div id="weatherwiseicon">
+        <img src ="Images/Alt lOGO.png" id="AILOGO"/>
+    </div>
+    <div id="weatherwisecontainer" class="hidden">
+        <div id="weatherwiseheader">
+            <span>ChatBot</span>
+            <button id="closebtn">&times;</button>
+        </div>
+        <div id="weatherwisebody">
+            <div id="weatherwisemessages">
+                
+            </div>
+        </div>
+        <div id="prompts">
+            <button class="promptbtn">How's the weather today?</button>
+            <button class="promptbtn">What is the average temperature today?</button>
+            <button class="promptbtn">Is it going to rain between 3 & 6 today?</button>
+            <button class="promptbtn">Are flights on schedule today?</button>
+            <button class="promptbtn">Is it safe to go do my shopping today?</button>
+        </div>
+        <div id="weatherwiseinputcontainer">
+            <input type="text" id="weatherwiseinput" placeholder="Type a message...."/>
+            <button id="sendbtn">Send</button> 
+        </div>
+    </div>
+</div>
+
+  <!-- ===================== HEADER ===================== -->
+  <header class="dash-header">
+    <div style="display:flex;align-items:center;gap:10px;position:relative;">
+      <button class="hamburger-btn" id="menuBtn">☰</button>
+      <span class="dash-logo">WeatherWise</span>
+
+      <!-- small dropdown menu -->
+      <div class="dash-menu" id="dashMenu">
+        <button id="menuEditProfileBtn">Edit Profile</button>
+        <button id="menuLogoutBtn">Log Out</button>
+      </div>
+    </div>
+
+    <div>
+      <span id="welcomeText" style="margin-right:10px;font-size:14px;"></span>
+      <button id="editProfileBtn" class="btn btn-sm">Edit Profile</button>
+      <button id="logoutBtn" class="btn btn-sm btn-ghost" style="margin-left:6px;">Log Out</button>
+    </div>
+  </header>
+
+  <!-- ===================== MAIN ===================== -->
+  <main class="dash-main">
+
+    <!-- TODAY + LOCATION -->
+    <section class="today-row">
+      <!-- TODAY MAIN CARD (with full details inside) -->
+<div class="card today-main">
+  <div style="display:flex;justify-content:space-between;align-items:center;">
+    <div>
+      <div style="font-size:14px;color:#777;">Today</div>
+      <div style="font-size:26px;font-weight:600;" id="todayTemp">-- °C</div>
+      <div style="font-size:14px;color:#777;" id="todayDesc">Loading...</div>
+    </div>
+    <div style="text-align:right;">
+      <div style="font-size:34px;" id="todayIcon">☀️</div>
+      <div style="margin-top:4px;font-size:13px;color:#777;" id="todayExtra"></div>
+    </div>
+  </div>
+
+  <!-- ADDITIONAL WEATHER DETAILS INSIDE MAIN CARD -->
+  <div style="margin-top:12px;font-size:14px;color:#444;display:grid;grid-template-columns:repeat(2,1fr);gap:4px 10px;">
+    <div>Max: <span id="todayMax">-- °C</span></div>
+    <div>Min: <span id="todayMin">-- °C</span></div>
+    <div>Rain total: <span id="todayRain">-- mm</span></div>
+    <div>Wind max: <span id="todayWindMax">-- km/h</span></div>
+    <div>UV Index: <span id="todayUv">--</span></div>
+    <div>Gusts: <span id="todayGusts">-- km/h</span></div>
+    <div>Sunrise: <span id="todaySunrise">--:--</span></div>
+    <div>Sunset: <span id="todaySunset">--:--</span></div>
+  </div>
+
+  <div style="margin-top:10px;display:flex;justify-content:space-between;align-items:center;gap:8px;">
+    <div style="font-size:13px;color:#777;">
+      Updated: <span id="todayUpdated">--</span>
+    </div>
+    <div>
+      <label for="locationSelect" style="font-size:13px;margin-right:4px;">Location:</label>
+      <select id="locationSelect" style="padding:4px 6px;border-radius:6px;border:1px solid #ccc;font-size:13px;"></select>
+    </div>
+  </div>
+</div>
+
+
+      <div class="card today-side">
+        <h3 style="margin:0 0 6px;font-size:16px;">Tomorrow's overview</h3>
+        <div style="font-size:14px;">
+          <div>Max: <span id="tomorrowMax">-- °C</span></div>
+          <div>Min: <span id="tomorrowMin">-- °C</span></div>
+          <div>Rain total: <span id="tomorrowRain">-- mm</span></div>
+          <div>Wind max: <span id="tomorrowWindMax">-- km/h</span></div>
+          <div>Sunrise: <span id="tomorrowSunrise">--:--</span></div>
+          <div>Sunset: <span id="tomorrowSunset">--:--</span></div>
+          <div>UV index: <span id="tomorrowUv">--</span></div>
+          <div>Gust: <span id="tomorrowGust">-- km/h</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WIDGETS ABOVE HOURLY -->
+    <section>
+      <h3 style="margin:0 0 8px;">Widgets</h3>
+      <div class="widgets-row" id="widgetsRow">
+        <!-- widget cards are created by JS based on profile selection -->
+      </div>
+    </section>
+
+    <!-- HOURLY FORECAST -->
+    <section style="margin-top:8px;">
+      <h3 style="margin:0 0 6px;">Next 24 hours</h3>
+      <div class="card">
+        <div class="hourly-list" id="hourlyList">
+          <!-- boxes added by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ RADAR MAP SECTION (Windy.com) ============ -->
+<section style="margin-top:18px;">
+  <h3 style="margin:0 0 6px;">Radar Map</h3>
+
+  <div class="card" style="position:relative;">
+    <!-- Windy Embed -->
+    <iframe
+      id="windyFrame"
+      width="100%"
+      height="350"
+      frameborder="0"
+      style="border-radius:12px;overflow:hidden;"
+      src="https://embed.windy.com/embed2.html?lat=51.8985&lon=-8.4756&zoom=7&level=surface&overlay=rain&menu=false&message=true&marker=false&calendar=now&pressure=true&type=map&location=coordinates&detail=true&detailLat=51.8985&detailLon=-8.4756&metricWind=km/h&metricTemp=°C">
+    </iframe>
+
+    <!-- Map Buttons -->
+    <div class="button-row" style="display:flex;gap:10px;margin-top:12px;">
+      <button class="btn btn-sm" onclick="setWindyLayer('rain')">Rain</button>
+      <button class="btn btn-sm" onclick="setWindyLayer('temp')">Temperature</button>
+      <button class="btn btn-sm" onclick="setWindyLayer('wind')">Wind</button>
+      <button class="btn btn-sm" onclick="setWindyLayer('pressure')">Pressure</button>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Simple iframe-based Windy layer switching (no API key needed)
+  function setWindyLayer(layer) {
+    var iframe = document.getElementById('windyFrame');
+    var base = "https://embed.windy.com/embed2.html?lat=51.8985&lon=-8.4756&zoom=7&level=surface" +
+      "&menu=false&message=false&marker=false&calendar=now&type=map&location=coordinates" +
+      "&metricWind=km/h&metricTemp=°C";
+    iframe.src = base + "&overlay=" + layer;
+  }
+</script>
+
+
+  </main>
+
+  <!-- ===================== PROFILE MODAL ===================== -->
+  <div class="modal-overlay" id="profileModal">
+    <div class="modal-box">
+      <div class="modal-header" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+        <h2 style="margin:0;font-size:18px;">Edit Profile & Widgets</h2>
+        <button id="profileCloseBtn" class="btn btn-sm btn-ghost">Close</button>
+      </div>
+
+      <div class="profile-grid" style="display:flex;gap:18px;flex-wrap:wrap;">
+        <!-- LEFT: profile info -->
+        <div style="flex:1;min-width:220px;">
+          <div class="avatar-box" id="avatarBox">🙂</div>
+
+          <div class="profile-body">
+            <label for="profileUsername">Username</label>
+            <input id="profileUsername" type="text" />
+
+            <label for="profileEmail">Email (read-only)</label>
+            <input id="profileEmail" type="email" disabled />
+
+            <!-- locations managed with checkboxes -->
+            <label style="margin-top:12px;">Available locations</label>
+            <div class="location-checkboxes" style="font-size:14px;margin-top:4px;">
+              <label><input type="checkbox" class="profile-location-checkbox" value="cork" /> Cork City</label><br />
+              <label><input type="checkbox" class="profile-location-checkbox" value="bishopstown" /> Bishopstown</label><br />
+              <label><input type="checkbox" class="profile-location-checkbox" value="doneraile" /> Doneraile</label><br />
+              <label><input type="checkbox" class="profile-location-checkbox" value="kinsale" /> Kinsale</label><br />
+              <label><input type="checkbox" class="profile-location-checkbox" value="ovens" /> Ovens</label>
+            </div>
+
+            <label for="homeLocationSelect" style="margin-top:12px;">Home location</label>
+            <select id="homeLocationSelect"></select>
+          </div>
+        </div>
+
+        <!-- RIGHT: drag + drop widgets -->
+        <div style="flex:1.3;min-width:260px;">
+          <p style="font-size:14px;margin-top:0;">
+            Drag widgets between the boxes.  
+            Only widgets in <strong>Widget layout</strong> will show on the dashboard.
+          </p>
+
+          <div class="drag-columns">
+            <div class="drop-zone" id="selectedWidgetsZone">
+              <h4>Widget layout</h4>
+              <!-- selected draggable widgets go here -->
+            </div>
+
+            <div class="pool-zone" id="availableWidgetsZone">
+              <h4>Available widgets</h4>
+              <!-- remaining widgets go here -->
+            </div>
+          </div>
+
+          <div style="margin-top:12px;text-align:right;">
+            <button id="profileSaveBtn" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== WIDGET DETAILS POPUP ===================== -->
+  <div class="widget-modal" id="widgetModal">
+    <div class="widget-modal-box">
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <h3 id="widgetModalTitle" style="margin:0;font-size:18px;"></h3>
+        <button id="widgetModalClose" class="btn btn-sm btn-ghost">Close</button>
+      </div>
+      <div id="widgetModalBody" style="margin-top:8px;font-size:14px;"></div>
+    </div>
+  </div>
+
+  <!-- ===================== SCRIPT ===================== -->
+  <script>
+  // ====================================================
+  // AUTH / USER DATA  (same localStorage keys as login)
+  // ====================================================
+  function getUsers() {
+    var txt = localStorage.getItem('wwUsers');
+    if (!txt) return [];
+    return JSON.parse(txt);
+  }
+
+  function saveUsers(users) {
+    localStorage.setItem('wwUsers', JSON.stringify(users));
+  }
+
+  function getCurrentUser() {
+    var txt = localStorage.getItem('wwCurrentUser');
+    if (!txt) return null;
+    return JSON.parse(txt);
+  }
+
+  function setCurrentUser(userObj) {
+    if (userObj) {
+      localStorage.setItem('wwCurrentUser', JSON.stringify(userObj));
+    }
+  }
+
+  function isGuestMode() {
+    var g = localStorage.getItem('wwIsGuest');
+    return g === 'true';
+  }
+
+  function logoutToLogin() {
+    localStorage.removeItem('wwCurrentUser');
+    localStorage.removeItem('wwIsGuest');
+    window.location.href = 'index.html';
+  }
+
+  // if no user and not guest, go back to login
+  if (!getCurrentUser() && !isGuestMode()) {
+    logoutToLogin();
+  }
+
+  // ====================================================
+  // SIMPLE STATE / CONSTANTS
+  // ====================================================
+
+  // widgets we support
+  var allWidgets = [
+    { id: 'marine',   name: 'Marine' },
+    { id: 'farming',  name: 'Farming' },
+    { id: 'uv',       name: 'UV Index' },
+    { id: 'flood',    name: 'Outdoor planning' }, // id kept as "flood" for saved data
+    { id: 'wind',     name: 'Wind' },
+    { id: 'pollen',   name: 'Pollen' }
+  ];
+
+  // base locations (used by profile + dashboard)
+  var baseLocations = [
+    { id: 'cork',        name: 'Cork City',    lat: 51.8985, lon: -8.4756 },
+    { id: 'bishopstown', name: 'Bishopstown',  lat: 51.8770, lon: -8.5361 },
+    { id: 'doneraile',   name: 'Doneraile',    lat: 52.2167, lon: -8.5833 },
+    { id: 'kinsale',     name: 'Kinsale',      lat: 51.7079, lon: -8.5303 },
+    { id: 'ovens',       name: 'Ovens',        lat: 51.8750, lon: -8.6560 }
+  ];
+
+  // data from JSONP
+  var currentWeatherData = null;
+  var currentMarineData  = null;
+  var currentPollenData  = null;
+
+  // the current active location (never shown as lat/lon)
+  var activeLocation = { id: 'cork', name: 'Cork City', lat: 51.8985, lon: -8.4756 };
+
+  // ====================================================
+  // DOM REFERENCES
+  // ====================================================
+
+  var welcomeText       = document.getElementById('welcomeText');
+  var editProfileBtn    = document.getElementById('editProfileBtn');
+  var logoutBtn         = document.getElementById('logoutBtn');
+  var menuBtn           = document.getElementById('menuBtn');
+  var dashMenu          = document.getElementById('dashMenu');
+  var menuEditProfileBtn= document.getElementById('menuEditProfileBtn');
+  var menuLogoutBtn     = document.getElementById('menuLogoutBtn');
+
+  var todayTemp         = document.getElementById('todayTemp');
+  var todayDesc         = document.getElementById('todayDesc');
+  var todayIcon         = document.getElementById('todayIcon');
+  var todayExtra        = document.getElementById('todayExtra');
+  var todayUpdated      = document.getElementById('todayUpdated');
+
+  var tomorrowMax       = document.getElementById('tomorrowMax');
+  var tomorrowMin       = document.getElementById('tomorrowMin');
+  var tomorrowRain      = document.getElementById('tomorrowRain');
+  var tomorrowWindMax   = document.getElementById('tomorrowWindMax');
+  var tomorrowSunrise   = document.getElementById('tomorrowSunrise');
+  var tomorrowSunset    = document.getElementById('tomorrowSunset');
+  var tomorrowUv        = document.getElementById('tomorrowUv');
+  var tomorrowGust      = document.getElementById('tomorrowGust');
+
+  var locationSelect    = document.getElementById('locationSelect');
+  var hourlyList        = document.getElementById('hourlyList');
+  var widgetsRow        = document.getElementById('widgetsRow');
+
+  // profile modal
+  var profileModal      = document.getElementById('profileModal');
+  var profileCloseBtn   = document.getElementById('profileCloseBtn');
+  var avatarBox         = document.getElementById('avatarBox');
+  var profileUsername   = document.getElementById('profileUsername');
+  var profileEmail      = document.getElementById('profileEmail');
+  var homeLocationSelect= document.getElementById('homeLocationSelect');
+  var profileLocCheckboxes = document.getElementsByClassName('profile-location-checkbox');
+  var selectedWidgetsZone  = document.getElementById('selectedWidgetsZone');
+  var availableWidgetsZone = document.getElementById('availableWidgetsZone');
+  var profileSaveBtn       = document.getElementById('profileSaveBtn');
+
+  // widget modal
+  var widgetModal      = document.getElementById('widgetModal');
+  var widgetModalTitle = document.getElementById('widgetModalTitle');
+  var widgetModalBody  = document.getElementById('widgetModalBody');
+  var widgetModalClose = document.getElementById('widgetModalClose');
+
+  // ====================================================
+  // USER + GUEST INITIALISATION
+  // ====================================================
+
+  var user  = getCurrentUser();
+  var guest = isGuestMode();
+
+  if (guest) {
+    welcomeText.textContent = 'Guest mode – Cork City';
+  } else if (user) {
+    welcomeText.textContent = 'Signed in as ' + user.username;
+  }
+
+  // guests cannot edit profile
+  if (guest) {
+    editProfileBtn.disabled = true;
+    editProfileBtn.textContent = 'Edit Profile (Sign in required)';
+  }
+
+  // ====================================================
+  // MENU + LOGOUT
+  // ====================================================
+
+  menuBtn.onclick = function () {
+    if (dashMenu.classList.contains('open')) {
+      dashMenu.classList.remove('open');
+    } else {
+      dashMenu.classList.add('open');
+    }
+  };
+
+  document.addEventListener('click', function (e) {
+    if (!dashMenu.contains(e.target) && e.target !== menuBtn) {
+      dashMenu.classList.remove('open');
+    }
+  });
+
+  logoutBtn.onclick = function () {
+    logoutToLogin();
+  };
+  menuLogoutBtn.onclick = function () {
+    logoutToLogin();
+  };
+
+  // ====================================================
+  // PROFILE MODAL + DRAG / DROP
+  // ====================================================
+
+  function getBaseLocationById(id) {
+    var i;
+    for (i = 0; i < baseLocations.length; i++) {
+      if (baseLocations[i].id === id) return baseLocations[i];
+    }
+    return null;
+  }
+
+  function openProfileModal() {
+    if (guest) {
+      alert('You must create an account to edit your profile and widgets.');
+      return;
+    }
+
+    user = getCurrentUser();
+    if (!user) {
+      alert('User not found, please log in again.');
+      logoutToLogin();
+      return;
+    }
+
+    avatarBox.textContent = user.avatar || '🙂';
+    profileUsername.value = user.username || '';
+    profileEmail.value    = user.email || '';
+
+    // if user has no locations yet, default to Cork
+    if (!user.locations || user.locations.length === 0) {
+      user.locations = [ getBaseLocationById('cork') ];
+      user.homeLocationId = 'cork';
+      setCurrentUser(user);
+      saveUsers(updateUserInArray(user));
+    }
+
+    // set checkboxes from user.locations
+    var i, j;
+    for (i = 0; i < profileLocCheckboxes.length; i++) {
+      var cb = profileLocCheckboxes[i];
+      cb.checked = false;
+      for (j = 0; j < user.locations.length; j++) {
+        if (user.locations[j].id === cb.value) {
+          cb.checked = true;
+        }
+      }
+    }
+
+    // build home location select from checked boxes
+    rebuildHomeLocationSelect();
+
+    // build widget drag lists
+    buildWidgetDragLists(user.widgets || []);
+
+    profileModal.classList.add('open');
+  }
+
+  function closeProfileModal() {
+    profileModal.classList.remove('open');
+  }
+
+  editProfileBtn.onclick      = openProfileModal;
+  menuEditProfileBtn.onclick  = openProfileModal;
+  profileCloseBtn.onclick     = closeProfileModal;
+
+  profileModal.onclick = function (e) {
+    if (e.target === profileModal) {
+      closeProfileModal();
+    }
+  };
+
+  function rebuildHomeLocationSelect() {
+    homeLocationSelect.innerHTML = '';
+
+    var checkedIds = [];
+    var i;
+    for (i = 0; i < profileLocCheckboxes.length; i++) {
+      if (profileLocCheckboxes[i].checked) {
+        checkedIds.push(profileLocCheckboxes[i].value);
+      }
+    }
+
+    // ensure at least Cork is available
+    if (checkedIds.length === 0) {
+      checkedIds.push('cork');
+    }
+
+    var selectedHome = (user && user.homeLocationId) ? user.homeLocationId : 'cork';
+    var foundHome = false;
+
+    for (i = 0; i < checkedIds.length; i++) {
+      var locObj = getBaseLocationById(checkedIds[i]);
+      if (!locObj) continue;
+      var opt = document.createElement('option');
+      opt.value = locObj.id;
+      opt.textContent = locObj.name;
+      homeLocationSelect.appendChild(opt);
+      if (locObj.id === selectedHome) {
+        foundHome = true;
+      }
+    }
+
+    if (!foundHome) {
+      homeLocationSelect.value = checkedIds[0];
+    } else {
+      homeLocationSelect.value = selectedHome;
+    }
+  }
+
+  // drag + drop
+  var draggedWidgetId = null;
+
+  function buildWidgetDragLists(selectedIds) {
+    selectedWidgetsZone.innerHTML  = '<h4>Widget layout</h4>';
+    availableWidgetsZone.innerHTML = '<h4>Available widgets</h4>';
+
+    var i;
+    for (i = 0; i < allWidgets.length; i++) {
+      var w = allWidgets[i];
+
+      var div = document.createElement('div');
+      div.className = 'draggable-widget';
+      div.textContent = w.name;
+      div.setAttribute('draggable', 'true');
+      div.setAttribute('data-id', w.id);
+
+      div.ondragstart = function () {
+        draggedWidgetId = this.getAttribute('data-id');
+      };
+
+      if (selectedIds && selectedIds.indexOf(w.id) !== -1) {
+        selectedWidgetsZone.appendChild(div);
+      } else {
+        availableWidgetsZone.appendChild(div);
+      }
+    }
+
+    selectedWidgetsZone.ondragover  = function (ev) { ev.preventDefault(); };
+    availableWidgetsZone.ondragover = function (ev) { ev.preventDefault(); };
+
+    selectedWidgetsZone.ondrop = function (ev) {
+      ev.preventDefault();
+      moveWidgetElementToZone(draggedWidgetId, selectedWidgetsZone);
+    };
+
+    availableWidgetsZone.ondrop = function (ev) {
+      ev.preventDefault();
+      moveWidgetElementToZone(draggedWidgetId, availableWidgetsZone);
+    };
+  }
+
+  function moveWidgetElementToZone(id, zone) {
+    if (!id) return;
+    var els = document.querySelectorAll('.draggable-widget');
+    var i;
+    for (i = 0; i < els.length; i++) {
+      if (els[i].getAttribute('data-id') === id) {
+        zone.appendChild(els[i]);
+      }
+    }
+    draggedWidgetId = null;
+  }
+
+  function updateUserInArray(updatedUser) {
+    var users = getUsers();
+    var i;
+    for (i = 0; i < users.length; i++) {
+      if (users[i].email === updatedUser.email) {
+        users[i] = updatedUser;
+      }
+    }
+    return users;
+  }
+
+  profileSaveBtn.onclick = function () {
+    if (guest) {
+      alert('Guests cannot save profile changes.');
+      return;
+    }
+
+    // username
+    var newName = profileUsername.value.trim();
+    if (newName !== '') {
+      user.username = newName;
+    }
+
+    // locations from checkboxes
+    var newLocations = [];
+    var i;
+    for (i = 0; i < profileLocCheckboxes.length; i++) {
+      if (profileLocCheckboxes[i].checked) {
+        var locObj = getBaseLocationById(profileLocCheckboxes[i].value);
+        if (locObj) {
+          newLocations.push(locObj);
+        }
+      }
+    }
+    if (newLocations.length === 0) {
+      // fallback to Cork if user unchecks everything
+      newLocations.push(getBaseLocationById('cork'));
+    }
+    user.locations = newLocations;
+
+    // home location
+    var newHomeId = homeLocationSelect.value;
+    var homeOk = false;
+    for (i = 0; i < newLocations.length; i++) {
+      if (newLocations[i].id === newHomeId) {
+        homeOk = true;
+      }
+    }
+    if (!homeOk) {
+      newHomeId = newLocations[0].id;
+    }
+    user.homeLocationId = newHomeId;
+
+    // widgets from selected zone
+    var selectedEls = selectedWidgetsZone.querySelectorAll('.draggable-widget');
+    var newWidgetIds = [];
+    for (i = 0; i < selectedEls.length; i++) {
+      newWidgetIds.push(selectedEls[i].getAttribute('data-id'));
+    }
+    user.widgets = newWidgetIds;
+
+    // save user
+    saveUsers(updateUserInArray(user));
+    setCurrentUser(user);
+
+    welcomeText.textContent = 'Signed in as ' + user.username;
+
+    // re-init dropdown + widgets with new config
+    initLocationDropdown();
+    buildHomeWidgets();
+    loadWeatherForActiveLocation();
+
+    closeProfileModal();
+  };
+
+  // ====================================================
+  // LOCATION DROPDOWN (Cork default, plus profile ones)
+  // ====================================================
+
+  function initLocationDropdown() {
+    locationSelect.innerHTML = '';
+
+    if (guest) {
+      // guest only Cork
+      var cork = getBaseLocationById('cork');
+      activeLocation = cork;
+      var opt = document.createElement('option');
+      opt.value = cork.id;
+      opt.textContent = cork.name;
+      locationSelect.appendChild(opt);
+      locationSelect.value = cork.id;
+    } else {
+      user = getCurrentUser();
+      if (!user) {
+        logoutToLogin();
+        return;
+      }
+      if (!user.locations || user.locations.length === 0) {
+        user.locations = [ getBaseLocationById('cork') ];
+        user.homeLocationId = 'cork';
+        saveUsers(updateUserInArray(user));
+        setCurrentUser(user);
+      }
+
+      var i;
+      var activeSet = null;
+
+      for (i = 0; i < user.locations.length; i++) {
+        var loc = user.locations[i];
+        var op = document.createElement('option');
+        op.value = loc.id;
+        op.textContent = loc.name;
+        locationSelect.appendChild(op);
+        if (loc.id === user.homeLocationId) {
+          activeSet = loc;
+        }
+      }
+
+      if (!activeSet) {
+        activeSet = user.locations[0];
+        user.homeLocationId = activeSet.id;
+        saveUsers(updateUserInArray(user));
+        setCurrentUser(user);
+      }
+
+      activeLocation = activeSet;
+      locationSelect.value = activeSet.id;
+    }
+  }
+
+  locationSelect.onchange = function () {
+    var val = locationSelect.value;
+
+    if (guest) {
+      activeLocation = getBaseLocationById(val) || getBaseLocationById('cork');
+    } else {
+      var i;
+      var chosen = null;
+      for (i = 0; i < user.locations.length; i++) {
+        if (user.locations[i].id === val) {
+          chosen = user.locations[i];
+        }
+      }
+      if (!chosen) {
+        chosen = user.locations[0];
+      }
+      activeLocation = chosen;
+      user.homeLocationId = chosen.id;
+      saveUsers(updateUserInArray(user));
+      setCurrentUser(user);
+    }
+
+    loadWeatherForActiveLocation();
+  };
+
+  // ====================================================
+  // LECTURER-STYLE JSONP WEATHER LOADING
+  // ====================================================
+
+  function loadWeatherForActiveLocation() {
+    currentWeatherData = null;
+    currentMarineData  = null;
+    currentPollenData  = null;
+
+    // main weather (current + hourly + daily)
+    // daily now includes sunrise, sunset, uv_index_max, wind_gusts_10m_max
+    var qs =
+      'latitude=' + activeLocation.lat +
+      '&longitude=' + activeLocation.lon +
+      '&current=temperature_2m,apparent_temperature,weather_code,wind_speed_10m,relative_humidity_2m' +
+      '&hourly=temperature_2m,weather_code,precipitation_probability,wind_speed_10m,relative_humidity_2m,uv_index,soil_moisture_0_to_1cm,precipitation' +
+      '&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_probability_max,wind_speed_10m_max,sunrise,sunset,uv_index_max,wind_gusts_10m_max' +
+      '&timezone=auto';
+
+    var s1 = document.createElement('script');
+    s1.src = 'https://webdevcit.com/notes/getweather.php?' + qs;
+    document.body.appendChild(s1);
+
+    // marine
+    var marineQs =
+      'latitude=' + activeLocation.lat +
+      '&longitude=' + activeLocation.lon +
+      '&hourly=wave_height,wind_speed_10m' +
+      '&timezone=auto';
+
+    var s2 = document.createElement('script');
+    s2.src = 'https://webdevcit.com/notes/getmarineweather.php?' + marineQs;
+    document.body.appendChild(s2);
+
+    // pollen / air quality (assuming wrapper exists)
+    var pollenQs =
+      'latitude=' + activeLocation.lat +
+      '&longitude=' + activeLocation.lon +
+      '&hourly=pm10,pm2_5,allergen_pollen' +
+      '&timezone=auto';
+
+    var s3 = document.createElement('script');
+    s3.src = 'https://webdevcit.com/notes/getpollenweather.php?' + pollenQs;
+    document.body.appendChild(s3);
+  }
+
+  // called by PHP scripts (lecturer style)
+  function processWeather(data) {
+    currentWeatherData = data;
+    updateTodayCard();
+    updateHourly();
+    updateWidgetsFromData();
+  }
+
+  function processMarineWeather(data) {
+    currentMarineData = data;
+    updateWidgetsFromData();
+  }
+
+  function processPollenWeather(data) {
+    currentPollenData = data;
+    updateWidgetsFromData();
+  }
+
+  // ====================================================
+  // HELPER FUNCTIONS
+  // ====================================================
+
+  function weatherCodeToEmoji(code) {
+    if (code === undefined || code === null) return '🌤️';
+    if (code === 0) return '☀️';
+    if (code === 1 || code === 2) return '🌤️';
+    if (code === 3) return '☁️';
+    if (code >= 45 && code <= 48) return '🌫️';
+    if (code >= 51 && code <= 67) return '🌧️';
+    if (code >= 71 && code <= 77) return '❄️';
+    if (code >= 80 && code <= 82) return '🌧️';
+    if (code >= 95) return '⛈️';
+    return '🌤️';
+  }
+
+  function formatTimeLabel(isoStr) {
+    var t = isoStr.split('T');
+    if (t.length < 2) return '';
+    return t[1].substring(0, 5); // HH:MM
+  }
+
+  function formatShortTimeFromISO(isoStr) {
+    if (!isoStr) return '--:--';
+    var d = new Date(isoStr);
+    if (isNaN(d.getTime())) return '--:--';
+    var hrs = d.getHours();
+    var mins = d.getMinutes();
+    if (hrs < 10) hrs = '0' + hrs;
+    if (mins < 10) mins = '0' + mins;
+    return hrs + ':' + mins;
+  }
+
+  // ====================================================
+  // UPDATE UI: TODAY CARD, HOURLY, WIDGETS
+  // ====================================================
+
+  function updateTodayCard() {
+    if (!currentWeatherData || !currentWeatherData.daily || !currentWeatherData.current) {
+      return;
+    }
+
+    var current = currentWeatherData.current;
+    var daily   = currentWeatherData.daily;
+
+    // TODAY (left card)
+    var temp  = current.temperature_2m;
+    var feels = current.apparent_temperature;
+    var wCode = current.weather_code;
+    var hum   = current.relative_humidity_2m;
+    var wind  = current.wind_speed_10m;
+
+    todayTemp.textContent  = Math.round(temp) + ' °C';
+    todayDesc.textContent  = 'Feels like ' + Math.round(feels) + ' °C';
+    todayIcon.textContent  = weatherCodeToEmoji(wCode);
+    todayExtra.textContent = 'Wind: ' + Math.round(wind) + ' km/h • Hum: ' + hum + ' %';
+
+    todayUpdated.textContent = new Date().toLocaleString();
+
+    // TOMORROW (right card, index 1 in daily arrays if available)
+    var idx = 1; // tomorrow
+    if (daily.temperature_2m_max && daily.temperature_2m_max.length > idx) {
+      tomorrowMax.textContent = Math.round(daily.temperature_2m_max[idx]) + ' °C';
+    } else {
+      tomorrowMax.textContent = '-- °C';
+    }
+
+    if (daily.temperature_2m_min && daily.temperature_2m_min.length > idx) {
+      tomorrowMin.textContent = Math.round(daily.temperature_2m_min[idx]) + ' °C';
+    } else {
+      tomorrowMin.textContent = '-- °C';
+    }
+
+    if (daily.precipitation_sum && daily.precipitation_sum.length > idx) {
+      tomorrowRain.textContent = daily.precipitation_sum[idx] + ' mm';
+    } else {
+      tomorrowRain.textContent = '-- mm';
+    }
+
+    if (daily.wind_speed_10m_max && daily.wind_speed_10m_max.length > idx) {
+      tomorrowWindMax.textContent = Math.round(daily.wind_speed_10m_max[idx]) + ' km/h';
+    } else {
+      tomorrowWindMax.textContent = '-- km/h';
+    }
+
+    if (daily.sunrise && daily.sunrise.length > idx) {
+      tomorrowSunrise.textContent = formatShortTimeFromISO(daily.sunrise[idx]);
+    } else {
+      tomorrowSunrise.textContent = '--:--';
+    }
+
+    if (daily.sunset && daily.sunset.length > idx) {
+      tomorrowSunset.textContent = formatShortTimeFromISO(daily.sunset[idx]);
+    } else {
+      tomorrowSunset.textContent = '--:--';
+    }
+
+    if (daily.uv_index_max && daily.uv_index_max.length > idx) {
+      tomorrowUv.textContent = daily.uv_index_max[idx];
+    } else {
+      tomorrowUv.textContent = '--';
+    }
+
+    if (daily.wind_gusts_10m_max && daily.wind_gusts_10m_max.length > idx) {
+      tomorrowGust.textContent = Math.round(daily.wind_gusts_10m_max[idx]) + ' km/h';
+    } else {
+      tomorrowGust.textContent = '-- km/h';
+    }
+  }
+
+  function updateHourly() {
+    if (!currentWeatherData || !currentWeatherData.hourly) {
+      return;
+    }
+
+    var hourly = currentWeatherData.hourly;
+    var times  = hourly.time;
+    var temps  = hourly.temperature_2m;
+    var codes  = hourly.weather_code;
+
+    if (!times || !temps) return;
+
+    hourlyList.innerHTML = '';
+
+    var maxHours = 24;
+    var i;
+    for (i = 0; i < times.length && i < maxHours; i++) {
+      var box = document.createElement('div');
+      box.className = 'hour-box';
+
+      var label = formatTimeLabel(times[i]);
+      var tVal  = Math.round(temps[i]);
+      var emoji = weatherCodeToEmoji(codes ? codes[i] : null);
+
+      box.innerHTML =
+        label + '<br><strong>' + tVal + '°C</strong><br>' +
+        '<span style="font-size:18px;">' + emoji + '</span>';
+
+      hourlyList.appendChild(box);
+    }
+  }
+
+  function buildHomeWidgets() {
+    widgetsRow.innerHTML = '';
+
+    var widgetIds;
+
+    if (guest) {
+      // simple default set for guests
+      widgetIds = ['marine', 'uv'];
+    } else {
+      user = getCurrentUser();
+      widgetIds = (user && user.widgets) ? user.widgets : [];
+    }
+
+    // if no widgets selected in profile
+    if (!widgetIds || widgetIds.length === 0) {
+      var infoCard = document.createElement('div');
+      infoCard.className = 'widget-card';
+
+      var t = document.createElement('div');
+      t.className = 'widget-title';
+      t.textContent = 'Widgets';
+
+      var s = document.createElement('div');
+      s.className = 'widget-summary';
+      s.textContent = 'Edit Profile and add widgets for them to appear here.';
+
+      infoCard.appendChild(t);
+      infoCard.appendChild(s);
+
+      infoCard.onclick = function () {
+        widgetModalTitle.textContent = 'Widget data';
+        widgetModalBody.innerHTML =
+          '<p>Data not available yet. Please add widgets in Edit Profile.</p>';
+        widgetModal.classList.add('open');
+      };
+
+      widgetsRow.appendChild(infoCard);
+      return;
+    }
+
+    // otherwise build cards for selected widgets
+    var i, j;
+    for (i = 0; i < widgetIds.length; i++) {
+      var wId = widgetIds[i];
+      var widgetInfo = null;
+
+      for (j = 0; j < allWidgets.length; j++) {
+        if (allWidgets[j].id === wId) {
+          widgetInfo = allWidgets[j];
+        }
+      }
+      if (!widgetInfo) continue;
+
+      var card = document.createElement('div');
+      card.className = 'widget-card';
+      card.setAttribute('data-id', wId);
+
+      var titleDiv = document.createElement('div');
+      titleDiv.className = 'widget-title';
+      titleDiv.textContent = widgetInfo.name;
+
+      var summaryDiv = document.createElement('div');
+      summaryDiv.className = 'widget-summary';
+      summaryDiv.textContent = '';
+
+      card.appendChild(titleDiv);
+      card.appendChild(summaryDiv);
+
+      card.onclick = function () {
+        var id = this.getAttribute('data-id');
+        openWidgetDetails(id);
+      };
+
+      widgetsRow.appendChild(card);
+    }
+
+    updateWidgetsFromData();
+  }
+
+  function updateWidgetsFromData() {
+    var cards = widgetsRow.querySelectorAll('.widget-card');
+    var i;
+
+    for (i = 0; i < cards.length; i++) {
+      var card    = cards[i];
+      var id      = card.getAttribute('data-id');
+      var summary = card.querySelector('.widget-summary');
+
+      if (!summary) continue;
+
+      if (id === 'marine') {
+        if (!currentMarineData || !currentMarineData.hourly) continue;
+        var m = currentMarineData.hourly;
+        if (!m.wave_height || !m.wind_speed_10m) continue;
+        if (m.wave_height.length === 0 || m.wind_speed_10m.length === 0) continue;
+        summary.textContent =
+          'Wave ~ ' + m.wave_height[0] + ' m • Wind ' + Math.round(m.wind_speed_10m[0]) + ' km/h';
+      }
+
+      if (id === 'farming') {
+        if (!currentWeatherData || !currentWeatherData.hourly || !currentWeatherData.daily) continue;
+        var soil = currentWeatherData.hourly.soil_moisture_0_to_1cm;
+        var rArr = currentWeatherData.daily.precipitation_sum;
+        if (!soil || soil.length === 0 || !rArr || rArr.length === 0) continue;
+        summary.textContent =
+          'Soil moisture: ' + Math.round(soil[0] * 100) + '% • Rain: ' + rArr[0] + ' mm';
+      }
+
+      if (id === 'uv') {
+        if (!currentWeatherData || !currentWeatherData.hourly) continue;
+        var uvArr = currentWeatherData.hourly.uv_index;
+        if (!uvArr || uvArr.length === 0) continue;
+        summary.textContent = 'Current UV index: ' + uvArr[0];
+      }
+
+      if (id === 'flood') {
+        if (!currentWeatherData || !currentWeatherData.daily) continue;
+        var rain2 = currentWeatherData.daily.precipitation_sum;
+        var prob  = currentWeatherData.daily.precipitation_probability_max;
+        if (!rain2 || rain2.length === 0 || !prob || prob.length === 0) continue;
+        summary.textContent =
+          'Rain today: ' + rain2[0] + ' mm • Chance: ' + prob[0] + '%';
+      }
+
+      if (id === 'wind') {
+        if (!currentWeatherData || !currentWeatherData.daily) continue;
+        var wmax = currentWeatherData.daily.wind_speed_10m_max;
+        if (!wmax || wmax.length === 0) continue;
+        summary.textContent =
+          'Max wind today: ' + Math.round(wmax[0]) + ' km/h';
+      }
+
+      if (id === 'pollen') {
+        if (!currentPollenData || !currentPollenData.hourly) continue;
+        var pol = currentPollenData.hourly.allergen_pollen;
+        if (!pol || pol.length === 0) continue;
+        summary.textContent = 'Pollen index: ' + pol[0];
+      }
+    }
+  }
+
+  // ====================================================
+  // WIDGET POPUP
+  // ====================================================
+
+  function openWidgetDetails(widgetId) {
+    var html  = '';
+    var title = '';
+
+    if (widgetId === 'marine' && currentMarineData && currentMarineData.hourly) {
+      title = 'Marine forecast';
+      var m = currentMarineData.hourly;
+      var waves = m.wave_height ? m.wave_height.slice(0, 6).join(', ') : 'n/a';
+      var winds = m.wind_speed_10m ? m.wind_speed_10m.slice(0, 6).join(', ') : 'n/a';
+      html += '<p><strong>Wave height (next hours):</strong> ' + waves + ' m</p>';
+      html += '<p><strong>Wind speed (next hours):</strong> ' + winds + ' km/h</p>';
+    }
+
+    if (widgetId === 'farming' && currentWeatherData && currentWeatherData.hourly && currentWeatherData.daily) {
+      title = 'Farming details';
+      html += '<p><strong>Soil moisture (0–1cm, next hours):</strong> ' +
+        currentWeatherData.hourly.soil_moisture_0_to_1cm.slice(0, 6).join(', ') + '</p>';
+      html += '<p><strong>Daily rain (7 days):</strong> ' +
+        currentWeatherData.daily.precipitation_sum.join(', ') + ' mm</p>';
+    }
+
+    if (widgetId === 'uv' && currentWeatherData && currentWeatherData.hourly && currentWeatherData.daily) {
+      title = 'UV Index';
+      html += '<p><strong>UV (next hours):</strong> ' +
+        currentWeatherData.hourly.uv_index.slice(0, 8).join(', ') + '</p>';
+      if (currentWeatherData.daily.uv_index_max) {
+        html += '<p><strong>UV max (7 days):</strong> ' +
+          currentWeatherData.daily.uv_index_max.join(', ') + '</p>';
+      }
+    }
+
+    if (widgetId === 'flood' && currentWeatherData && currentWeatherData.daily) {
+      title = 'Outdoor planning';
+      html += '<p><strong>Rain (7 days):</strong> ' +
+        currentWeatherData.daily.precipitation_sum.join(', ') + ' mm</p>';
+      html += '<p><strong>Rain probability (7 days):</strong> ' +
+        currentWeatherData.daily.precipitation_probability_max.join(', ') + ' %</p>';
+    }
+
+    if (widgetId === 'wind' && currentWeatherData && currentWeatherData.daily) {
+      title = 'Wind overview';
+      html += '<p><strong>Max wind (7 days):</strong> ' +
+        currentWeatherData.daily.wind_speed_10m_max.join(', ') + ' km/h</p>';
+      if (currentWeatherData.daily.wind_gusts_10m_max) {
+        html += '<p><strong>Gusts (7 days):</strong> ' +
+          currentWeatherData.daily.wind_gusts_10m_max.join(', ') + ' km/h</p>';
+      }
+    }
+
+    if (widgetId === 'pollen' && currentPollenData && currentPollenData.hourly) {
+      title = 'Pollen / air quality';
+      html += '<p><strong>Pollen / allergen index (next hours):</strong> ' +
+        currentPollenData.hourly.allergen_pollen.slice(0, 8).join(', ') + '</p>';
+      html += '<p><strong>PM10 (next hours):</strong> ' +
+        currentPollenData.hourly.pm10.slice(0, 8).join(', ') + '</p>';
+      html += '<p><strong>PM2.5 (next hours):</strong> ' +
+        currentPollenData.hourly.pm2_5.slice(0, 8).join(', ') + '</p>';
+    }
+
+    if (title === '') {
+      // generic fallback – different text than the “no widgets” message
+      title = 'Widget data';
+      html  = '<p>No detailed data is available yet for this widget.</p>';
+    }
+
+    widgetModalTitle.textContent = title;
+    widgetModalBody.innerHTML    = html;
+    widgetModal.classList.add('open');
+  }
+
+  widgetModalClose.onclick = function () {
+    widgetModal.classList.remove('open');
+  };
+
+  widgetModal.onclick = function (e) {
+    if (e.target === widgetModal) {
+      widgetModal.classList.remove('open');
+    }
+  };
+
+  // ====================================================
+  // INITIALISE PAGE
+  // ====================================================
+
+  initLocationDropdown();
+  buildHomeWidgets();
+  loadWeatherForActiveLocation();
+  </script>
+</body>
+</html>

@@ -93,7 +93,7 @@ function sendMessage() {
         const msg = message.toLowerCase().trim();
 
         if (msg === ("hi") || msg ===("hello") || msg ===("hey") || msg ===("well")) {
-            appendMessage("bot", "Hey, I'm the WeatherWise bot! I'm here to answer any questions you might have");
+            appendMessage("bot", "Hey, I'm the WeatherWise bot! I'm here to answer any questions you might have <br><img src='/Images/Alt lOGO.png' style='width:160px; height:100px;'>", true);
         }
 
         else if(msg ===("is it going to rain today")) {
