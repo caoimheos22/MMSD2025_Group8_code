@@ -3,6 +3,9 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
+<script src="chatbot.js"></script>
+
+  
 <title>WeatherWise</title>
 <style>
   :root {
@@ -507,6 +510,36 @@
 </head>
 <body>
 
+/*CHATBOT*/
+<div id="weatherwisebot">
+    <div id="weatherwiseicon">
+        <img src ="Images/Alt lOGO.png" id="AILOGO" />
+    </div>
+    <div id="weatherwisecontainer" class="hidden">
+        <div id="weatherwiseheader">
+            <span>ChatBot</span>
+            <button id="closebtn">&times;</button>
+        </div>
+        <div id="weatherwisebody">
+            <div id="weatherwisemessages">
+                
+            </div>
+        </div>
+        <div id="prompts">
+            <button class="promptbtn">How's the weather today?</button>
+            <button class="promptbtn">What is the average temperature today?</button>
+            <button class="promptbtn">Is it going to rain between 3 & 6 today?</button>
+            <button class="promptbtn">Are flights on schedule today?</button>
+            <button class="promptbtn">Is it safe to go do my shopping today?</button>
+        </div>
+        <div id="weatherwiseinputcontainer">
+            <input type="text" id="weatherwiseinput" placeholder="Type a message...."/>
+            <button id="sendbtn">Send</button> 
+        </div>
+    </div>
+</div>
+  
+  
 <header>
   <div style="display:flex;gap:10px;align-items:center;">
     <div class="hamburger" id="hamburgerBtn" title="Menu">☰</div>
