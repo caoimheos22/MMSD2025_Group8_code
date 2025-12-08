@@ -63,29 +63,43 @@
 
     <!-- TODAY + LOCATION -->
     <section class="today-row">
-      <div class="card today-main">
-        <div style="display:flex;justify-content:space-between;align-items:center;">
-          <div>
-            <div style="font-size:14px;color:#777;">Today</div>
-            <div style="font-size:26px;font-weight:600;" id="todayTemp">-- °C</div>
-            <div style="font-size:14px;color:#777;" id="todayDesc">Loading...</div>
-          </div>
-          <div style="text-align:right;">
-            <div style="font-size:34px;" id="todayIcon">☀️</div>
-            <div style="margin-top:4px;font-size:13px;color:#777;" id="todayExtra"></div>
-          </div>
-        </div>
+      <!-- TODAY MAIN CARD (with full details inside) -->
+<div class="card today-main">
+  <div style="display:flex;justify-content:space-between;align-items:center;">
+    <div>
+      <div style="font-size:14px;color:#777;">Today</div>
+      <div style="font-size:26px;font-weight:600;" id="todayTemp">-- °C</div>
+      <div style="font-size:14px;color:#777;" id="todayDesc">Loading...</div>
+    </div>
+    <div style="text-align:right;">
+      <div style="font-size:34px;" id="todayIcon">☀️</div>
+      <div style="margin-top:4px;font-size:13px;color:#777;" id="todayExtra"></div>
+    </div>
+  </div>
 
-        <div style="margin-top:10px;display:flex;justify-content:space-between;align-items:center;gap:8px;">
-          <div style="font-size:13px;color:#777;">
-            Updated: <span id="todayUpdated">--</span>
-          </div>
-          <div>
-            <label for="locationSelect" style="font-size:13px;margin-right:4px;">Location:</label>
-            <select id="locationSelect" style="padding:4px 6px;border-radius:6px;border:1px solid #ccc;font-size:13px;"></select>
-          </div>
-        </div>
-      </div>
+  <!-- ADDITIONAL WEATHER DETAILS INSIDE MAIN CARD -->
+  <div style="margin-top:12px;font-size:14px;color:#444;display:grid;grid-template-columns:repeat(2,1fr);gap:4px 10px;">
+    <div>Max: <span id="todayMax">-- °C</span></div>
+    <div>Min: <span id="todayMin">-- °C</span></div>
+    <div>Rain total: <span id="todayRain">-- mm</span></div>
+    <div>Wind max: <span id="todayWindMax">-- km/h</span></div>
+    <div>UV Index: <span id="todayUv">--</span></div>
+    <div>Gusts: <span id="todayGusts">-- km/h</span></div>
+    <div>Sunrise: <span id="todaySunrise">--:--</span></div>
+    <div>Sunset: <span id="todaySunset">--:--</span></div>
+  </div>
+
+  <div style="margin-top:10px;display:flex;justify-content:space-between;align-items:center;gap:8px;">
+    <div style="font-size:13px;color:#777;">
+      Updated: <span id="todayUpdated">--</span>
+    </div>
+    <div>
+      <label for="locationSelect" style="font-size:13px;margin-right:4px;">Location:</label>
+      <select id="locationSelect" style="padding:4px 6px;border-radius:6px;border:1px solid #ccc;font-size:13px;"></select>
+    </div>
+  </div>
+</div>
+
 
       <div class="card today-side">
         <h3 style="margin:0 0 6px;font-size:16px;">Tomorrow's overview</h3>
@@ -120,18 +134,42 @@
       </div>
     </section>
 
-    <!-- RADAR PLACEHOLDER CARD (visual only) -->
-    <section style="margin-top:18px;">
-      <h3 style="margin:0 0 6px;">Radar Map</h3>
-      <div class="card">
-        <p style="margin:0 0 10px;font-size:14px;color:#777;">
-          Placeholder – add a radar image or map here (e.g. rain, wind, temperature, pressure).
-        </p>
-        <div style="height:260px;border-radius:12px;background:#e0e0e0;display:flex;align-items:center;justify-content:center;font-size:16px;color:#777;">
-          🗺️ Radar map placeholder
-        </div>
-      </div>
-    </section>
+    <!-- ============ RADAR MAP SECTION (Windy.com) ============ -->
+<section style="margin-top:18px;">
+  <h3 style="margin:0 0 6px;">Radar Map</h3>
+
+  <div class="card" style="position:relative;">
+    <!-- Windy Embed -->
+    <iframe
+      id="windyFrame"
+      width="100%"
+      height="350"
+      frameborder="0"
+      style="border-radius:12px;overflow:hidden;"
+      src="https://embed.windy.com/embed2.html?lat=51.8985&lon=-8.4756&zoom=7&level=surface&overlay=rain&menu=false&message=true&marker=false&calendar=now&pressure=true&type=map&location=coordinates&detail=true&detailLat=51.8985&detailLon=-8.4756&metricWind=km/h&metricTemp=°C">
+    </iframe>
+
+    <!-- Map Buttons -->
+    <div class="button-row" style="display:flex;gap:10px;margin-top:12px;">
+      <button class="btn btn-sm" onclick="setWindyLayer('rain')">Rain</button>
+      <button class="btn btn-sm" onclick="setWindyLayer('temp')">Temperature</button>
+      <button class="btn btn-sm" onclick="setWindyLayer('wind')">Wind</button>
+      <button class="btn btn-sm" onclick="setWindyLayer('pressure')">Pressure</button>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Simple iframe-based Windy layer switching (no API key needed)
+  function setWindyLayer(layer) {
+    var iframe = document.getElementById('windyFrame');
+    var base = "https://embed.windy.com/embed2.html?lat=51.8985&lon=-8.4756&zoom=7&level=surface" +
+      "&menu=false&message=false&marker=false&calendar=now&type=map&location=coordinates" +
+      "&metricWind=km/h&metricTemp=°C";
+    iframe.src = base + "&overlay=" + layer;
+  }
+</script>
+
 
   </main>
 
