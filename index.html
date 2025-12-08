@@ -25,6 +25,7 @@
                 
             </div>
         </div>
+
         <div id="prompts">
             <button class="promptbtn">How's the weather today?</button>
             <button class="promptbtn">What is the average temperature today?</button>
@@ -41,16 +42,19 @@
 
 <script src="chatbot.js"></script>
 
-  
+  <script>
+    
+  </script>
+
   <!-- header -->
   <header class="top-header">
-    <button class="header-icon" aria-label="Open menu">☰</button>
+    <button class="hamburger-icon" value="Open menu"></button>
 
     <div class="header-logo">
       <img src="logoexample5.png" alt="MMSD logo" />
     </div>
 
-    <button class="header-icon" aria-label="Account">👤</button>
+    <button class="header-icon" value="Account">👤</button>
   </header>
 
   <!-- warning (dont know if we are leaving this in ?) -->
@@ -95,10 +99,6 @@
   <div id="sidebar">
         <p><input type = "button" value = "Find my location" id = "get_coords_but" >
               <div id = "current_coords"></div>
-        </p>
-        <p><button id="profile_sidebar" value="get_profile" onclick="open_profile()">Profile</button>
-        </p>
-        <p><button id="settings_sidebar" value="get_settings" onclick="open_settings()">Settings</button>
         </p>
         <p><button id="logout_sidebar" value="logout" onclick="logout()">Log Out</button>
         </p>
