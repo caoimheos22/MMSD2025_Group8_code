@@ -54,14 +54,15 @@ header{
     background-color: #f5f5f5;
     width: 450px;
     height: 750px;
-    margin-top: -210px;
+    margin-top: -20px;
     margin-left: 0px;
-    display: block;
+    display: none;
     position:absolute;
     z-index: 10;
     border-color: #000000;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
 }
+
 
 #get_coords_but{
   background-color: #ffffff;
@@ -71,12 +72,6 @@ header{
   margin-top: 50px;
 }
 
-#profile_sidebar{
-  background-color: #ffffff;
-  border-radius: 5%;
-  font-size: 2em;
-  margin-left: 30px;
-}
 
 #logout_sidebar{
   margin-left: 30px;
@@ -393,6 +388,18 @@ body.homepage {
   color: #ffffff;
   font-size: 22px;
   cursor: pointer;
+}
+
+.burger{
+  background-image: url(Symbols/burger-menu-white.png);
+  width: 70px;
+  height: 70px;
+  position: relative;
+      background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: transparent;
+    
 }
 
 .header-logo img {

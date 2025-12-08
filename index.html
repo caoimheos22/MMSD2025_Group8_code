@@ -42,16 +42,62 @@
 
 <script src="chatbot.js"></script>
 
+    <!--Location coords-->
+
+ <script>
+
+   function getLocation() 
+    {
+    navigator.geolocation.getCurrentPosition( showCoords );
+  }
+
+
+ function showCoords (position) {
+
+            
+     var devLatitude = position.coords.latitude;
+     var devLongitude = position.coords.longitude;
+            
+         document.getElementById("current_coords").innerHTML = "lat: " + devLatitude + " long: " + devLongitude;
+    }  
+
+
+    window.addEventListener("load", init);
+
+    function init()
+    {	
+    document.getElementById("get_coords_but").addEventListener("click", getLocation)		
+    }
+
+</script>
+
+  <!--side bar-->
+  <div id="sidebar">
+        <p><input type = "button" value = "Find my location" id = "get_coords_but" >
+              <div id = "current_coords"></div>
+        </p>
+        <p><button id="logout_sidebar" value="logout" onclick="logout()">Log Out</button>
+        </p>
+
+  </div>
+
+  <script>
+    function showSidebar(){
+      document.getElementById("sidebar").addEventListener("click",)
+    }
+  </script>
+
 
   <!-- header -->
   <header class="top-header">
-    <button class="header-icon" aria-label="Open menu">☰</button>
+
+    <button class="burger" id="burger" value="burger"></button>
 
     <div class="header-logo">
       <img src="logoexample5.png" alt="MMSD logo" />
     </div>
 
-    <button class="header-icon" id="open-profile" aria-label="Account">👤</button>
+    <button class="header-icon" id="open-profile" value="Account">👤</button>
   </header>
 
   <!-- warning -->
