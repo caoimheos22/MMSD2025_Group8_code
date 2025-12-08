@@ -81,7 +81,6 @@
 
   </div>
 
- 
 
 
   <!-- header -->
@@ -108,16 +107,20 @@
 
   <main class="home-shell">
 
-    <!-- TODAY + TOMORROW -->
     <section class="top-section">
 
       <div class="top-left">
         <div class="today-header">
+         
+          
+          
           <div>
             <div class="today-label">Today</div>
             <div class="today-date" id="today-date">Loading...</div>
           </div>
           <div class="today-location-row">
+           
+            
             <span class="location-icon">📍</span>
             <span class="location-name">Cork City, Cork</span>
           </div>
@@ -130,47 +133,40 @@
 
         <div class="card card-weather">
           <div class="card-weather-main">
-            <div class="temp-block">
-              <div class="temp-main" id="current-temp">--°</div>
+            <div class="temp-block"><div class="temp-main" id="current-temp">--°</div>
               <div class="temp-feels" id="current-feels">Feels like --°</div>
             </div>
 
             <div class="icon-block">
               <div class="icon-item">
-                <div class="icon-symbol" id="current-icon">☁️</div>
-                <div class="icon-label" id="current-condition">Loading...</div>
+                <div class="icon-symbol" id="current-icon">☁️</div>  <div class="icon-label" id="current-condition">Loading...</div>
               </div>
 
               <div class="icon-item">
-               <!-- <div class="icon-symbol" id="moon-icon">🌒</div>
-                <div class="icon-label"  id="moon-phase-label"   >Moon Phase</div>-->
+               <!-- <div class="icon-symbol" id="moon-icon">🌒</div>  <div class="icon-label"  id="moon-phase-label"   >Moon Phase</div>-->
               </div>
             </div>
           </div>
 
           <div class="card-weather-details">
             <div class="detail-column">
-              <div class="detail-row"><span class="rain-icon"></span> <span id="current-rain">Rain -- mm</span></div>
-              <div class="detail-row"><span class="wind-icon"></span> <span id="current-wind">Wind -- km/h</span></div>
+         <div class="detail-row"><span class="rain-icon"></span> <span id="current-rain">Rain -- mm</span></div>
+        <div class="detail-row"><span class="wind-icon"></span> <span id="current-wind">Wind -- km/h</span></div>
               <div class="detail-row"><span class="gust-icon"></span> <span id="current-gust">Gust -- km/h</span></div>
             </div>
 
             <div class="detail-column">
               <div class="detail-row"><span class="detail-icon">🌅</span> <span id="sunrise">Sunrise --:--</span></div>
               <div class="detail-row"><span class="detail-icon">🌇</span> <span id="sunset">Sunset --:--</span></div>
-              <div class="detail-row"><span class="detail-icon">☀️</span> <span id="uv-index">UV --</span></div>
-            </div>
-            
-          </div>
-        </div>
-      </div>
+        <div class="detail-row"><span class="detail-icon">☀️</span> <span id="uv-index">UV --</span></div>
+            </div>        </div>
+        </div>   </div>
 
       <div class="top-right">
         <div class="card kinsale-graphic">
           <img src="old head of kinsale.png" alt="Old Head of Kinsale" />
         </div>
-
-        <div class="card card-tomorrow">
+    <div class="card card-tomorrow">
           <div class="tomorrow-header">
             <div class="tomorrow-title">Tomorrow</div>
             <div class="tomorrow-date" id="tomorrow-date">Loading...</div>
@@ -181,20 +177,12 @@
               <div class="temp-main" id="tomorrow-temp">--°</div>
               <div class="temp-minmax" id="tomorrow-minmax">--°</div>
             </div>
-
             <div class="tomorrow-conditions" id="tomorrow-conditions">
               <div>Loading...</div>
             </div>
-          </div>
-
-      
-        </div>
-      </div>
-
-    </section>
-
-
-    <section class="forecast-row">
+          </div>  </div> </div>
+ </section>
+ <section class="forecast-row">
       <div class="card card-7day">
         <div class="card-heading">7-Day Forecast</div>
         <div class="forecast-strip" id="forecast-strip"></div>
@@ -205,8 +193,7 @@
       <div class="card bottom-card hover-card" data-widget="marine">
         <div class="bottom-icon">⚓</div> Marine
       </div>
-
-      <div class="card bottom-card hover-card" data-widget="health">
+  <div class="card bottom-card hover-card" data-widget="health">
         <div class="bottom-icon">➕</div> Health
       </div>
 
@@ -234,7 +221,6 @@
 
 
   </main>
-
   <div id="profile-popup" class="popup hidden">
     <div class="popup-inner">
       <h2>Edit Profile</h2>
@@ -256,7 +242,7 @@
  
   <!-- Sscript for api from garys website, i dont know if i downloaded it with everything we need or if you can edit it -->
   <script>
-    // ---------- WIDGET POPUPS ----------
+    
     var widgetPopup = document.getElementById("widget-popup");
 var popupTitle = document.getElementById("widget-popup-title");
 var popupContent = document.getElementById("widget-popup-content");
@@ -296,7 +282,6 @@ if (widgetName === "marine") {
   `;
 }
 
-// Health
 if (widgetName === "health") {
   popupContent.innerHTML = `
     <div>➕ <b>Health info</b></div>
@@ -315,11 +300,9 @@ if (widgetName === "outdoor") {
   popupContent.innerHTML = `
     <div>📅 <b>Outdoor planner</b></div>
     <br>
-
-
-    Max temp: ${max}° <br>
+  Max temp: ${max}° <br>
     Rain today: ${rain} mm <br>
-    Wind: ${wind} km/h <br><br>
+ Wind: ${wind} km/h <br><br>
     A drier, warmer part of the day is usually best for being outside.
   `;
 }
@@ -329,8 +312,8 @@ if (widgetName === "farming") {
     <div>🌱 <b>Farming forecast</b></div>
     <br>
     Rain today: ${rain} mm <br>
-    Wind: ${wind} km/h <br>
-    Temp: ${max}° <br><br>
+ Wind: ${wind} km/h <br>
+ Temp: ${max}° <br><br>
     Use this to get a quick sense of field and general farming conditions.
   `;
 }
@@ -339,8 +322,8 @@ if (widgetName === "pollen") {
   popupContent.innerHTML = `
     <div>🌼 <b>Pollen overview</b></div>
     <br>
-    Rain today: ${rain} mm <br><br>
-    More rain usually means -> less pollen in the air 
+ Rain today: ${rain} mm <br><br>
+ More rain usually means -> less pollen in the air 
     On drier days, pollen is more active.
   `;
 }
@@ -382,8 +365,7 @@ closeWidgetPopup.onclick = function () {
         var name = widgets[i].getAttribute("data-widget");
         widgets[i].style.display = settings[name] === false ? "none" : "block";
       }
-
-      var toggles = document.querySelectorAll("[data-widget-toggle]");
+  var toggles = document.querySelectorAll("[data-widget-toggle]");
       for (var j = 0; j < toggles.length; j++) {
         var name = toggles[j].getAttribute("data-widget-toggle");
         toggles[j].checked = settings[name] !== false;
