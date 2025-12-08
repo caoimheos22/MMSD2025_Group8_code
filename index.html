@@ -53,7 +53,7 @@
     <button class="header-icon" aria-label="Account">👤</button>
   </header>
 
-  <!-- warning -->
+  <!-- warning (dont know if we are leaving this in ?) -->
   <div class="warning-bar">
     <div class="warning-bar-left">
       <span class="warning-icon">⚠️</span>
@@ -64,21 +64,21 @@
   </div>
 
 
-<script>
+ <script>
 
-    function getLocation() 
+   function getLocation() 
     {
     navigator.geolocation.getCurrentPosition( showCoords );
-    }
+  }
 
 
-    function showCoords (position) {
+ function showCoords (position) {
 
             
-            var devLatitude = position.coords.latitude;
-            var devLongitude = position.coords.longitude;
+     var devLatitude = position.coords.latitude;
+     var devLongitude = position.coords.longitude;
             
-            document.getElementById("current_coords").innerHTML = "lat: " + devLatitude + " long: " + devLongitude;
+         document.getElementById("current_coords").innerHTML = "lat: " + devLatitude + " long: " + devLongitude;
     }  
 
 
@@ -105,7 +105,7 @@
 
   </div>
 
-  <main class="home-shell">
+ <main class="home-shell">
 
     <!-- today and tomorrow -->
     <section class="top-section">
@@ -223,16 +223,10 @@
 
       <div class="card card-7day">
         <div class="card-heading">7-Day Forecast</div>
-        <div class="forecast-strip">
-
-          <!-- Example day not linked to api -->
-          <div class="forecast-day hover-card">
-            <div class="forecast-day-label">Mon</div>
-            <div class="forecast-icon">☁️</div>
-            <div class="forecast-temp">12°</div>
-            <div class="forecast-rain">💧 20</div>
-            <div class="forecast-wind">🌬️ 16km</div>
-          </div>
+        <div class="forecast-strip" id="forecast-strip">
+          <!-- 7-day forecast will be filled by JS -->
+        </div>
+      </div>
 
         </div>
       </div>
@@ -264,29 +258,30 @@
 
   </main>
 
+  <!-- Sscript for api from garys website, i dont know if i downloaded it with everything we need or if you can edit it -->
   <script>
-    
     function processWeather(data) {
       console.log("Weather received:", data);
-
-      
+  
       var max = data.daily.temperature_2m_max;
       var min = data.daily.temperature_2m_min;
       var codes = data.daily.weather_code;
       var times = data.daily.time;
 
-      
+      var rain = data.daily.precipitation_sum;
+      var wind = data.daily.wind_speed_10m_max;
+      var gust = data.daily.wind_gusts_10m_max;
+  
+      // ---------- TODAY ----------
       var todayMax = Math.round(max[0]);
       var todayMin = Math.round(min[0]);
       var todayCode = codes[0];
-
+  
       document.getElementById("current-temp").textContent = todayMax + "°";
       document.getElementById("current-feels").textContent =
         "Feels like " + todayMin + "°";
-
       document.getElementById("today-date").textContent = times[0];
-
-      
+  
       var conditionMap = {
         0: "Clear Sky",
         1: "Mainly Clear",
@@ -297,7 +292,7 @@
         71: "Snow",
         95: "Thunderstorm"
       };
-
+  
       var iconMap = {
         0: "☀️",
         1: "🌤️",
@@ -308,56 +303,96 @@
         71: "❄️",
         95: "⛈️"
       };
-
+  
       document.getElementById("current-condition").textContent =
         conditionMap[todayCode] || "Weather";
       document.getElementById("current-icon").textContent =
         iconMap[todayCode] || "⛅";
-
-   
+  
+      // today rain / wind / gust
+      document.getElementById("current-rain").textContent =
+        "Rain " + Math.round(rain[0]) + " mm";
+      document.getElementById("current-wind").textContent =
+        "Wind " + Math.round(wind[0]) + " km/h";
+      document.getElementById("current-gust").textContent =
+        "Gust " + Math.round(gust[0]) + " km/h";
+  
+      // ---------- TOMORROW ----------
       var tomorrowMax = Math.round(max[1]);
       var tomorrowMin = Math.round(min[1]);
       var tomorrowCode = codes[1];
-
+  
       document.getElementById("tomorrow-temp").textContent =
         tomorrowMax + "°";
       document.getElementById("tomorrow-minmax").textContent =
         tomorrowMin + "°";
-
       document.getElementById("tomorrow-date").textContent = times[1];
-
+  
       document.getElementById("tomorrow-conditions").innerHTML =
-        (conditionMap[tomorrowCode] || "Weather") +
-        "<br>💧 Rain<br>💨 Wind";
+        (conditionMap[tomorrowCode] || "Weather") + "<br>" +
+        "💧 " + Math.round(rain[1]) + " mm<br>" +
+        "💨 " + Math.round(wind[1]) + " km/h";
+  
+      // ---------- 7-DAY FORECAST ----------
+      var strip = document.getElementById("forecast-strip");
+      if (!strip) {
+        return;
+      }
+  
+      // clear once, BEFORE the loop
+      strip.innerHTML = "";
+  
+      for (var i = 0; i < 7 && i < times.length; i++) {
+        var dateObj = new Date(times[i]);
+        var dayName = dateObj.toLocaleDateString("en-GB", {
+          weekday: "short"
+        });
+  
+        var dayMax = Math.round(max[i]);
+        var code = codes[i];
+        var icon = iconMap[code] || "🌡️";
+  
+        var dayRain = Math.round(rain[i]);
+        var dayWind = Math.round(wind[i]);
+        var dayGust = Math.round(gust[i]);
+  
+        var dayDiv = document.createElement("div");
+        dayDiv.className = "forecast-day hover-card";
+  
+        dayDiv.innerHTML =
+          '<div class="forecast-day-label">' + dayName + '</div>' +
+          '<div class="forecast-icon">' + icon + '</div>' +
+          '<div class="forecast-temp">' + dayMax + '°</div>' +
+          '<div class="forecast-rain">💧 ' + dayRain + ' mm</div>' +
+          '<div class="forecast-wind">🌬️ ' + dayWind + ' km/h</div>' +
+          '<div class="forecast-gust">💨 ' + dayGust + ' km/h</div>';
+  
+        strip.appendChild(dayDiv);
+      }
     }
-    
-   // coordinates for cork city 
-    function fetchWeather() {
-      
-    
+  
+    // coordinates for cork city 
+   
+function fetchWeather() {
+  var lat = 51.8985;
+  var lon = -8.4756;
 
-      var lat = 51.8985;
-      var lon = -8.4756;
+  var query =
+    "latitude=" + lat +
+    "&longitude=" + lon +
+    "&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,wind_speed_10m_max,wind_gusts_10m_max" +
+    "&timezone=auto" +
+    "&wind_speed_unit=kmh&precipitation_unit=mm";
 
-      
-      var query =
-        "latitude=" + lat +
-        "&longitude=" + lon +
-        "&daily=weather_code,temperature_2m_max,temperature_2m_min" +
-        "&timezone=auto";
+  var url = "https://webdevcit.com/notes/getweather.php?" + query;
 
-      
-      var url = "https://webdevcit.com/notes/getweather.php?" + query;
-
-      
-      var script = document.createElement("script");
-      script.src = url;
-      document.body.appendChild(script);
-    }
-
-    // run when the page refresh
-    fetchWeather();
+  var script = document.createElement("script");
+  script.src = url;          // ← THIS WAS BROKEN
+  document.body.appendChild(script);
+}
+fetchWeather();
   </script>
 
 </body>
 </html>
+
