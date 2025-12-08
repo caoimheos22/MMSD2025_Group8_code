@@ -25,6 +25,36 @@
   transition: transform 0.2s, background-color 0.2s;
 }
 
+.rain-icon{
+  background-image: url(Symbols/raindrop.png);
+  width: 20px;
+  height: 20px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  
+}
+
+.wind-icon{
+  background-image: url(Symbols/wind.png);
+  width: 20px;
+  height: 20px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  
+}
+
+.gust-icon{
+  background-image: url(Symbols/gust_icon.png);
+  width: 30px;
+  height: 30px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  
+}
+
 #AILOGO {
   position: relative;
   width: 100px;
