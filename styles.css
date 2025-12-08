@@ -197,70 +197,7 @@
   background-color: #b71c1c;
 }
 
-@media (max-width:680px) {
-  #weatherwisecontainer {
-    width: 100vw;
-    height: 75vh;
-    right: 0;
-    bottom: 0;
-    border-radius: 0;
 
-  }
-
-  #weatherwiseheader {
-    font-size: 16px;
-    padding: 12px;
-
-  }
-
-  #weatherwisebody {
-    padding: 8px;
-  }
-
-  .message {
-    max-width: 95%;
-    gap: 10px;
-
-  }
-
-  .avatar {
-    width: 40px;
-    height: 40px;
-
-  }
-
-  #prompts {
-    justify-content: center;
-    padding: 6px;
-  }
-
-  .promptbtn {
-    font-size: 12px;
-    padding: 6px 8px;
-  }
-
-  #weatherwiseinput {
-    font-size: 14px;
-    padding: 8px;
-  }
-
-  #sendbtn {
-    padding: 8px 12px;
-    font-size: 13px;
-
-  }
-
-  #weatherwiseicon {
-    width: 55px;
-    height: 55px;
-    bottom: 15px;
-    right: 15px;
-  }
-
-  #AILOGO {
-    width: 60px;
-    height: auto;
-  }
 }
 body.homepage {
   margin: 0;
@@ -735,7 +672,71 @@ font-size: 2em;
 
 /* responsive to phones */
 
-@media (max-width: 700px) {
+@media (max-width:680px) {
+  #weatherwisecontainer {
+    width: 100vw;
+    height: 75vh;
+    right: 0;
+    bottom: 0;
+    border-radius: 0;
+
+  }
+
+  #weatherwiseheader {
+    font-size: 16px;
+    padding: 12px;
+
+  }
+
+  #weatherwisebody {
+    padding: 8px;
+  }
+
+  .message {
+    max-width: 95%;
+    gap: 10px;
+
+  }
+
+  .avatar {
+    width: 40px;
+    height: 40px;
+
+  }
+
+  #prompts {
+    justify-content: center;
+    padding: 6px;
+  }
+
+  .promptbtn {
+    font-size: 12px;
+    padding: 6px 8px;
+  }
+
+  #weatherwiseinput {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  #sendbtn {
+    padding: 8px 12px;
+    font-size: 13px;
+
+  }
+
+  #weatherwiseicon {
+    width: 55px;
+    height: 55px;
+    bottom: 15px;
+    right: 15px;
+  }
+
+  #AILOGO {
+    width: 60px;
+    height: auto;
+  }
+
   .hero-section {
     grid-template-columns: 1fr;
   }
@@ -744,11 +745,11 @@ font-size: 2em;
   }
 }
 
-@media (max-width: 700px) {
+
   .forecast-strip {
     grid-template-columns: repeat(4, 1fr);
   }
   .bottom-widgets {
     grid-template-columns: 1fr;
   }
-}
+
