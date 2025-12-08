@@ -445,12 +445,11 @@ body.homepage {
 
 
 .card {
-  background: #e8e8e8;
+  background: #f6f6f6;
   border-radius: 12px;
   padding: 18px 20px;
-  border: 1px solid #d2d2d2;
-}
-
+  border: 1px solid #8b0000;
+    
 .hover-card {
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
@@ -695,7 +694,7 @@ body.homepage {
 }
 
 .forecast-day {
-  background: #f1f1f1;
+ background: #f6f6f6;
   border-radius: 4px;
   padding: 6px 4px;
   text-align: center;
