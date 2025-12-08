@@ -765,19 +765,7 @@ font-size: 2em;
     height: auto;
   }
 
-<<<<<<< HEAD
   
-=======
-  .header-logo img {
-    width: 400px;
-    height: 70px; 
-    display: flex;
-  }
-
-  #sidebar {
-    width: 500px;
-  }
->>>>>>> 56cfc79e8f6a9a12ffefd2dd82085469c1d20524
 
   .header-icon {
     width: 40px;
@@ -795,7 +783,7 @@ font-size: 2em;
   .forecast-row {
     grid-template-columns: 1fr;
   }
-}
+
   .forecast-strip {
     grid-template-columns: repeat(4, 1fr);
   }
@@ -803,3 +791,4 @@ font-size: 2em;
     grid-template-columns: 1fr;
   }
 
+}
