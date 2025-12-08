@@ -1077,15 +1077,12 @@
     await loadWeatherForLocation(currentLocObj);
   });
 
-  // build widget layout in profile from widgetOrder
+
   function buildProfileWidgetsFromOrder() {
-    // reset both areas to initial (use existing availableWidget nodes)
-    // first clear drop
+
     profileWidgetDrop.innerHTML = '';
     updateDropEmptyState();
 
-    // make sure all widgets exist in available area
-    // (we already have them in HTML; we'll move ones that are selected)
     widgetOrder.forEach(id => {
       const src = profileAvailableWidgets.querySelector('.availableWidget[data-id="' + id + '"]');
       if (src) {
