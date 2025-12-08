@@ -197,7 +197,7 @@
   background-color: #b71c1c;
 }
 
-@media (max-width:768px) {
+@media (max-width:600px) {
   #weatherwisecontainer {
     width: 100vw;
     height: 100vh;
@@ -735,7 +735,7 @@ font-size: 2em;
 
 /* responsive to phones */
 
-@media (max-width: 1000px) {
+@media (max-width: 700px) {
   .hero-section {
     grid-template-columns: 1fr;
   }
