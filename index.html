@@ -42,44 +42,6 @@
 
 <script src="chatbot.js"></script>
 
-<!--Location coords-->
-
- <script>
-
-   function getLocation() 
-    {
-    navigator.geolocation.getCurrentPosition( showCoords );
-  }
-
-
- function showCoords (position) {
-
-            
-     var devLatitude = position.coords.latitude;
-     var devLongitude = position.coords.longitude;
-            
-         document.getElementById("current_coords").innerHTML = "lat: " + devLatitude + " long: " + devLongitude;
-    }  
-
-
-    window.addEventListener("load", init);
-
-    function init()
-    {	
-    document.getElementById("get_coords_but").addEventListener("click", getLocation)		
-    }
-
-</script>
-
-  <!--side bar-->
-  <div id="sidebar">
-        <p><input type = "button" value = "Find my location" id = "get_coords_but" >
-              <div id = "current_coords"></div>
-        </p>
-        <p><button id="logout_sidebar" value="logout" onclick="logout()">Log Out</button>
-        </p>
-
-  </div>
 
   <!-- header -->
   <header class="top-header">
