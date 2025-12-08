@@ -275,15 +275,15 @@ body.homepage {
   width: 450px;
   height: 750px;
   top: 0;
-  left: -450px;              /* start off-screen */
-  position: fixed;           /* stay fixed while sliding */
+  left: -450px;              
+  position: fixed;           
   z-index: 10;
   border-color: #000000;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
   transition: left 0.3s ease;
 }
 #sidebar.active {
-  left: 0;                   /* slide in */
+  left: 0;                   
 }
 
 #get_coords_but{
