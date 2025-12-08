@@ -54,10 +54,10 @@ header{
     background-color: #322f35;
     width: 300px;
     height: 650px;
-    margin-top: 25px;
-    margin-left: 50px;
+    margin-top: -210px;
+    margin-left: 0px;
     display: block;
-    position: relative;
+    position:absolute;
     z-index: 10;
 }
 
