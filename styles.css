@@ -672,7 +672,7 @@ font-size: 2em;
 
 /* responsive to phones */
 
-@media (max-width:680px) {
+@media (max-width:700px) {
   #weatherwisecontainer {
     width: 100vw;
     height: 75vh;
@@ -737,6 +737,20 @@ font-size: 2em;
     height: auto;
   }
 
+  #sidebar {
+    
+  }
+
+  .header-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .burger{
+    width: 40px;
+    height: 40px;
+  }
+
   .hero-section {
     grid-template-columns: 1fr;
   }
@@ -744,13 +758,6 @@ font-size: 2em;
     grid-template-columns: 1fr;
   }
 }
-
-#img {
-  width: 60px;
-  height: auto;
-}
-
-
   .forecast-strip {
     grid-template-columns: repeat(4, 1fr);
   }
