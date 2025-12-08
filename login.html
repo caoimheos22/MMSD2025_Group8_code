@@ -66,6 +66,25 @@
       </section>
     </div>
   </main>
-
+  <script>
+    // Fake login credentials
+    var validUser = "user12345@weather.com";
+    var validPass = "password1";
+    
+    document.querySelector("form").addEventListener("submit", function(e) {
+        e.preventDefault(); // stop form from refreshing the page
+    
+        var email = document.getElementById("login-email").value.trim();
+        var password = document.getElementById("login-password").value.trim();
+    
+        // Simple check
+        if (email === validUser && password === validPass) {
+            alert("Login successful!");
+            window.location.href = "index.html"; // go to homepage
+        } else {
+            alert("Incorrect username or password");
+        }
+    });
+    </script>
 </body>
 </html>

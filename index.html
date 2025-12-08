@@ -145,8 +145,8 @@
               </div>
 
               <div class="icon-item">
-                <div class="icon-symbol">🌒</div>
-                <div class="icon-label">Moon Phase</div>
+                <div class="icon-symbol" id="moon-icon">🌒</div>
+                <div class="icon-label"  id="moon-phase-label"   >Moon Phase</div>
               </div>
             </div>
           </div>
@@ -163,6 +163,7 @@
               <div class="detail-row"><span class="detail-icon">🌇</span> <span id="sunset">Sunset --:--</span></div>
               <div class="detail-row"><span class="detail-icon">☀️</span> <span id="uv-index">UV --</span></div>
             </div>
+            
           </div>
         </div>
       </div>
@@ -421,6 +422,11 @@ closeWidgetPopup.onclick = function () {
       var rain = data.daily.precipitation_sum;
       var wind = data.daily.wind_speed_10m_max;
       var gust = data.daily.wind_gusts_10m_max;
+      var sunrise = data.daily.sunrise;
+var sunset = data.daily.sunset;
+var uv = data.daily.uv_index_max;
+
+var moon = data.daily.moon_phase;
 
       var conditionMap = {
         0: "Clear Sky",
@@ -453,6 +459,16 @@ closeWidgetPopup.onclick = function () {
       document.getElementById("current-rain").textContent = "Rain " + Math.round(rain[0]) + " mm";
       document.getElementById("current-wind").textContent = "Wind " + Math.round(wind[0]) + " km/h";
       document.getElementById("current-gust").textContent = "Gust " + Math.round(gust[0]) + " km/h";
+      document.getElementById("sunrise").textContent =
+  "Sunrise " + sunrise[0].slice(11,16);
+
+document.getElementById("sunset").textContent =
+  "Sunset " + sunset[0].slice(11,16);
+
+document.getElementById("uv-index").textContent =
+  "UV " + uv[0];
+
+
 
       /* TOMORROW */
       document.getElementById("tomorrow-temp").textContent = Math.round(max[1]) + "°";
@@ -494,7 +510,7 @@ closeWidgetPopup.onclick = function () {
       var query =
         "latitude=" + lat +
         "&longitude=" + lon +
-        "&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,wind_speed_10m_max,wind_gusts_10m_max" +
+        "&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,wind_speed_10m_max,wind_gusts_10m_max,sunrise,sunset,uv_index_max" +
         "&timezone=auto&wind_speed_unit=kmh&precipitation_unit=mm";
 
       var url = "https://webdevcit.com/notes/getweather.php?" + query;
@@ -510,4 +526,3 @@ closeWidgetPopup.onclick = function () {
 
 </body>
 </html>
-
