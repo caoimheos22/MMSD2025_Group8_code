@@ -92,9 +92,17 @@
 </script>
 
   <!--side bar-->
-  <div class="sidebar">
-    <input type = "button" value = "Find my location" id = "get_coords_but" >
-    <div id = "current_coords"></div>
+  <div id="sidebar">
+        <p><input type = "button" value = "Find my location" id = "get_coords_but" >
+              <div id = "current_coords"></div>
+        </p>
+        <p><button id="profile_sidebar" value="get_profile" onclick="open_profile()">Profile</button>
+        </p>
+        <p><button id="settings_sidebar" value="get_settings" onclick="open_settings()">Settings</button>
+        </p>
+        <p><button id="logout_sidebar" value="logout" onclick="logout()">Log Out</button>
+        </p>
+
   </div>
 
   <main class="home-shell">
