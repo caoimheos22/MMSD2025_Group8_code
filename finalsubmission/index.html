@@ -146,6 +146,122 @@
   };
 
   guestBtn.onclick=function(){setGuestMode();goToDashboard();};
+
+  function makeTopWidget(id, label) {
+    const w = document.createElement('div');
+    w.className = 'topWidget';
+    w.dataset.id = id;
+
+    const remove = document.createElement('button');
+    remove.className = 'removeBtn';
+    remove.textContent = '×';
+    remove.addEventListener('click', (e) => {
+      e.stopPropagation();
+      // move back to available area
+      const avail = document.createElement('div');
+      avail.className = 'availableWidget';
+      avail.draggable = true;
+      avail.dataset.id = id;
+      avail.innerHTML =
+        '<div class="widgetIcon">' +
+        (id === 'marine' ? '⛵' :
+         id === 'farming' ? '🌾' :
+         id === 'uv' ? '☀️' :
+         id === 'flood' ? '⚠️' :
+         id === 'wind' ? '💨' : '🌸') +
+        '</div>' +
+        '<div><strong>' + (WIDGET_LABELS[id] || id) +
+        '</strong><br><span></span></div>';
+      profileAvailableWidgets.appendChild(avail);
+      enableDragAvailable(avail);
+      w.remove();
+      updateDropEmptyState();
+    });
+
+    const titleDiv = document.createElement('div');
+    titleDiv.className = 'topWidgetTitle';
+    titleDiv.textContent = label;
+
+    w.appendChild(remove);
+    w.appendChild(titleDiv);
+    enableDragTop(w);
+    return w;
+  }
+
+  function enableDragAvailable(el) {
+    el.addEventListener('dragstart', (e) => {
+      dragged = el;
+      e.dataTransfer.effectAllowed = 'move';
+      setTimeout(() => el.style.opacity = '0.5', 0);
+    });
+    el.addEventListener('dragend', () => {
+      dragged = null;
+      el.style.opacity = '1';
+    });
+  }
+
+  function enableDragTop(el) {
+    el.setAttribute('draggable', 'true');
+    el.addEventListener('dragstart', (e) => {
+      dragged = el;
+      e.dataTransfer.effectAllowed = 'move';
+      setTimeout(() => el.style.opacity = '0.5', 0);
+    });
+    el.addEventListener('dragend', () => {
+      dragged = null;
+      el.style.opacity = '1';
+    });
+  }
+
+  [profileWidgetDrop, profileAvailableWidgets].forEach(area => {
+    area.addEventListener('dragover', (e) => e.preventDefault());
+  });
+
+  profileWidgetDrop.addEventListener('drop', (e) => {
+    e.preventDefault();
+    if (!dragged) return;
+    if (dragged.classList.contains('availableWidget')) {
+      const id = dragged.dataset.id;
+      const label = WIDGET_LABELS[id] || id;
+      const topW = makeTopWidget(id, label);
+      profileWidgetDrop.appendChild(topW);
+      dragged.remove();
+      updateDropEmptyState();
+    } else if (dragged.classList.contains('topWidget')) {
+      profileWidgetDrop.appendChild(dragged);
+    }
+  });
+
+  profileAvailableWidgets.addEventListener('drop', (e) => {
+    e.preventDefault();
+    if (!dragged) return;
+    if (dragged.classList.contains('topWidget')) {
+      // convert back to available
+      const id = dragged.dataset.id;
+      const avail = document.createElement('div');
+      avail.className = 'availableWidget';
+      avail.draggable = true;
+      avail.dataset.id = id;
+      avail.innerHTML =
+        '<div class="widgetIcon">' +
+        (id === 'marine' ? '⛵' :
+         id === 'farming' ? '🌾' :
+         id === 'uv' ? '☀️' :
+         id === 'flood' ? '⚠️' :
+         id === 'wind' ? '💨' : '🌸') +
+        '</div>' +
+        '<div><strong>' + (WIDGET_LABELS[id] || id) +
+        '</strong><br><span></span></div>';
+      profileAvailableWidgets.appendChild(avail);
+      enableDragAvailable(avail);
+      dragged.remove();
+      updateDropEmptyState();
+    }
+  });
+
+  document.querySelectorAll('.availableWidget').forEach(enableDragAvailable);
+
+    
   </script>
 </body>
 </html>
