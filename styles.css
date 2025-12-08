@@ -197,10 +197,10 @@
   background-color: #b71c1c;
 }
 
-@media (max-width:600px) {
+@media (max-width:680px) {
   #weatherwisecontainer {
     width: 100vw;
-    height: 100vh;
+    height: 75vh;
     right: 0;
     bottom: 0;
     border-radius: 0;
@@ -273,7 +273,7 @@ body.homepage {
 #sidebar {
   background-color: #f5f5f5;
   width: 450px;
-  height: 750px;
+  height: 650px;
   top: 0;
   left: -450px;              
   position: fixed;           
@@ -380,7 +380,7 @@ font-size: 2em;
 
 
 .home-shell {
-  max-width: 1200px;
+  max-width: 700px;
   margin: 30px auto 60px;
   padding: 0 24px 24px;
 }
