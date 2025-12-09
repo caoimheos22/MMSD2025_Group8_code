@@ -573,6 +573,10 @@ document.getElementById("uv-index").textContent =
       var lat = 51.8985;
       var lon = -8.4756;
 
+        loadProfileSettings();
+        updateHomeLocation();
+        fetchWeather();
+
       var query =
         "latitude=" + lat +
         "&longitude=" + lon +
