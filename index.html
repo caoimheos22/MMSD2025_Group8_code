@@ -566,15 +566,14 @@ document.getElementById("uv-index").textContent =
         strip.appendChild(div);
       }
     }
-   
-    loadProfileSettings();
-    updateHomeLocation();
-    fetchWeather();
+  
 
     function fetchWeather() {
       var lat = 51.8985;
       var lon = -8.4756;
 
+
+      
       var query =
         "latitude=" + lat +
         "&longitude=" + lon +
@@ -587,7 +586,9 @@ document.getElementById("uv-index").textContent =
       script.src = url;
       document.body.appendChild(script);
     }
-
+    
+    loadProfileSettings();
+    updateHomeLocation();
     fetchWeather();
 
   </script>
