@@ -567,7 +567,12 @@ document.getElementById("uv-index").textContent =
       }
     }
   
+    
+    loadProfileSettings();
+    updateHomeLocation();
+    fetchWeather();
 
+    
     function fetchWeather() {
       var lat = 51.8985;
       var lon = -8.4756;
