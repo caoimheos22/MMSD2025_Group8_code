@@ -146,16 +146,23 @@ function fetchWeather() {
 
 </script>
 
-  <!--side bar-->
-  <div id="sidebar">
-        <p><input type = "button" value = "Find my location" id = "get_coords_but" >
-              <div id = "current_coords"></div>
-        </p>
-        <p>
-          <button id="logout_sidebar" onclick="window.location.href='login.html'">Log Out</button>
-        </p>
-
+  <<div id="sidebar">
+    <button id="close-sidebar" aria-label="Close menu">×</button>
+  
+    <h3 class="sidebar-title">Menu</h3>
+  
+    <p>
+      <input type="button" value="Find my location" id="get_coords_but">
+      <div id="current_coords"></div>
+    </p>
+  
+    <p>
+      <button id="logout_sidebar" onclick="window.location.href='login.html'">
+        Log Out
+      </button>
+    </p>
   </div>
+  
 
 
 
@@ -178,7 +185,7 @@ function fetchWeather() {
       <span class="warning-text">Rain Warning: Status Yellow</span>
       <span class="warning-chevron">›</span>
     </div>
-    <!--<button class="warning-settings" aria-label="Warning settings">⚙️</button>-->
+    
   </div>
 
   <main class="home-shell">
@@ -258,6 +265,13 @@ function fetchWeather() {
             </div>
           </div>  </div> </div>
  </section>
+ <section class="hourly-row">
+  <div class="card card-hourly">
+    <div class="card-heading">Hourly Forecast</div>
+    <div class="hourly-strip" id="hourly-strip"></div>
+  </div>
+</section>
+
  <section class="forecast-row">
       <div class="card card-7day">
         <div class="card-heading">7-Day Forecast</div>
@@ -463,11 +477,20 @@ closeWidgetPopup.onclick = function () {
     var openBtn = document.getElementById("open-profile");
     var closeBtn = document.getElementById("close-popup");
     var saveBtn = document.getElementById("save-settings");
+    var locationSelect = document.getElementById("profile-location");
 
     openBtn.onclick = function () { popup.classList.remove("hidden"); };
     closeBtn.onclick = function () { popup.classList.add("hidden"); };
     saveBtn.onclick = function () {
       saveWidgetSettings();
+      var selectedLocation = locationSelect.value;
+  localStorage.setItem("homeLocation", selectedLocation);
+
+  // 3. Update UI text
+  updateHomeLocation();
+
+  // 4. Refetch weather for new coords
+  fetchWeather();
       popup.classList.add("hidden");
     };
     var weatherData = null;
@@ -490,29 +513,67 @@ closeWidgetPopup.onclick = function () {
 var sunset = data.daily.sunset;
 var uv = data.daily.uv_index_max;
 
-var moon = data.daily.moon_phase;
 
-      var conditionMap = {
-        0: "Clear Sky",
-        1: "Mainly Clear",
-        2: "Partly Cloudy",
-        3: "Cloudy",
-        51: "Drizzle",
-        61: "Rain",
-        71: "Snow",
-        95: "Thunderstorm"
-      };
+var moon = data.daily.moon_phase;
+// HOURLY FORECAST
+var hourlyTimes = data.hourly.time;
+var hourlyTemp = data.hourly.temperature_2m;
+var hourlyRain = data.hourly.precipitation_probability;
+var hourlyCodes = data.hourly.weather_code;
+
+
+
+var conditionMap = {
+  0:  "Clear sky",
+  1:  "Mainly clear",
+  2:  "Partly cloudy",
+  3:  "Overcast",
+  45: "Fog",
+  48: "Fog",
+  51: "Light drizzle",
+  53: "Drizzle",
+  55: "Heavy drizzle",
+  61: "Light rain",
+  63: "Rain",
+  65: "Heavy rain",
+  71: "Light snow",
+  73: "Snow",
+  75: "Heavy snow",
+  80: "Rain showers",
+  81: "Rain showers",
+  82: "Heavy showers",
+  85: "Snow showers",
+  86: "Snow showers",
+  95: "Thunderstorm",
+  96: "Thunderstorm + hail",
+  99: "Thunderstorm + hail"
+};
 
       var iconMap = {
-        0: "☀️",
-        1: "🌤️",
-        2: "⛅",
-        3: "☁️",
-        51: "🌦️",
-        61: "🌧️",
-        71: "❄️",
-        95: "⛈️"
-      };
+  0: "☀️",   
+  1: "🌤️",  
+  2: "⛅",   
+  3: "☁️",   
+  45: "🌫️",  
+  48: "🌫️",  
+  51: "🌦️",  
+  53: "🌦️",
+  55: "🌦️",
+  61: "🌧️",  
+  63: "🌧️",
+  65: "🌧️",
+  71: "❄️",  
+  73: "❄️",
+  75: "❄️",
+  80: "🌦️",  
+  81: "🌦️",
+  82: "🌧️",
+  85: "🌨️",  
+  86: "🌨️",
+  95: "⛈️",  
+  96: "⛈️",
+  99: "⛈️"
+};
 
       /* TODAY */
       document.getElementById("current-temp").textContent = Math.round(max[0]) + "°";
@@ -544,7 +605,34 @@ document.getElementById("uv-index").textContent =
         "💧 " + Math.round(rain[1]) + " mm<br>" +
         "💨 " + Math.round(wind[1]) + " km/h";
 
-    
+    // HOURLY FORECAST
+var hourlyTimes = data.hourly.time;
+var hourlyTemp = data.hourly.temperature_2m;
+var hourlyRain = data.hourly.precipitation_probability;
+var hourlyCodes = data.hourly.weather_code;
+
+var hourlyStrip = document.getElementById("hourly-strip");
+hourlyStrip.innerHTML = "";
+
+// show next 12 hours
+for (var h = 0; h < 12; h++) {
+  var hourLabel = hourlyTimes[h].slice(11, 16); // "14:00"
+  var hTemp = Math.round(hourlyTemp[h]);
+  var hRain = hourlyRain[h];
+  var hIcon = iconMap[ hourlyCodes[h] ] || "☁️";
+
+  var div = document.createElement("div");
+  div.className = "hour-slot hover-card";
+
+  div.innerHTML =
+    "<div class='hour-label'>" + hourLabel + "</div>" +
+    "<div class='hour-icon'>" + hIcon + "</div>" +
+    "<div class='hour-temp'>" + hTemp + "°</div>" +
+    "<div class='hour-rain'>" + hRain + "%</div>";
+
+  hourlyStrip.appendChild(div);
+}
+
       var strip = document.getElementById("forecast-strip");
       strip.innerHTML = "";
 
@@ -567,6 +655,22 @@ document.getElementById("uv-index").textContent =
       }
     }
   
+  // SIMPLE BURGER SIDEBAR
+  var burger = document.getElementById("burger");
+  var sidebar = document.getElementById("sidebar");
+  var closeSidebar = document.getElementById("close-sidebar");
+
+  if (burger && sidebar && closeSidebar) {
+    burger.onclick = function () {
+      sidebar.classList.add("open");
+    };
+
+    closeSidebar.onclick = function () {
+      sidebar.classList.remove("open");
+    };
+  }
+
+
     
     loadProfileSettings();
     updateHomeLocation();
@@ -578,11 +682,26 @@ document.getElementById("uv-index").textContent =
       var lon = -8.4756;
 
 
+      var location = localStorage.getItem("homeLocation");
+    
+      if (location === "Ovens") {
+        lat = 51.8743; lon = -8.6890;
+      } else if (location === "Doneraile") {
+        lat = 52.2167; lon = -8.6667;
+      } else if (location === "Kinsale") {
+        lat = 51.7079; lon = -8.5308;
+      } else if (location === "Bishopstown") {
+        lat = 51.8801; lon = -8.5120;
+      }
+
+      
+    
+
       
       var query =
         "latitude=" + lat +
         "&longitude=" + lon +
-        "&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,wind_speed_10m_max,wind_gusts_10m_max,sunrise,sunset,uv_index_max" +
+        "&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,wind_speed_10m_max,wind_gusts_10m_max,sunrise,sunset,uv_index_max&hourly=temperature_2m,precipitation_probability,weather_code" +
         "&timezone=auto&wind_speed_unit=kmh&precipitation_unit=mm";
 
       var url = "https://webdevcit.com/notes/getweather.php?" + query;
