@@ -730,16 +730,25 @@ font-size: 2em;
 
 /* responsive to phones */
 
-@media (max-width:700px) {
-  #weatherwisecontainer {
-    width: 100vw;
-    height: 75vh;
-    right: 0;
-    bottom: 0;
-    border-radius: 0;
+/* responsive to phones */
 
+@media (max-width: 1000px) {
+  .hero-section {
+    grid-template-columns: 1fr;
   }
+  .forecast-row {
+    grid-template-columns: 1fr;
+  }
+}
 
+@media (max-width: 700px) {
+  .forecast-strip {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .bottom-widgets {
+    grid-template-columns: 1fr;
+  }
+}
   #weatherwiseheader {
     font-size: 16px;
     padding: 12px;
