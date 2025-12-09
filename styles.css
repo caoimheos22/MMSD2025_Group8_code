@@ -729,13 +729,11 @@ font-size: 2em;
 
 @media (max-width: 768px) {
 
-  #weatherwisecontainer {
-    width: 90vw;       /* a bit smaller than full width */
-    height: 65vh;      /* not full height */
-    right: 5vw;
-    bottom: 80px;
-    border-radius: 15px;
-  }
+ #weatherwisecontainer {
+  width: 400px;   
+  height: 500px;  
+}
+
 
   #weatherwiseicon {
     width: 45px;
