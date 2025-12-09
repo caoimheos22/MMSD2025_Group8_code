@@ -727,67 +727,71 @@ font-size: 2em;
   margin-left: 10px;
 }
 
+@media (max-width:768px) {
+    #weatherwisecontainer {
+      width: 100vw;
+      height: 100vh;
+      right: 0;
+      bottom: 0;
+      border-radius: 0;
 
-/* responsive to phones */
+    }
 
-/* responsive to phones */
+    #weatherwiseheader {
+      font-size: 16px;
+      padding: 12px;
 
-@media (max-width: 650px) {
-  #weatherwiseheader {
-    font-size: 16px;
-    padding: 12px;
+    }
 
+    #weatherwisebody {
+      padding: 8px;
+    }
+
+    .message {
+      max-width: 95%;
+      gap: 10px;
+
+    }
+
+    .avatar {
+      width: 40px;
+      height: 40px;
+
+    }
+
+    #prompts {
+      justify-content: center;
+      padding: 6px;
+    }
+
+    .promptbtn {
+      font-size: 12px;
+      padding: 6px 8px;
+    }
+
+    #weatherwiseinput {
+      font-size: 14px;
+      padding: 8px;
+    }
+
+    #sendbtn {
+      padding: 8px 12px;
+      font-size: 13px;
+
+    }
+
+    #weatherwiseicon {
+      width: 55px;
+      height: 55px;
+      bottom: 15px;
+      right: 15px;
+    }
+
+    #AILOGO {
+      width: 60px;
+      height: auto;
+    }
   }
-
-  #weatherwisebody {
-    padding: 8px;
-  }
-
-  .message {
-    max-width: 95%;
-    gap: 10px;
-
-  }
-
-  .avatar {
-    width: 40px;
-    height: 40px;
-
-  }
-
-  #prompts {
-    justify-content: center;
-    padding: 6px;
-  }
-
-  .promptbtn {
-    font-size: 12px;
-    padding: 6px 8px;
-  }
-
-  #weatherwiseinput {
-    font-size: 14px;
-    padding: 8px;
-  }
-
-  #sendbtn {
-    padding: 8px 12px;
-    font-size: 13px;
-
-  }
-
-  #weatherwiseicon {
-    width: 55px;
-    height: 55px;
-    bottom: 15px;
-    right: 15px;
-  }
-
-  #AILOGO {
-    width: 60px;
-    height: auto;
-  }
-}
 @media (max-width: 700px) {
   .hero-section {
     grid-template-columns: 1fr;
