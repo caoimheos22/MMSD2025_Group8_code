@@ -44,7 +44,83 @@
     <!--Location coords-->
 
  <script>
+<script>
+  var popup = document.getElementById("profile-popup");
+  var openBtn = document.getElementById("open-profile");
+  var closeBtn = document.getElementById("close-popup");
+  var saveBtn = document.getElementById("save-settings");
+  var locationSelect = document.getElementById("profile-location");
 
+  openBtn.onclick = function () { popup.classList.remove("hidden"); };
+  closeBtn.onclick = function () { popup.classList.add("hidden"); };
+
+  saveBtn.onclick = function () {
+    saveWidgetSettings();
+
+    // Save selected location
+    var selectedLocation = locationSelect.value;
+    localStorage.setItem("homeLocation", selectedLocation);
+
+    popup.classList.add("hidden");
+    updateHomeLocation();
+    fetchWeather(); // refresh weather for new location
+  };
+
+  // Load saved location into dropdown
+  function loadProfileSettings() {
+    var savedLocation = localStorage.getItem("homeLocation");
+    if (savedLocation) {
+      locationSelect.value = savedLocation;
+      updateHomeLocation();
+    }
+  }
+
+  // Update homepage location display
+  function updateHomeLocation() {
+    var locName = localStorage.getItem("homeLocation") || "Cork City";
+    document.querySelector(".location-name").textContent = locName + ", Cork";
+  }
+
+  loadProfileSettings();
+</script>
+
+  <script>
+function fetchWeather() {
+  
+  var lat = 51.8985;
+  var lon = -8.4756;
+
+  var location = localStorage.getItem("homeLocation");
+
+  if (location === "Ovens") {
+    lat = 51.8743;
+    lon = -8.6890;
+  } else if (location === "Doneraile") {
+    lat = 52.2167;
+    lon = -8.6667;
+  } else if (location === "Kinsale") {
+    lat = 51.7079;
+    lon = -8.5308;
+  } else if (location === "Bishopstown") {
+    lat = 51.8801;
+    lon = -8.5120;
+  }
+
+  var query =
+    "latitude=" + lat +
+    "&longitude=" + lon +
+    "&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,wind_speed_10m_max,wind_gusts_10m_max,sunrise,sunset,uv_index_max" +
+    "&timezone=auto&wind_speed_unit=kmh&precipitation_unit=mm";
+
+  var url = "https://webdevcit.com/notes/getweather.php?" + query;
+
+  var script = document.createElement("script");
+  script.src = url;
+  document.body.appendChild(script);
+}
+</script>
+
+   
    function getLocation() 
     {
     navigator.geolocation.getCurrentPosition( showCoords );
@@ -227,6 +303,15 @@
 
       <label>Name</label>
       <input type="text" id="profile-name" placeholder="Your name..." />
+
+      <h3>Home Location</h3>
+      <select id="profile-location">
+        <option value="">Select Location</option>
+        <option value="Ovens">Ovens</option>
+        <option value="Doneraile">Doneraile</option>
+        <option value="Kinsale">Kinsale</option>
+        <option value="Bishopstown">Bishopstown</option>
+      </select>
 
       <h3>Choose Widgets</h3>
       <label><input type="checkbox" data-widget-toggle="marine"> Marine</label><br>
