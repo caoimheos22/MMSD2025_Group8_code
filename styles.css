@@ -65,6 +65,26 @@
   
 }
 
+.sunset-icon{
+  background-image: url(Symbols/sunset.png);
+  width: 30px;
+  height: 30px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  
+}
+
+.UV-icon{
+  background-image: url(Symbols/uv_icon2.png);
+  width: 30px;
+  height: 30px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  
+}
+
 #AILOGO {
   position: relative;
   width: 100px;
