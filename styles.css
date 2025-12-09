@@ -727,15 +727,29 @@ font-size: 2em;
   margin-left: 10px;
 }
 
-@media (max-width:768px) {
-    #weatherwisecontainer {
-      width: 100vw;
-      height: 100vh;
-      right: 0;
-      bottom: 0;
-      border-radius: 0;
+@media (max-width: 768px) {
 
-    }
+  #weatherwisecontainer {
+    width: 90vw;       /* a bit smaller than full width */
+    height: 65vh;      /* not full height */
+    right: 5vw;
+    bottom: 80px;
+    border-radius: 15px;
+  }
+
+  #weatherwiseicon {
+    width: 45px;
+    height: 45px;
+    bottom: 15px;
+    right: 15px;
+  }
+
+  #AILOGO {
+    width: 50px;
+    height: auto;
+  }
+}
+
 
     #weatherwiseheader {
       font-size: 16px;
@@ -780,17 +794,7 @@ font-size: 2em;
 
     }
 
-    #weatherwiseicon {
-      width: 55px;
-      height: 55px;
-      bottom: 15px;
-      right: 15px;
-    }
-
-    #AILOGO {
-      width: 60px;
-      height: auto;
-    }
+    
   }
 @media (max-width: 700px) {
   .hero-section {
