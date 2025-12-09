@@ -765,29 +765,6 @@ font-size: 2em;
     height: auto;
   }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-  
-
-=======
-
-  .header-logo img {
-    display: flex;
-  }
-
-  #sidebar {
-    width: 500px;
-  }
-  
->>>>>>> 0e4b2a57af5db1bbf156d69717fa13f0d2999dcc
-=======
->>>>>>> a0d798463e4eebc110b3472ee65cf35fe2c0655d
-  .header-icon {
-    width: 40px;
-    height: 40px;
-  }
-  
-
   .forecast-row {
     grid-template-columns: 1fr;
   }
