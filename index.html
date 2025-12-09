@@ -7,10 +7,12 @@
   <link rel="stylesheet" href="styles.css" />
   <link rel="javascript" href="homepagefunctions.js" type="script" media="screen"/>
 </head>
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> be37b3eb1a1928346dbb116e6b4706c71bc4384a
 <body class="homepage">
-
 <div id="weatherwisebot">
     <div id="weatherwiseicon">
         <img src ="Images/Alt lOGO.png" id="AILOGO" />
@@ -21,12 +23,7 @@
             <button id="closebtn">&times;</button>
         </div>
         <div id="weatherwisebody">
-            <div id="weatherwisemessages">
-                
-            </div>
-        </div>
-
-        <div id="prompts">
+            <div id="weatherwisemessages">  </div>  </div>  <div id="prompts">
             <button class="promptbtn">How's the weather today?</button>
             <button class="promptbtn">What is the average temperature today?</button>
             <button class="promptbtn">Is it going to rain between 3 & 6 today?</button>
@@ -36,16 +33,12 @@
         <div id="weatherwiseinputcontainer">
             <input type="text" id="weatherwiseinput" placeholder="Type a message...."/>
             <button id="sendbtn">Send</button> 
-        </div>
-    </div>
-</div>
-
+        </div>  </div></div>
 <script src="chatbot.js"></script>
 
-    <!--Location coords-->
+    <!--Location -->
 
  <script>
-
   var popup = document.getElementById("profile-popup");
   var openBtn = document.getElementById("open-profile");
   var closeBtn = document.getElementById("close-popup");
@@ -54,11 +47,8 @@
 
   openBtn.onclick = function () { popup.classList.remove("hidden"); };
   closeBtn.onclick = function () { popup.classList.add("hidden"); };
-
-  saveBtn.onclick = function () {
+ saveBtn.onclick = function () {
     saveWidgetSettings();
-
-    // Save selected location
     var selectedLocation = locationSelect.value;
     localStorage.setItem("homeLocation", selectedLocation);
 
@@ -66,8 +56,6 @@
     updateHomeLocation();
     fetchWeather(); // refresh weather for new location
   };
-
-  // Load saved location into dropdown
   function loadProfileSettings() {
     var savedLocation = localStorage.getItem("homeLocation");
     if (savedLocation) {
@@ -76,15 +64,12 @@
     }
   }
 
-  // Update homepage location display
   function updateHomeLocation() {
     var locName = localStorage.getItem("homeLocation") || "Cork City";
     document.querySelector(".location-name").textContent = locName + ", Cork";
   }
-
   loadProfileSettings();
 </script>
-
   <script>
 function fetchWeather() {
   
@@ -126,40 +111,34 @@ function fetchWeather() {
     {
     navigator.geolocation.getCurrentPosition( showCoords );
   }
-
-
- function showCoords (position) {
-
-            
-     var devLatitude = position.coords.latitude;
-     var devLongitude = position.coords.longitude;
-            
-         document.getElementById("current_coords").innerHTML = "lat: " + devLatitude + " long: " + devLongitude;
+function showCoords (position) {
+     
+ var devLatitude = position.coords.latitude;
+var devLongitude = position.coords.longitude;
+      document.getElementById("current_coords").innerHTML = "lat: " + devLatitude + " long: " + devLongitude;
     }  
+ window.addEventListener("load", init);
+ function init()
+    {	 document.getElementById("get_coords_but").addEventListener("click", getLocation) } -->
 
 
-    window.addEventListener("load", init);
-
-    function init()
-    {	
-    document.getElementById("get_coords_but").addEventListener("click", getLocation)		
-    } -->
-
-</script>
-
-  <!--side bar-->
-  <div id="sidebar">
-        <p><input type = "button" value = "Find my location" id = "get_coords_but" >
-              <div id = "current_coords"></div>
-        </p>
-        <p>
-          <button id="logout_sidebar" onclick="window.location.href='login.html'">Log Out</button>
-        </p>
-
+ <div id="sidebar">
+    <button id="close-sidebar" aria-label="Close menu">×</button>
+  
+    <h3 class="sidebar-title">Menu</h3>
+  
+    <p>
+      <input type="button" value="Find my location" id="get_coords_but">
+      <div id="current_coords"></div>
+    </p>
+  
+    <p>
+      <button id="logout_sidebar" onclick="window.location.href='login.html'">
+        Log Out
+      </button>
+    </p>
   </div>
-
-
-
+  
   <!-- header -->
   <header class="top-header">
 
@@ -172,14 +151,14 @@ function fetchWeather() {
     <button class="header-icon" id="open-profile" value="Account"></button>
   </header>
 
-  <!-- warning -->
+  <!-- warning sign -->
   <div class="warning-bar">
     <div class="warning-bar-left">
       <span class="warning-icon">⚠️</span>
       <span class="warning-text">Rain Warning: Status Yellow</span>
       <span class="warning-chevron">›</span>
     </div>
-    <!--<button class="warning-settings" aria-label="Warning settings">⚙️</button>-->
+    
   </div>
 
   <main class="home-shell">
@@ -187,18 +166,12 @@ function fetchWeather() {
     <section class="top-section">
 
       <div class="top-left">
-        <div class="today-header">
-         
-          
-          
-          <div>
+        <div class="today-header">  <div>
             <div class="today-label">Today</div>
             <div class="today-date" id="today-date">Loading...</div>
           </div>
           <div class="today-location-row">
-           
-            
-            <span class="location-icon">📍</span>
+           <span class="location-icon">📍</span>
             <span class="location-name">Cork City, Cork</span>
           </div>
         </div>
@@ -208,22 +181,22 @@ function fetchWeather() {
           <button class="search-clear" aria-label="Clear search">×</button>
         </div>
 
-        <div class="card card-weather">
+  <div class="card card-weather">
           <div class="card-weather-main">
             <div class="temp-block"><div class="temp-main" id="current-temp">--°</div>
               <div class="temp-feels" id="current-feels">Feels like --°</div>
             </div>
 
-            <div class="icon-block">
-              <div class="icon-item">
-                <div class="icon-symbol" id="current-icon">☁️</div>  <div class="icon-label" id="current-condition">Loading...</div>
+ <div class="icon-block">
+ <div class="icon-item">
+    <div class="icon-symbol" id="current-icon">☁️</div>  <div class="icon-label" id="current-condition">Loading...</div>
               </div>
 
-              <div class="icon-item">
-               <!-- <div class="icon-symbol" id="moon-icon">🌒</div>  <div class="icon-label"  id="moon-phase-label"   >Moon Phase</div>-->
-              </div>
-            </div>
-          </div>
+ <div class="icon-item">
+  <!-- <div class="icon-symbol" id="moon-icon">🌒</div>  <div class="icon-label"  id="moon-phase-label"   >Moon Phase</div>-->
+  </div>
+ </div>
+   </div>
 
           <div class="card-weather-details">
             <div class="detail-column">
@@ -231,8 +204,7 @@ function fetchWeather() {
         <div class="detail-row"><span class="wind-icon"></span> <span id="current-wind">Wind -- km/h</span></div>
               <div class="detail-row"><span class="gust-icon"></span> <span id="current-gust">Gust -- km/h</span></div>
             </div>
-
-            <div class="detail-column">
+  <div class="detail-column">
               <div class="detail-row"><span class="sunrise-icon"></span> <span id="sunrise">Sunrise --:--</span></div>
               <div class="detail-row"><span class="sunset-icon"></span> <span id="sunset">Sunset --:--</span></div>
         <div class="detail-row"><span class="UV-icon"></span> <span id="uv-index">UV --</span></div>
@@ -248,8 +220,7 @@ function fetchWeather() {
             <div class="tomorrow-title">Tomorrow</div>
             <div class="tomorrow-date" id="tomorrow-date">Loading...</div>
           </div>
-
-          <div class="tomorrow-main">
+  <div class="tomorrow-main">
             <div class="tomorrow-temp-block">
               <div class="temp-main" id="tomorrow-temp">--°</div>
               <div class="temp-minmax" id="tomorrow-minmax">--°</div>
@@ -259,22 +230,23 @@ function fetchWeather() {
             </div>
           </div>  </div> </div>
  </section>
- <section class="forecast-row">
+ <section class="hourly-row">
+  <div class="card card-hourly">
+    <div class="card-heading">Hourly Forecast</div>
+    <div class="hourly-strip" id="hourly-strip"></div>
+  </div>
+</section> <section class="forecast-row">
       <div class="card card-7day">
         <div class="card-heading">7-Day Forecast</div>
         <div class="forecast-strip" id="forecast-strip"></div>
       </div>
-    </section>
-
-    <section class="bottom-widgets">
+    </section>  <section class="bottom-widgets">
       <div class="card bottom-card hover-card" data-widget="marine">
         <div class="bottom-icon">⚓</div> Marine
       </div>
   <div class="card bottom-card hover-card" data-widget="health">
         <div class="bottom-icon">➕</div> Health
-      </div>
-
-      <div class="card bottom-card hover-card" data-widget="outdoor">
+      </div>   <div class="card bottom-card hover-card" data-widget="outdoor">
         <div class="bottom-icon">📅</div> Outdoor Planner
       </div>
       <div class="card card-farming hover-card" data-widget="farming">
@@ -295,7 +267,6 @@ function fetchWeather() {
     <button id="close-widget-popup" class="close-btn">Close</button>
   </div>
 </div>
-
 
   </main>
   <div id="profile-popup" class="popup hidden">
@@ -380,8 +351,6 @@ if (widgetName === "health") {
   `;
 }
 
-
-
 if (widgetName === "outdoor") {
   popupContent.innerHTML = `
     <div>📅 <b>Outdoor planner</b></div>
@@ -464,18 +433,24 @@ closeWidgetPopup.onclick = function () {
     var openBtn = document.getElementById("open-profile");
     var closeBtn = document.getElementById("close-popup");
     var saveBtn = document.getElementById("save-settings");
+    var locationSelect = document.getElementById("profile-location");
 
     openBtn.onclick = function () { popup.classList.remove("hidden"); };
     closeBtn.onclick = function () { popup.classList.add("hidden"); };
     saveBtn.onclick = function () {
       saveWidgetSettings();
+      var selectedLocation = locationSelect.value;
+  localStorage.setItem("homeLocation", selectedLocation);
+
+  // 3. Update UI text
+  updateHomeLocation();
+
+  // 4. Refetch weather for new coords
+  fetchWeather();
       popup.classList.add("hidden");
     };
     var weatherData = null;
-
-
-
-    function processWeather(data) {
+ function processWeather(data) {
       console.log("Weather received:", data);
       weatherData = data;  // save for popups
 
@@ -490,32 +465,65 @@ closeWidgetPopup.onclick = function () {
       var sunrise = data.daily.sunrise;
 var sunset = data.daily.sunset;
 var uv = data.daily.uv_index_max;
-
 var moon = data.daily.moon_phase;
+// HOURLY FORECAST
+var hourlyTimes = data.hourly.time;
+var hourlyTemp = data.hourly.temperature_2m;
+var hourlyRain = data.hourly.precipitation_probability;
+var hourlyCodes = data.hourly.weather_code;
 
-      var conditionMap = {
-        0: "Clear Sky",
-        1: "Mainly Clear",
-        2: "Partly Cloudy",
-        3: "Cloudy",
-        51: "Drizzle",
-        61: "Rain",
-        71: "Snow",
-        95: "Thunderstorm"
-      };
+var conditionMap = {
+  0:  "Clear sky",
+  1:  "Mainly clear",
+  2:  "Partly cloudy",
+  3:  "Overcast",
+  45: "Fog",
+  48: "Fog",
+  51: "Light drizzle",
+  53: "Drizzle",
+  55: "Heavy drizzle",
+  61: "Light rain",
+  63: "Rain",
+  65: "Heavy rain",
+  71: "Light snow",
+  73: "Snow",
+  75: "Heavy snow",
+  80: "Rain showers",
+  81: "Rain showers",
+  82: "Heavy showers",
+  85: "Snow showers",
+  86: "Snow showers",
+  95: "Thunderstorm",
+  96: "Thunderstorm + hail",
+  99: "Thunderstorm + hail"
+};
+   var iconMap = {
+  0: "☀️",   
+  1: "🌤️",  
+  2: "⛅",   
+  3: "☁️",   
+  45: "🌫️",  
+  48: "🌫️",  
+  51: "🌦️",  
+  53: "🌦️",
+  55: "🌦️",
+  61: "🌧️",  
+  63: "🌧️",
+  65: "🌧️",
+  71: "❄️",  
+  73: "❄️",
+  75: "❄️",
+  80: "🌦️",  
+  81: "🌦️",
+  82: "🌧️",
+  85: "🌨️",  
+  86: "🌨️",
+  95: "⛈️",  
+  96: "⛈️",
+  99: "⛈️"
+};
 
-      var iconMap = {
-        0: "☀️",
-        1: "🌤️",
-        2: "⛅",
-        3: "☁️",
-        51: "🌦️",
-        61: "🌧️",
-        71: "❄️",
-        95: "⛈️"
-      };
-
-      /* TODAY */
+      /* today */
       document.getElementById("current-temp").textContent = Math.round(max[0]) + "°";
       document.getElementById("current-feels").textContent = "Feels like " + Math.round(min[0]) + "°";
       document.getElementById("today-date").textContent = times[0];
@@ -532,10 +540,7 @@ document.getElementById("sunset").textContent =
 
 document.getElementById("uv-index").textContent =
   "UV " + uv[0];
-
-
-
-      /* TOMORROW */
+    /* tomorrow */
       document.getElementById("tomorrow-temp").textContent = Math.round(max[1]) + "°";
       document.getElementById("tomorrow-minmax").textContent = Math.round(min[1]) + "°";
       document.getElementById("tomorrow-date").textContent = times[1];
@@ -545,7 +550,32 @@ document.getElementById("uv-index").textContent =
         "💧 " + Math.round(rain[1]) + " mm<br>" +
         "💨 " + Math.round(wind[1]) + " km/h";
 
-    
+    // hourly bar
+var hourlyTimes = data.hourly.time;
+var hourlyTemp = data.hourly.temperature_2m;
+var hourlyRain = data.hourly.precipitation_probability;
+var hourlyCodes = data.hourly.weather_code;
+
+var hourlyStrip = document.getElementById("hourly-strip");
+hourlyStrip.innerHTML = "";
+for (var h = 0; h < 12; h++) {
+  var hourLabel = hourlyTimes[h].slice(11, 16); // "14:00"
+  var hTemp = Math.round(hourlyTemp[h]);
+  var hRain = hourlyRain[h];
+  var hIcon = iconMap[ hourlyCodes[h] ] || "☁️";
+
+  var div = document.createElement("div");
+  div.className = "hour-slot hover-card";
+
+  div.innerHTML =
+    "<div class='hour-label'>" + hourLabel + "</div>" +
+    "<div class='hour-icon'>" + hIcon + "</div>" +
+    "<div class='hour-temp'>" + hTemp + "°</div>" +
+    "<div class='hour-rain'>" + hRain + "%</div>";
+
+  hourlyStrip.appendChild(div);
+}
+
       var strip = document.getElementById("forecast-strip");
       strip.innerHTML = "";
 
@@ -567,9 +597,20 @@ document.getElementById("uv-index").textContent =
         strip.appendChild(div);
       }
     }
-  
-    
-    loadProfileSettings();
+    var burger = document.getElementById("burger");
+  var sidebar = document.getElementById("sidebar");
+  var closeSidebar = document.getElementById("close-sidebar");
+
+  if (burger && sidebar && closeSidebar) {
+    burger.onclick = function () {
+      sidebar.classList.add("open");
+    };
+
+    closeSidebar.onclick = function () {
+      sidebar.classList.remove("open");
+    };
+  }
+  loadProfileSettings();
     updateHomeLocation();
     fetchWeather();
 
@@ -577,13 +618,21 @@ document.getElementById("uv-index").textContent =
     function fetchWeather() {
       var lat = 51.8985;
       var lon = -8.4756;
-
-
-      
-      var query =
+  var location = localStorage.getItem("homeLocation");
+    
+      if (location === "Ovens") {
+        lat = 51.8743; lon = -8.6890;
+      } else if (location === "Doneraile") {
+        lat = 52.2167; lon = -8.6667;
+      } else if (location === "Kinsale") {
+        lat = 51.7079; lon = -8.5308;
+      } else if (location === "Bishopstown") {
+        lat = 51.8801; lon = -8.5120;
+      }
+  var query =
         "latitude=" + lat +
         "&longitude=" + lon +
-        "&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,wind_speed_10m_max,wind_gusts_10m_max,sunrise,sunset,uv_index_max" +
+        "&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,wind_speed_10m_max,wind_gusts_10m_max,sunrise,sunset,uv_index_max&hourly=temperature_2m,precipitation_probability,weather_code" +
         "&timezone=auto&wind_speed_unit=kmh&precipitation_unit=mm";
 
       var url = "https://webdevcit.com/notes/getweather.php?" + query;
