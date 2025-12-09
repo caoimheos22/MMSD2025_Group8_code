@@ -795,7 +795,7 @@ font-size: 2em;
     }
 
     
-  }
+  
 @media (max-width: 700px) {
   .hero-section {
     grid-template-columns: 1fr;
